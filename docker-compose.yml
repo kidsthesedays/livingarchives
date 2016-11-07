@@ -1,0 +1,40 @@
+version: '2'
+
+volumes:
+    pgdata:
+    pgbackup:
+
+services:
+    postgres:
+        container_name: living-archives-postgres
+        build: ./compose/postgres
+        volumes:
+            - "pgdata:/var/lib/postgresql/data"
+            - "pgbackup:/backups"
+        env_file: .env-node
+        # ports:
+        #     - "5432:5432"
+
+    node:
+        container_name: living-archives-node
+        build:
+            context: .
+            dockerfile: ./compose/node/Dockerfile
+        user: node
+        env_file: .env-node
+        depends_on:
+            - postgres
+        volumes:
+            - ./node:/opt/node:rw
+
+    nginx:
+        container_name: living-archives-nginx
+        build:
+            context: .
+            dockerfile: ./compose/nginx/Dockerfile
+        depends_on:
+            - node
+        volumes_from:
+            - node:ro
+        ports:
+            - "80:80"

@@ -1,0 +1,7 @@
+apps:
+    - script: 'frontend-server.js'
+      exec_mode: 'cluster'
+      instances: 0
+    - script: 'database-server.js'
+      exec_mode: 'cluster'
+      instances: 0
