@@ -12,15 +12,13 @@ services:
             - "pgdata:/var/lib/postgresql/data"
             - "pgbackup:/backups"
         env_file: .env-node
-        # ports:
-        #     - "5432:5432"
 
     node:
         container_name: living-archives-node
         build:
             context: .
             dockerfile: ./compose/node/Dockerfile
-        user: node
+        # user: node
         env_file: .env-node
         depends_on:
             - postgres
@@ -38,3 +36,6 @@ services:
             - node:ro
         ports:
             - "80:80"
+        volumes:
+            - ./sites/skybox:/opt/skybox:rw
+            - ./sites/livingarchives:/opt/livingarchives:rw
