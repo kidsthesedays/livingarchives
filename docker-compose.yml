@@ -36,6 +36,7 @@ services:
             - node:ro
         ports:
             - "80:80"
+            - "8001:8001"
         volumes:
             - ./sites/skybox:/opt/skybox:rw
             - ./sites/livingarchives:/opt/livingarchives:rw
