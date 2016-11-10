@@ -1,3 +1,4 @@
+// @flow
 /**
 * @author mrdoob / http://mrdoob.com/
 * @author blairmacintyre / http://blairmacintyre.me/
@@ -17,7 +18,13 @@
 import * as THREE from 'three'
 
 export class CSS3DArgonHUD {
-    constructor(props = {}) {
+
+    viewWidth: Array<number>
+    viewHeight: Array<number>
+    domElement: Object
+    hudElements: Array<Object>
+
+    constructor(props: Object = {}) {
         this.viewWidth = []
         this.viewHeight = []
 
@@ -42,13 +49,13 @@ export class CSS3DArgonHUD {
         return div
     }
 
-    appendChild(firstElement, secondElement) {
+    appendChild(firstElement: Object, secondElement: Object) {
         secondElement = secondElement || firstElement.cloneNode(true)
         this.hudElements[0].appendChild(firstElement)
         this.hudElements[1].appendChild(secondElement)
     }
 
-    setViewport(x, y, width, height, side) {
+    setViewport(x: number, y: number, width: number, height: number, side: number) {
         this.hudElements[side].style.display = 'inline-block'
         this.hudElements[side].style.top = `${y}px`
         this.hudElements[side].style.left = `${x}px`
@@ -59,15 +66,15 @@ export class CSS3DArgonHUD {
         this.viewHeight[side] = height
     }
 
-    showViewport(side) {
+    showViewport(side: number) {
         this.hudElements[side].style.display = 'inline-block'
     }
 
-    hideViewport(side) {
+    hideViewport(side: number) {
         this.hudElements[side].style.display = 'none'
     }
 
-    setSize(width, height) {
+    setSize(width: number, height: number) {
         // Size of overall DOM
         this.domElement.style.width = `${width}px`
         this.domElement.style.height = `${height}px`
@@ -77,13 +84,13 @@ export class CSS3DArgonHUD {
         this.hudElements[1].style.display = 'none'
     }
 
-    render(side) {
+    render(side: number) {
         this.hudElements[side].style.display = 'inline-block'
     }
 }
 
 export class CSS3DObject extends THREE.Object3D {
-    constructor(element) {
+    constructor(element: Array<Object> | Object) {
         super()
 
         this.elements = []
@@ -113,17 +120,34 @@ export class CSS3DObject extends THREE.Object3D {
 }
 
 export class CSS3DSprite extends CSS3DObject {
-    constructor(element) {
+    constructor(element: Array<Object> | Object) {
         super(element)
     }
 }
 
 // based on CSS3DStereoRenderer in threejs.org github repo
 export class CSS3DArgonRenderer {
+    width: number
+    height: number
+    viewWidth: Array<number>
+    viewHeight: Array<number>
+    tempMatrix: Object
+    tempMatrix2: Object
+    cache: Object
+    domElement: Object
+    domElements: Array<Object>
+    cameraElements: Array<Object>
+    oldProjection: Object
+    oldFOV: number
+    eps: number
+    projInv: Object
+    fovStyle: string
+
     constructor() {
-        this.cameras = []
-        this.width = undefined
-        this.height = undefined
+        // NOTE not used?
+        // this.cameras = []
+        this.width = 0
+        this.height = 0
         this.viewWidth = []
         this.viewHeight = []
 
@@ -160,7 +184,7 @@ export class CSS3DArgonRenderer {
         this.projInv = new THREE.Matrix4()
     }
 
-    createDOMElement(hidden = false) {
+    createDOMElement(hidden: bool = false) {
         let div = document.createElement('div')
 
         if (hidden) {
@@ -170,16 +194,17 @@ export class CSS3DArgonRenderer {
             div.style.pointerEvents = 'auto'
         }
 
-        div.style.WebkitTransformStyle = 'preserve-3d'
-        div.style.MozTransformStyle = 'preserve-3d'
-        div.style.oTransformStyle = 'preserve-3d'
+        // NOTE deprecated?
+        // div.style.WebkitTransformStyle = 'preserve-3d'
+        // div.style.MozTransformStyle = 'preserve-3d'
+        // div.style.oTransformStyle = 'preserve-3d'
         div.style.transformStyle = 'preserve-3d'
         return div
     }
 
     setClearColor() {}
 
-    setViewport(x, y, width, height, side = 0) {
+    setViewport(x: number, y: number, width: number, height: number, side: number = 0) {
         this.domElements[side].style.display = 'inline-block'
         this.domElements[side].style.top = `${y}px`
         this.domElements[side].style.left = `${x}px`
@@ -193,15 +218,15 @@ export class CSS3DArgonRenderer {
         this.viewHeight[side] = height
     }
 
-    showViewport(side = 0) {
+    showViewport(side: number = 0) {
         this.domElements[side].style.display = 'inline-block'
     }
 
-    hideViewport(side = 0) {
+    hideViewport(side: number = 0) {
         this.domElements[side].style.display = 'none'
     }
 
-    setSize(width, height) {
+    setSize(width: number, height: number) {
         this.domElement.style.width = `${width}px`
         this.domElement.style.height = `${height}px`
 
@@ -229,16 +254,16 @@ export class CSS3DArgonRenderer {
         this.cameraElements[1].style.height = `${h}px`
     }
 
-    toFixed(value, precision = 0) {
+    toFixed(value: number, precision: number = 0) {
         const pow = Math.pow(10, precision)
         return String(Math.round(value * pow) / pow)
     }
 
-    epsilon(value) {
+    epsilon(value: number) {
         return this.toFixed(value, 6)
     }
 
-    getCameraCSSMatrix(m) {
+    getCameraCSSMatrix(m: Object) {
         let matrix = this.tempMatrix2
         matrix.copy(m)
         matrix.multiplyScalar(100)
@@ -270,7 +295,7 @@ export class CSS3DArgonRenderer {
         return `matrix3d(${params})`
     }
 
-    getObjectCSSMatrix(m) {
+    getObjectCSSMatrix(m: Object) {
         let matrix = this.tempMatrix2
         matrix.copy(m)
         matrix.multiplyScalar(100)
@@ -302,7 +327,7 @@ export class CSS3DArgonRenderer {
         return `translate3d(-50%, -50%, 0) matrix3d(${params})`
     }
 
-    renderObject(object, camera, cameraElement, side, visible) {
+    renderObject(object: Object, camera: Object, cameraElement: Object, side: number, visible: bool) {
         visible = visible && object.visible
 
         if (object instanceof CSS3DObject) {
@@ -334,9 +359,10 @@ export class CSS3DArgonRenderer {
                 style = this.getObjectCSSMatrix(object.matrixWorld)
             }
 
-            element.style.WebkitTransform = style
-            element.style.MozTransform = style
-            element.style.oTransform = style
+            // NOTE deprecated?
+            // element.style.WebkitTransform = style
+            // element.style.MozTransform = style
+            // element.style.oTransform = style
             element.style.transform = style
 
             if (element.parentNode !== cameraElement) {
@@ -352,7 +378,7 @@ export class CSS3DArgonRenderer {
         }
     }
 
-    render(scene, camera, side) {
+    render(scene: Object, camera: Object, side: number) {
         scene.updateMatrixWorld()
 
         if (camera.parent === null) {
@@ -367,9 +393,10 @@ export class CSS3DArgonRenderer {
         this.fovStyle = fov
 
         if (this.cache.camera.fov[side] !== fov) {
-            this.domElements[side].style.WebkitPerspective = `${fov}px`
-            this.domElements[side].style.MozPerspective = `${fov}px`
-            this.domElements[side].style.oPerspective = `${fov}px`
+            // NOTE deprecated?
+            // this.domElements[side].style.WebkitPerspective = `${fov}px`
+            // this.domElements[side].style.MozPerspective = `${fov}px`
+            // this.domElements[side].style.oPerspective = `${fov}px`
             this.domElements[side].style.perspective = `${fov}px`
             this.cache.camera.fov[side] = fov
         }
@@ -385,9 +412,10 @@ export class CSS3DArgonRenderer {
                 ${this.toFixed(this.viewHeight[side] / 2, 4)}px, 0)`
 
         if (this.cache.camera.style[side] !== style) {
-            this.cameraElements[side].style.WebkitTransform = style
-            this.cameraElements[side].style.MozTransform = style
-            this.cameraElements[side].style.oTransform = style
+            // NOTE deprecated?
+            // this.cameraElements[side].style.WebkitTransform = style
+            // this.cameraElements[side].style.MozTransform = style
+            // this.cameraElements[side].style.oTransform = style
             this.cameraElements[side].style.transform = style
             this.cache.camera.style[side] = style
         }
@@ -395,7 +423,7 @@ export class CSS3DArgonRenderer {
         this.renderObject(scene, camera, this.cameraElements[side], side, scene.visible)
     }
 
-    epsilonEquals(matrix) {
+    epsilonEquals(matrix: Object) {
         let te = this.oldProjection.elements
         let me = matrix.elements
 
@@ -409,7 +437,7 @@ export class CSS3DArgonRenderer {
         return true
     }
 
-    applyProjection(x, y, matrix) {
+    applyProjection(x: number, y: number, matrix: Object) {
         let e = matrix.elements
         // Any depth will do, just use the middle of the canonical depth space
         let z = 0.5
@@ -424,7 +452,7 @@ export class CSS3DArgonRenderer {
         return [nx / len, ny / len, nz / len]
     }
 
-    angleBetween(v1, v2) {
+    angleBetween(v1: Array<number>, v2: Array<number>) {
         // v1 and v2 are normalized above
         let dot = v1[0] * v2[0] + v1[1] * v2[1] + v1[2] * v2[2]
         // Clamp, to handle numerical problems
@@ -433,7 +461,7 @@ export class CSS3DArgonRenderer {
         return Math.acos(theta)
     }
 
-    updateCameraFOVFromProjection(camera) {
+    updateCameraFOVFromProjection(camera: Object) {
         let projection = camera.projectionMatrix
 
         // If its different from what it was, update FOV
