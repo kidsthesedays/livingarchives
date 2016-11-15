@@ -1,19 +1,22 @@
 FROM node:6.8
 
-RUN groupadd -r node && useradd -r -g node node
+# RUN groupadd -r node && useradd -r -g node node
 
-RUN npm install -g pm2@2.0.18
-RUN npm install -g yarn
+RUN npm install -g pm2@2.0.18 yarn
 
-ADD node /opt/node/
-ADD ./compose/node/entrypoint.sh /entrypoint.sh
+# TODO only copy files that are needed
+COPY node /opt/node/
+COPY ./compose/node/entrypoint.sh /entrypoint.sh
 
-RUN chown -R node /opt/node \
-    && chmod +x /entrypoint.sh \
-    && chown node /entrypoint.sh
+# RUN chown -R node /opt/node \
+#     && chmod +x /entrypoint.sh \
+#     && chown node /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
 
 WORKDIR /opt/node
 
+# TODO does this work? or does it rely on node_modules being copied already?
 RUN yarn install
 
 ENTRYPOINT ["/entrypoint.sh"]

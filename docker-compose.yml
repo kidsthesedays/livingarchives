@@ -18,7 +18,6 @@ services:
         build:
             context: .
             dockerfile: ./compose/node/Dockerfile
-        # user: node
         env_file: .env-node
         depends_on:
             - postgres
@@ -33,10 +32,13 @@ services:
         depends_on:
             - node
         volumes_from:
-            - node:ro
+            - node:rw
         ports:
             - "80:80"
-            - "8001:8001"
+            - "443:443"
+            # Have a dev-compose file that adds these?
+            - "8001:8001" # skybox
+            - "8002:8002" # root site
         volumes:
-            - ./sites/skybox:/opt/skybox:rw
-            - ./sites/livingarchives:/opt/livingarchives:rw
+            - ./sites/skybox:/opt/sites/skybox:rw
+            - ./sites/livingarchives:/opt/sites/livingarchives:rw

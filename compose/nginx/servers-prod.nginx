@@ -1,0 +1,213 @@
+# Finding Alberta
+# ===============
+# Redirect to HTTPS for the client side server
+server {
+    listen 80;
+    listen [::]:80;
+    server_name alberta.livingarchives.org;
+
+    location ~ /.well-known {
+        root /opt/node;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# Finding Alberta
+# ===============
+# Serves the client side server for Finding Alberta
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+    
+    server_name alberta.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/node;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    # TODO test this
+    location /static {
+        alias /opt/node/static;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://node:3000;
+    }
+}
+
+# API for Finding Alberta
+# =======================
+# Redirect to HTTPS for the database side server
+server {
+    listen 80;
+    listen [::]:80;
+    server_name api.livingarchives.org;
+
+    location ~ /.well-known {
+        root /opt/node;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# API for Finding Alberta
+# =======================
+# Serves the database server for Finding Alberta
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+    client_max_body_size 75M;
+    
+    server_name api.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/node;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://node:3001;
+    }
+}
+
+# Skybox
+# ======
+# Redirect to HTTPS for the skybox project
+server {
+    listen 80;
+    listen [::]:80;
+    server_name skybox.livingarchives.org;
+
+    location ~ /.well-known {
+        root /opt/sites/skybox;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# Skybox
+# ======
+# Serves the skybox project for Living Archives
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+
+    root /opt/sites/skybox;
+    index index.html;
+    
+    server_name skybox.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/skybox;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+# Front page
+# ==========
+# Redirect to HTTPS for the root site
+server {
+    listen 80;
+    listen [::]:80;
+    server_name livingarchives.org www.livingarchives.org;
+
+    location ~ /.well-known {
+        root /opt/sites/livingarchives;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# Front page
+# ==========
+# Serves the root site for Living Archives
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+
+    root /opt/sites/livingarchives;
+    index index.html;
+    
+    server_name livingarchives.org www.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/livingarchives;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

@@ -1,14 +1,53 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Skybox</title>
+        <title>Skyboxes</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-        <script src="lib/three.min.js"></script>
-        <script src="lib/argon.min.js"></script>
+        <style>
+        body, html {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: white;
+            height: 100%;
+            text-align: center;
+        }
+        #container {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: normal;
+            margin-bottom: 50px;
+        }
+        a {
+            font-size: 26px;
+            font-weight: 200;
+            display: block;
+            padding: 20px 80px;
+            color: #08c;
+            text-decoration: none;
+            border: 1px solid #08c;
+            border-radius: 40px;
+            margin-bottom: 30px;
+        }
+        a:hover {
+            color: #06a;
+            border-color: #06a;
+            background: #f8f8f8;
+        }
+        </style>
     </head>
     <body>
-        <div id="argon"></div>
-        <script src="index.js"></script>
+        <div id="container">
+            <div>
+                <h1>Skyboxes</h1>
+                <a href="/clouds" title="Go to the clouds skybox">Clouds</a>
+                <a href="/mri" title="Go to the MRI skybox">MRI</a>
+            </div>
+        </div>
     </body>
 </html>

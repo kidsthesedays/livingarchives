@@ -1,0 +1,148 @@
+# Finding Alberta (allow HTTP & HTTPS)
+# ====================================
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name alberta.livingarchives.org;
+
+    charset utf-8;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/node;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    # TODO test this
+    location /static {
+        alias /opt/node/static;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://node:3000;
+    }
+}
+
+# API for Finding Alberta (allow HTTP & HTTPS)
+# ============================================
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    charset utf-8;
+    client_max_body_size 75M;
+    
+    server_name api.livingarchives.org;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/node;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://node:3001;
+    }
+}
+
+# Skybox (allow HTTP & HTTPS)
+# ===========================
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    listen 8001;
+
+    charset utf-8;
+
+    root /opt/sites/skybox;
+    index index.html;
+    
+    server_name skybox.livingarchives.org;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/skybox;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+# Landing page (allow HTTP & HTTPS)
+# =================================
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    listen 8002;
+
+    charset utf-8;
+
+    root /opt/sites/livingarchives;
+    index index.html;
+    
+    server_name livingarchives.org www.livingarchives.org;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/livingarchives;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}

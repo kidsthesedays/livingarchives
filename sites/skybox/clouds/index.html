@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Skybox - Clouds</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <script src="/lib/three.min.js"></script>
+        <script src="/lib/argon.min.js"></script>
+        <style>
+            body { background: white; }
+        </style>
+    </head>
+    <body>
+        <div id="argon"></div>
+        <script>
+        // The panorama
+        var panorama = {
+            name: 'Clouds',
+            url: Argon.resolveURL('/images/panorama_sky.jpg'),
+            longitude: -84.3951,
+            latitude: 33.7634,
+            height: 206
+        };
+        </script>
+        <script src="/lib/index.js"></script>
+    </body>
+</html>
