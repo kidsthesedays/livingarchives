@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@argonjs/argon": "^1.0.0",
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "marked": "^0.3.6",
     "morgan": "^1.7.0",
     "navigo": "^3.4.2",
     "pg-promise": "^5.3.5",

@@ -14,7 +14,6 @@ import * as THREE from 'three'
 //     toFixed
 // } from './utilities'
 // 
-// import * as data from './data'
 
 import Navigo from 'navigo'
 

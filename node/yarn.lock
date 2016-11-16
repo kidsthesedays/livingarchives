@@ -665,6 +665,10 @@ block-stream@*:
   dependencies:
     inherits "~2.0.0"
 
+bluebird:
+  version "3.4.6"
+  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.6.tgz#01da8d821d87813d158967e743d5fe6c62cf8c0f"
+
 body-parser:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.15.2.tgz#d7578cf4f1d11d5f6ea804cef35dc7a7ff6dae67"
@@ -1827,6 +1831,10 @@ loose-envify@^1.0.0:
 manakin@^0.4.6:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/manakin/-/manakin-0.4.6.tgz#759e265370c5cfeca5e02022981be7e6a56cd735"
+
+marked:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
 
 media-typer@0.3.0:
   version "0.3.0"

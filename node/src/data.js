@@ -1,5 +1,3 @@
-// @flow
-
 // Declare the type Point, used for points
 type Point = {
     id: number,
