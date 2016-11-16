@@ -2,6 +2,8 @@ apps:
     - script: 'frontend-server.js'
       exec_mode: 'cluster'
       instances: 0
+      watch: ['frontend-server.js', 'database-server.js']
     - script: 'database-server.js'
       exec_mode: 'cluster'
       instances: 0
+      watch: ['frontend-server.js', 'database-server.js']
