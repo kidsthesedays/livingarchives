@@ -2,18 +2,18 @@
 
 import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
-// 
-// import {
-//     CSS3DArgonHUD,
-//     CSS3DArgonRenderer,
-//     CSS3DSprite,
-//     CSS3DObject
-// } from './CSS3DArgon'
-// 
+
+import {
+    CSS3DArgonHUD,
+    CSS3DArgonRenderer
+    // CSS3DSprite,
+    // CSS3DObject
+} from './CSS3DArgon'
+
 // import {
 //     toFixed
 // } from './utilities'
-// 
+
 
 import Navigo from 'navigo'
 
@@ -55,10 +55,27 @@ function main() {
         app: Argon.init(),
         scene: new THREE.Scene(),
         camera: new THREE.PerspectiveCamera(),
-        userLocation: new THREE.Object3D()
+        userLocation: new THREE.Object3D(),
+        renderer: new THREE.WebGLRenderer({
+            alpha: true,
+            logarithimDepthBuffer: true
+        }),
+        cssRenderer: new CSS3DArgonRenderer(),
+        hud: new CSS3DArgonHUD()
     }
 
     state.app.context.setDefaultReferenceFrame(state.app.contextLocalOriginEastUpSouth)
+
+    state.scene.add(state.camera)
+    state.scene.add(state.userLocation)
+        
+    // set pixel ratio (ex "2" for retina screens etc)
+    state.renderer.setPixelRatio(window.devicePixelRatio)
+
+    // append renderers to our app view
+    state.app.view.element.appendChild(state.renderer.domElement)
+    state.app.view.element.appendChild(state.cssRenderer.domElement)
+    state.app.view.element.appendChild(state.hud.domElement)
 
     const locationMapHooks: Object = {
         before: routes.beforeLocationMap(state),
@@ -122,7 +139,7 @@ function main() {
             locationsListHooks
         )
         .on(
-            '/',
+            '/*',
             routes.guide(state),
             guideHooks
         )

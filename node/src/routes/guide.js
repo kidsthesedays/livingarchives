@@ -1,7 +1,8 @@
 // @flow
 export function beforeGuide(state: Object): Function {
-    return () => {
+    return (done: Function) => {
         console.log(state)
+        done()
     }
 }
 
