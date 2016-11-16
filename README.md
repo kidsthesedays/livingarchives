@@ -4,7 +4,10 @@ Multiple projects (via Docker) for the Living Archives research project:
 
 ## Install
 
-**Prerequisite:** [Docker](https://www.docker.com/) has to be installed.
+**Prerequisites:** 
+
+* [Docker](https://www.docker.com/) 
+* [Yarn](https://github.com/yarnpkg/yarn) (globally)
 
 #### Step 1
 
@@ -17,7 +20,7 @@ $ cd livingarchives
 
 #### Step 2
 
-Install Node modules (via [yarn](https://github.com/yarnpkg/yarn) - this has to be globally installed on your own system). This has to be done from the `node` directory.
+Install Node modules. This has to be done from the `node` directory.
 
 ```
 $ cd node
@@ -26,7 +29,7 @@ $ yarn
 
 #### Step 3
 
-Create an environment file named `.env-node` containing the username, database name and password for [Postgres](https://www.postgresql.org/). The easiest way is copying the example file `.node-env.example` and then edit it with your text editor. This has to be done from the root directory.
+Create an environment file named `.env-node` containing the username, database name and password for [Postgres](https://www.postgresql.org/). The easiest way is copying the example file `.node-env.example` and then edit it with your text editor. This has to be done from the **root** directory.
 
 ```
 $ cp .env-node.example .env-node
@@ -36,7 +39,7 @@ $ cp .env-node.example .env-node
 
 #### Step 4
 
-Build the Docker image via [docker-compose](https://docs.docker.com/compose/). This has to be done from the root directory.
+Build the Docker image via [docker-compose](https://docs.docker.com/compose/), the build process can take up to a couple of minutes. This has to be done from the **root** directory.
 
 ```
 $ docker-compose build
@@ -44,24 +47,88 @@ $ docker-compose build
 
 #### Step 5
 
-Add the following to `/etc/hosts` to be able to visit the different projects locally.
+Add the following to the end of `/etc/hosts` to be able to visit the different projects locally.
 
 ```
-# Add these to the end of /etc/hosts
-127.0.0.1   livingarchives.dev
-127.0.0.1   skybox.livingarchives.dev
-127.0.0.1   alberta.livingarchives.dev
-127.0.0.1   api.livingarchives.dev
+127.0.0.1   livingarchives.org
+127.0.0.1   skybox.livingarchives.org
+127.0.0.1   alberta.livingarchives.org
+127.0.0.1   api.livingarchives.org
 ```
+
+**Note:** don't forget to remove these during production. 
 
 #### Step 6
 
-Start the Docker image. This has to be done from the root directory.
+Start the Docker image. This has to be done from the **root** directory.
 
 ```
 $ docker-compose up
 ```
 
-If everything worked you should now be able to visit `skybox.livingarchives.dev` in your browser.
+**Note:** to run the process as a daemon `$ docker-compose up -d`
+
+If everything worked you should now be able to visit `skybox.livingarchives.org` in your browser.
+
+### Useful commands
+
+Static typechecker 
+
+```
+$ cd node
+$ yarn run flow
+```
+
+Watch for file changes via webpack
+
+```
+$ cd node
+$ yarn run watch
+```
+
+#### Docker
+
+Delete all containers
+
+```
+$ docker rm $(docker ps -a -q)
+```
+
+Delete all images
+
+```
+$ docker rmi $(docker images -q)
+```
+
+Delete postgres volumes
+
+```
+$ docker volume rm livingarchives_pgbackup
+$ docker volume rm livingarchives_pgdata
+```
+
+Upgrade from self-signed SSL certificate to letsencrypt (CA)
+
+```
+$ docker-compose exec nginx upgrade-ssl
+```
+
+Create postgres backup
+
+```
+$ docker-compose exec postgres backup
+```
+
+List postgres backups
+
+```
+$ docker-compose exec postgres list-backups
+```
+
+Restore postgres backup
+
+```
+$ docker-compose exec postgres restore <filename>
+```
 
 ## Contributing
