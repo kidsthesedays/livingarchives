@@ -28,12 +28,8 @@ function main() {
     // Used by the Navigo router library
     const BASE_URL: string = 'http://alberta.livingarchives.dev'
 
-    // initialize Argon
     // set default reference frame
     //
-    // create the Scene
-    // create the Camera
-    // create a object that represents the userLocation
     //
     // create a webglrenderer
     // create a cssrenderer
@@ -61,6 +57,8 @@ function main() {
         camera: new THREE.PerspectiveCamera(),
         userLocation: new THREE.Object3D()
     }
+
+    state.app.context.setDefaultReferenceFrame(state.app.contextLocalOriginEastUpSouth)
 
     const locationMapHooks: Object = {
         before: routes.beforeLocationMap(state),
