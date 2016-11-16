@@ -54,7 +54,7 @@ function main() {
     const Router: Object = new Navigo(BASE_URL)
 
     // Main state of our application
-    const state: Object = {
+    let state: Object = {
         router: Router,
         app: Argon.init(),
         scene: new THREE.Scene(),
@@ -64,20 +64,20 @@ function main() {
 
     Router
         .on({
-            // Show a map of all points
-            '/points/map': routes.listMap(state),
-            // Show the map for a single point
-            '/points/:id/map': routes.pointMap(state),
-            // Show the ar mode for a single point
-            '/points/:id/ar': routes.pointArMode(state),
-            // Show a single point
-            '/points/:id': routes.point(state),
-            // Captures badly formatted routes for a point
-            '/points/:id/*': routes.point(state),
-            // Show all points
-            '/points': routes.list(state),
-            // Show all points
-            '/': routes.list(state)
+            // Show the map for a single location
+            '/locations/:id/map': routes.locationMap(state),
+            // Show the ar mode for a single location
+            '/locations/:id/camera': routes.locationCamera(state),
+            // Show a single location
+            '/locations/:id': routes.location(state),
+            // Captures badly formatted routes for a location
+            '/locations/:id/*': routes.location(state),
+            // Show a map of all locations
+            '/map': routes.locations(state),
+            // Show all locations
+            '/locations': routes.list(state),
+            // Show introductory text
+            '/': routes.guide(state)
         })
         .resolve()
 }

@@ -3,8 +3,8 @@
 // Export all route methods
 // NOTE flow does not suppor the "export default" syntax yet?
 export { list } from './list'
-export { listMap } from './list-map'
-export { point } from './point'
-export { pointMap } from './point-map'
-export { pointArMode } from './point-ar'
+export { locations } from './locations'
+export { location } from './location'
+export { locationMap } from './location-map'
+export { locationCamera } from './location-camera'
 export { notFound } from './not-found'

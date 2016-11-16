@@ -1,7 +1,7 @@
 // @flow
 
 // When you visit the map of all points
-export function listMap(state: Object) {
+export function locations(state: Object) {
     // Enclosing function that receives route params
     return () => {
         console.log('list map state:', state)
