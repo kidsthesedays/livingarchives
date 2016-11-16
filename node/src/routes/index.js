@@ -2,6 +2,7 @@
 
 // Export all route methods
 // NOTE flow does not suppor the "export default" syntax yet?
+export { guide } from './guide'
 export { list } from './list'
 export { locations } from './locations'
 export { location } from './location'
