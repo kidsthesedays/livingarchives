@@ -1,7 +1,18 @@
 // @flow
+export function beforeLocationMap(state: Object): Function {
+    return () => {
+        console.log(state)
+    }
+}
+
+export function afterLocationMap(state: Object): Function {
+    return () => {
+        console.log(state)
+    }
+}
 
 // When you visit the map of a sinle point of interest
-export function locationMap(state: Object) {
+export function locationMap(state: Object): Function {
     // Enclosing function that receives route params
     return (params: Object) => {
         console.log('map state:', state)

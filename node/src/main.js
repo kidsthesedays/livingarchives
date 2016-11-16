@@ -62,23 +62,72 @@ function main() {
         userLocation: new THREE.Object3D()
     }
 
+    const locationMapHooks: Object = {
+        before: routes.beforeLocationMap(state),
+        after: routes.afterLocationMap(state)
+    }
+
+    const locationCameraHooks: Object = {
+        before: routes.beforeLocationCamera(state),
+        after: routes.afterLocationCamera(state)
+    }
+
+    const locationHooks: Object = {
+        before: routes.beforeLocation(state),
+        after: routes.afterLocation(state)
+    }
+
+    const locationsMapHooks: Object = {
+        before: routes.beforeLocationsMap(state),
+        after: routes.afterLocationsMap(state)
+    }
+
+    const locationsListHooks: Object = {
+        before: routes.beforeLocationsList(state),
+        after: routes.afterLocationsList(state)
+    }
+
+    const guideHooks: Object = {
+        before: routes.beforeGuide(state),
+        after: routes.afterGuide(state)
+    }
+
     Router
-        .on({
-            // Show the map for a single location
-            '/locations/:id/map': routes.locationMap(state),
-            // Show the ar mode for a single location
-            '/locations/:id/camera': routes.locationCamera(state),
-            // Show a single location
-            '/locations/:id': routes.location(state),
-            // Captures badly formatted routes for a location
-            '/locations/:id/*': routes.location(state),
-            // Show a map of all locations
-            '/map': routes.locations(state),
-            // Show all locations
-            '/locations': routes.list(state),
-            // Show introductory text
-            '/': routes.guide(state)
-        })
+        .on(
+            '/locations/:id/map',
+            routes.locationMap(state),
+            locationMapHooks
+        )
+        .on(
+            '/locations/:id/camera',
+            routes.locationCamera(state),
+            locationCameraHooks
+        )
+        .on(
+            '/locations/:id',
+            routes.location(state),
+            locationHooks
+        )
+        .on(
+            '/locations/:id/*',
+            routes.location(state),
+            locationHooks
+        )
+        .on(
+            '/map',
+            routes.locationsMap(state),
+            locationsMapHooks
+        )
+        .on(
+            '/locations',
+            routes.locationsList(state),
+            locationsListHooks
+        )
+        .on(
+            '/',
+            routes.guide(state),
+            guideHooks
+        )
         .resolve()
 }
 

@@ -1,11 +1,40 @@
 // @flow
 
 // Export all route methods
-// NOTE flow does not suppor the "export default" syntax yet?
-export { guide } from './guide'
-export { list } from './list'
-export { locations } from './locations'
-export { location } from './location'
-export { locationMap } from './location-map'
-export { locationCamera } from './location-camera'
+export { 
+    guide,
+    beforeGuide, 
+    afterGuide
+} from './guide'
+
+export {
+    locationsList,
+    beforeLocationsList,
+    afterLocationsList
+} from './locations-list'
+
+export { 
+    locationsMap,
+    beforeLocationsMap,
+    afterLocationsMap
+} from './locations-map'
+
+export { 
+    location,
+    beforeLocation,
+    afterLocation
+} from './location'
+
+export { 
+    locationMap,
+    beforeLocationMap,
+    afterLocationMap
+} from './location-map'
+
+export { 
+    locationCamera,
+    beforeLocationCamera,
+    afterLocationCamera
+} from './location-camera'
+
 export { notFound } from './not-found'
