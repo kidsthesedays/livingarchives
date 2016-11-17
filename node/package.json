@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch",
+    "compile": "webpack"
   },
   "dependencies": {
     "@argonjs/argon": "^1.0.0",

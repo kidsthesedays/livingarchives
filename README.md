@@ -20,11 +20,12 @@ $ cd livingarchives
 
 #### Step 2
 
-Install Node modules. This has to be done from the `node` directory.
+Install Node modules and compile the client side JavaScript into a single bundle. This has to be done from the `node` directory.
 
 ```
 $ cd node
 $ yarn
+$ yarn run compile
 ```
 
 #### Step 3
