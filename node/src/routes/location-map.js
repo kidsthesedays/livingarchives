@@ -1,14 +1,24 @@
 // @flow
+
+import React from 'react'
+import {
+    render,
+    unmountComponentAtNode
+} from 'react-dom'
+
+import LocationMap from '../components/location-map'
+
 export function beforeLocationMap(state: Object): Function {
     return (done: Function) => {
-        console.log(state)
+        console.log('Before location map:', state)
+        unmountComponentAtNode(state.reactMountNode)
         done()
     }
 }
 
 export function afterLocationMap(state: Object): Function {
     return () => {
-        console.log(state)
+        console.log('After location map:', state)
     }
 }
 
@@ -16,7 +26,7 @@ export function afterLocationMap(state: Object): Function {
 export function locationMap(state: Object): Function {
     // Enclosing function that receives route params
     return (params: Object) => {
-        console.log('map state:', state)
-        console.log('Show map for a point', params)
+        console.log('Location map:', state)
+        render(<LocationMap />, state.reactMountNode)
     }
 }

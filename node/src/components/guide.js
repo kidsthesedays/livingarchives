@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const Guide = ({ router }) => {
+const Guide = ({ router }: Object): Object => {
 
     const navigate: Function = (e) => {
         e.preventDefault()

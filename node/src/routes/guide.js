@@ -1,12 +1,17 @@
 // @flow
 
 import React from 'react'
-import { render } from 'react-dom'
+import {
+    render,
+    unmountComponentAtNode
+} from 'react-dom'
+
 import Guide from '../components/guide'
 
 export function beforeGuide(state: Object): Function {
     return (done: Function) => {
         console.log('Before guide:', state)
+        unmountComponentAtNode(state.reactMountNode)
         done()
     }
 }

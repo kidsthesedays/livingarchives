@@ -1,14 +1,24 @@
 // @flow
+
+import React from 'react'
+import {
+    render,
+    unmountComponentAtNode
+} from 'react-dom'
+
+import LocationCamera from '../components/location-camera'
+
 export function beforeLocationCamera(state: Object): Function {
     return (done: Function) => {
-        console.log(state)
+        console.log('Before location camera:', state)
+        unmountComponentAtNode(state.reactMountNode)
         done()
     }
 }
 
 export function afterLocationCamera(state: Object): Function {
     return () => {
-        console.log(state)
+        console.log('After location camera:', state)
     }
 }
 
@@ -16,8 +26,8 @@ export function afterLocationCamera(state: Object): Function {
 export function locationCamera(state: Object): Function {
     // Enclosing function that receives route params
     return (params: Object) => {
-        console.log('ar-mode state:', state)
-        console.log('Show the AR mode for a point', params)
+        console.log('Location camera', state)
+        render(<LocationCamera />, state.reactMountNode)
     }
 }
 
