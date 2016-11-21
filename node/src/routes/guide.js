@@ -1,14 +1,19 @@
 // @flow
+
+import React from 'react'
+import { render } from 'react-dom'
+import Guide from '../components/guide'
+
 export function beforeGuide(state: Object): Function {
     return (done: Function) => {
-        console.log(state)
+        console.log('Before guide:', state)
         done()
     }
 }
 
 export function afterGuide(state: Object): Function {
     return () => {
-        console.log(state)
+        console.log('After guide:', state)
     }
 }
 
@@ -16,8 +21,8 @@ export function afterGuide(state: Object): Function {
 export function guide(state: Object): Function {
     // Enclosing function invoked by the routing library
     return () => {
-        console.log('guide state:', state)
-        console.log('show the guide')
+        console.log('Guide:', state)
+        render(<Guide />, state.reactMountNode)
     }
 }
 

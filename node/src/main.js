@@ -42,6 +42,7 @@ function main() {
     // Main state of our application
     let state: Object = {
         router: Router,
+        reactMountNode: document.getElementById('mount'),
         app: Argon.init(),
         scene: new THREE.Scene(),
         camera: new THREE.PerspectiveCamera(),
