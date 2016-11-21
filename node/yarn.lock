@@ -802,6 +802,10 @@ camelcase@^1.0.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-1.2.1.tgz#9bb5304d2e0b56698b2c758b08a3eaa9daa58a39"
 
+can-use-dom@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/can-use-dom/-/can-use-dom-0.1.0.tgz#22cc4a34a0abc43950f42c6411024a3f6366b45a"
+
 caseless@~0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
@@ -1530,6 +1534,10 @@ globby@^5.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
 
+google-maps-infobox@^1.1.13:
+  version "1.1.13"
+  resolved "https://registry.yarnpkg.com/google-maps-infobox/-/google-maps-infobox-1.1.13.tgz#eb3a453220db4cab4e1f404e37da71e2155e24d7"
+
 graceful-fs@^4.1.2:
   version "4.1.9"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.9.tgz#baacba37d19d11f9d146d3578bc99958c3787e29"
@@ -1680,6 +1688,12 @@ interpret@^1.0.0:
 invariant@^2.2.0:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.1.tgz#b097010547668c7e337028ebe816ebe36c8a8d54"
+  dependencies:
+    loose-envify "^1.0.0"
+
+invariant@^2.2.1:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
   dependencies:
     loose-envify "^1.0.0"
 
@@ -1923,6 +1937,10 @@ lodash@^4.0.0, lodash@^4.3.0:
   version "4.16.6"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.6.tgz#d22c9ac660288f3843e16ba7d2b5d06cca27d777"
 
+lodash@^4.16.2:
+  version "4.17.2"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.2.tgz#34a3055babe04ce42467b607d700072c7ff6bf42"
+
 lodash@^4.2.0:
   version "4.16.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.16.5.tgz#77d88feac548009b1a5c4ca7b49ac431ce346ae8"
@@ -1944,6 +1962,10 @@ manakin@^0.4.6:
 marked:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.6.tgz#b2c6c618fccece4ef86c4fc6cb8a7cbf5aeda8d7"
+
+marker-clusterer-plus@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/marker-clusterer-plus/-/marker-clusterer-plus-2.1.4.tgz#f8eff74d599dab3b7d0e3fed5264ea0e704f5d67"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -2440,6 +2462,10 @@ react:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
+react-display-name@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-display-name/-/react-display-name-0.2.0.tgz#0e1f7086e45a32d07764df35ed32ff16f1259790"
+
 react-dom:
   version "15.4.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.4.0.tgz#6a97a69000966570db48c746bc4b7b0ca50d1534"
@@ -2447,6 +2473,25 @@ react-dom:
     fbjs "^0.8.1"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
+
+react-google-maps@beta:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-google-maps/-/react-google-maps-6.0.1.tgz#8d2c57631a8bc3a8d65257d7b3f95738f33476bc"
+  dependencies:
+    babel-runtime "^6.11.6"
+    can-use-dom "^0.1.0"
+    google-maps-infobox "^1.1.13"
+    invariant "^2.2.1"
+    lodash "^4.16.2"
+    marker-clusterer-plus "^2.1.4"
+    react-display-name "^0.2.0"
+    react-prop-types-element-of-type "^2.2.0"
+    scriptjs "^2.5.8"
+    warning "^3.0.0"
+
+react-prop-types-element-of-type@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-prop-types-element-of-type/-/react-prop-types-element-of-type-2.2.0.tgz#bcc332d3903c2259cf68c28a81c4a663faba59ac"
 
 readable-stream@^1.0.27-1, readable-stream@^1.1.13:
   version "1.1.14"
@@ -2622,6 +2667,10 @@ run-async@^0.1.0:
 rx-lite@^3.1.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/rx-lite/-/rx-lite-3.1.2.tgz#19ce502ca572665f3b647b10939f97fd1615f102"
+
+scriptjs@^2.5.8:
+  version "2.5.8"
+  resolved "https://registry.yarnpkg.com/scriptjs/-/scriptjs-2.5.8.tgz#d0c43955c2e6bad33b6e4edf7b53b8965aa7ca5f"
 
 semver@~5.3.0:
   version "5.3.0"
@@ -2971,6 +3020,12 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+warning@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
 
 watchpack@^0.2.1:
   version "0.2.9"

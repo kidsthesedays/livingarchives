@@ -26,7 +26,7 @@ export function afterLocationMap(state: Object): Function {
 export function locationMap(state: Object): Function {
     // Enclosing function that receives route params
     return (params: Object) => {
-        console.log('Location map:', state)
+        console.log('Location map:', state, params)
         render(<LocationMap />, state.reactMountNode)
     }
 }

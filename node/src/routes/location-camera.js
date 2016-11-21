@@ -26,7 +26,7 @@ export function afterLocationCamera(state: Object): Function {
 export function locationCamera(state: Object): Function {
     // Enclosing function that receives route params
     return (params: Object) => {
-        console.log('Location camera', state)
+        console.log('Location camera', state, params)
         render(<LocationCamera />, state.reactMountNode)
     }
 }

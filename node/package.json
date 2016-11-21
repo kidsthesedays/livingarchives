@@ -23,6 +23,7 @@
     "pg-promise": "^5.3.5",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
+    "react-google-maps": "beta",
     "three": "^0.82.1",
     "whatwg-fetch": "^2.0.1"
   },
