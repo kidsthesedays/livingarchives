@@ -22,7 +22,7 @@ export function guide(state: Object): Function {
     // Enclosing function invoked by the routing library
     return () => {
         console.log('Guide:', state)
-        render(<Guide />, state.reactMountNode)
+        render(<Guide router={state.router} />, state.reactMountNode)
     }
 }
 

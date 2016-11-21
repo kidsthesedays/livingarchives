@@ -1,14 +1,23 @@
 // @flow
+
+import React from 'react'
+import {
+    render,
+    unmountComponentAtNode
+} from 'react-dom'
+import LocationsList from '../components/locations-list'
+
 export function beforeLocationsList(state: Object): Function {
     return (done: Function) => {
-        console.log(state)
+        console.log('Before locations list:', state)
+        unmountComponentAtNode(state.reactMountNode)
         done()
     }
 }
 
 export function afterLocationsList(state: Object): Function {
     return () => {
-        console.log(state)
+        console.log('After locations list:', state)
     }
 }
 
@@ -16,7 +25,7 @@ export function afterLocationsList(state: Object): Function {
 export function locationsList(state: Object): Function {
     // Enclosing function invoked by the routing library
     return () => {
-        console.log('list state:', state)
-        console.log('list all points')
+        console.log('Locations list:', state)
+        render(<LocationsList />, state.reactMountNode)
     }
 }
