@@ -6,6 +6,7 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const pgp = require('pg-promise')()
 
 // Connection details for the database
@@ -16,20 +17,21 @@ const db = pgp(`postgres://${DB_USER}:${DB_PASS}@postgres:5432/${DB_NAME}`)
 
 // Logger and request body parser
 app.use(morgan('combined'))
+app.use(cors({ origin: ['https://alberta.livingarchives.org'] }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // Fetches all statistics from the database
 app.get('/statistics', (req, res, next) => {
     db.any('select * from statistics')
-        .then(data => res.json({ status: 'success', data }))
+        .then(data => res.status(200).json({ message: 'success', data }))
         .catch(err => next(err))
 })
 
 // Inserts one statistic into the database
 app.post('/statistics', (req, res, next) => {
     db.none('insert into statistics(guid, type, location, created) values (${guid}, ${type}, ${location}, now())', req.body)
-        .then(() => res.json({ status: 'success' }))
+        .then(() => res.status(201).json({ message: 'success' }))
         .catch(err => next(err))
 })
 
@@ -53,8 +55,8 @@ app.get('/locations', (req, res, next) => {
                         .catch(err => next(err))
                 ))
                 .then(content => (
-                    res.json({
-                        status: 'success',
+                    res.status(200).json({
+                        message: 'success',
                         locations: json.locations,
                         content: content
                     })

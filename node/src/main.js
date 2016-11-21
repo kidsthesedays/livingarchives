@@ -2,6 +2,8 @@
 
 import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
+import * as routes from './routes/index'
+import Navigo from 'navigo'
 
 import {
     CSS3DArgonHUD,
@@ -10,19 +12,13 @@ import {
     // CSS3DObject
 } from './CSS3DArgon'
 
-// import {
-//     toFixed
-// } from './utilities'
+import {
+    setupArgon,
+    fetchLocationData,
+    cacheLocationData
+} from './utilities'
 
 
-import Navigo from 'navigo'
-
-import * as routes from './routes/index'
-
-// Router to manage different views/states
-// React components for basic lists/content?
-//  Does this work with Argon/plain DOM?
-// Global state?
 
 function main() {
     // Used by the Navigo router library
@@ -64,18 +60,12 @@ function main() {
         hud: new CSS3DArgonHUD()
     }
 
-    state.app.context.setDefaultReferenceFrame(state.app.contextLocalOriginEastUpSouth)
+    // Initialize basic argon setup
+    state = setupArgon(state)
 
-    state.scene.add(state.camera)
-    state.scene.add(state.userLocation)
-        
-    // set pixel ratio (ex "2" for retina screens etc)
-    state.renderer.setPixelRatio(window.devicePixelRatio)
-
-    // append renderers to our app view
-    state.app.view.element.appendChild(state.renderer.domElement)
-    state.app.view.element.appendChild(state.cssRenderer.domElement)
-    state.app.view.element.appendChild(state.hud.domElement)
+    fetchLocationData(json => {
+        console.log('Fetched location data:', json)
+    })
 
     const locationMapHooks: Object = {
         before: routes.beforeLocationMap(state),
@@ -107,43 +97,43 @@ function main() {
         after: routes.afterGuide(state)
     }
 
-    Router
-        .on(
-            '/locations/:id/map',
-            routes.locationMap(state),
-            locationMapHooks
-        )
-        .on(
-            '/locations/:id/camera',
-            routes.locationCamera(state),
-            locationCameraHooks
-        )
-        .on(
-            '/locations/:id',
-            routes.location(state),
-            locationHooks
-        )
-        .on(
-            '/locations/:id/*',
-            routes.location(state),
-            locationHooks
-        )
-        .on(
-            '/map',
-            routes.locationsMap(state),
-            locationsMapHooks
-        )
-        .on(
-            '/locations',
-            routes.locationsList(state),
-            locationsListHooks
-        )
-        .on(
-            '/*',
-            routes.guide(state),
-            guideHooks
-        )
-        .resolve()
+    Router.on(
+        '/locations/:id/map',
+        routes.locationMap(state),
+        locationMapHooks
+    )
+    Router.on(
+        '/locations/:id/camera',
+        routes.locationCamera(state),
+        locationCameraHooks
+    )
+    Router.on(
+        '/locations/:id',
+        routes.location(state),
+        locationHooks
+    )
+    Router.on(
+        '/locations/:id/*',
+        routes.location(state),
+        locationHooks
+    )
+    Router.on(
+        '/map',
+        routes.locationsMap(state),
+        locationsMapHooks
+    )
+    Router.on(
+        '/locations',
+        routes.locationsList(state),
+        locationsListHooks
+    )
+    Router.on(
+        '/*',
+        routes.guide(state),
+        guideHooks
+    )
+    
+    Router.resolve()
 }
 
 main()

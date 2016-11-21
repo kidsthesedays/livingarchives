@@ -1,7 +1,8 @@
 // @flow
 export function beforeLocationCamera(state: Object): Function {
-    return () => {
+    return (done: Function) => {
         console.log(state)
+        done()
     }
 }
 

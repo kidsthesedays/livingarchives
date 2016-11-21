@@ -1,7 +1,8 @@
 // @flow
 export function beforeLocation(state: Object): Function {
-    return () => {
+    return (done: Function) => {
         console.log(state)
+        done()
     }
 }
 
