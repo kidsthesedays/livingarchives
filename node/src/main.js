@@ -8,17 +8,11 @@ import Navigo from 'navigo'
 import {
     CSS3DArgonHUD,
     CSS3DArgonRenderer
-    // CSS3DSprite,
-    // CSS3DObject
 } from './CSS3DArgon'
 
-import {
-    setupArgon,
-    fetchLocationData,
-    cacheLocationData
-} from './utilities'
-
-
+import { setupArgon } from './argon'
+import { setupLocation } from './utilities'
+import { fetchLocationData } from './cache'
 
 function main() {
     // Used by the Navigo router library
@@ -57,7 +51,8 @@ function main() {
             logarithimDepthBuffer: true
         }),
         cssRenderer: new CSS3DArgonRenderer(),
-        hud: new CSS3DArgonHUD()
+        hud: new CSS3DArgonHUD(),
+        locations: []
     }
 
     // Initialize basic argon setup
@@ -65,6 +60,18 @@ function main() {
 
     fetchLocationData(json => {
         console.log('Fetched location data:', json)
+
+        // Setup all locations
+        state.locations = json.locations.map(location => {
+            //  filter out content based on location id
+            const content: string = json.content
+                .filter(c => c.id === location.id)
+                .reduce((_, c) => c.html, '')
+
+            return setupLocation(location, content)
+        })
+
+        console.log(state.locations)
     })
 
     const locationMapHooks: Object = {
