@@ -6,28 +6,44 @@ import {
     unmountComponentAtNode
 } from 'react-dom'
 
+import App from '../components/app'
+import Navigation from '../components/navigation'
 import LocationCamera from '../components/location-camera'
 
-export function beforeLocationCamera(state: Object): Function {
+// Before
+function before(state: Object): Function {
     return (done: Function) => {
-        console.log('Before location camera:', state)
         unmountComponentAtNode(state.reactMountNode)
         done()
     }
 }
 
-export function afterLocationCamera(state: Object): Function {
+// AFter
+function after(): Function {
     return () => {
-        console.log('After location camera:', state)
     }
 }
 
-// When you visit the map of a sinle point of interest
-export function locationCamera(state: Object): Function {
-    // Enclosing function that receives route params
+// Location camera route
+function route(state: Object): Function {
     return (params: Object) => {
         console.log('Location camera', state, params)
-        render(<LocationCamera />, state.reactMountNode)
+        const { id } = params
+        render(
+            <App state={state}>
+                <Navigation
+                    backURL={`https://alberta.livingarchives.org/locations/${id}/camera`}
+                    title='Location camera' />
+                <LocationCamera />
+            </App>,
+            state.reactMountNode
+        )
     }
 }
 
+// Export the route handlers
+export const locationCamera = {
+    urls: ['/locations/:id/camera'],
+    route,
+    hooks: (state: Object) => ({ before: before(state), after: after(state) })
+}

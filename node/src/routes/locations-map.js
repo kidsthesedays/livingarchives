@@ -6,27 +6,43 @@ import {
     unmountComponentAtNode
 } from 'react-dom'
 
+import App from '../components/app'
+import Navigation from '../components/navigation'
 import LocationsMap from '../components/locations-map'
 
-export function beforeLocationsMap(state: Object): Function {
+// Before
+function before(state: Object): Function {
     return (done: Function) => {
-        console.log('Before locations map:', state)
         unmountComponentAtNode(state.reactMountNode)
         done()
     }
 }
 
-export function afterLocationsMap(state: Object): Function {
+// After
+function after(): Function {
     return () => {
-        console.log('After locations map:', state)
     }
 }
 
-// When you visit the map of all points
-export function locationsMap(state: Object): Function {
-    // Enclosing function that receives route params
+// Locations map route
+function route(state: Object): Function {
     return () => {
         console.log('Locations Map:', state)
-        render(<LocationsMap />, state.reactMountNode)
+        render(
+            <App state={state}>
+                <Navigation
+                    backURL='https://alberta.livingarchives.org'
+                    title='Locations' />
+                <LocationsMap />
+            </App>,
+            state.reactMountNode
+        )
     }
+}
+
+// Export the route handlers
+export const locationsMap = {
+    urls: ['/map'],
+    route,
+    hooks: (state: Object) => ({ before: before(state), after: after(state) })
 }

@@ -5,27 +5,45 @@ import {
     render,
     unmountComponentAtNode
 } from 'react-dom'
+
+import App from '../components/app'
+import Navigation from '../components/navigation'
 import LocationsList from '../components/locations-list'
 
-export function beforeLocationsList(state: Object): Function {
+// Before
+function before(state: Object): Function {
     return (done: Function) => {
-        console.log('Before locations list:', state)
         unmountComponentAtNode(state.reactMountNode)
+        state.argonMountNode.style.display = 'none'
         done()
     }
 }
 
-export function afterLocationsList(state: Object): Function {
+// After
+function after(): Function {
     return () => {
-        console.log('After locations list:', state)
     }
 }
 
-// List of all points
-export function locationsList(state: Object): Function {
-    // Enclosing function invoked by the routing library
+// Locations list route
+function route(state: Object): Function {
     return () => {
         console.log('Locations list:', state)
-        render(<LocationsList />, state.reactMountNode)
+        render(
+            <App state={state}>
+                <Navigation
+                    backURL='https://alberta.livingarchives.org'
+                    title='Locations' />
+                <LocationsList />
+            </App>,
+            state.reactMountNode
+        )
     }
+}
+
+// Export the route handlers
+export const locationsList = {
+    urls: ['/locations'],
+    route,
+    hooks: (state: Object) => ({ before: before(state), after: after(state) })
 }

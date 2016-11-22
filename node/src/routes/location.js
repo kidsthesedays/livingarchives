@@ -6,9 +6,12 @@ import {
     unmountComponentAtNode
 } from 'react-dom'
 
+import App from '../components/app'
+import Navigation from '../components/navigation'
 import Location from '../components/location'
 
-export function beforeLocation(state: Object): Function {
+// Before
+function before(state: Object): Function {
     return (done: Function) => {
         console.log('Before location:', state)
         unmountComponentAtNode(state.reactMountNode)
@@ -16,18 +19,34 @@ export function beforeLocation(state: Object): Function {
     }
 }
 
-export function afterLocation(state: Object): Function {
+// After
+function after(): Function {
     return () => {
-        console.log('After location:', state)
     }
 }
 
-// When you visit a single point of interest
-export function location(state: Object): Function {
-    // Enclosing function that receives route params
+// Location route
+function route(state: Object): Function {
     return (params: Object) => {
         console.log('Location:', state, params)
-        render(<Location />, state.reactMountNode)
+
+        const { id } = params
+
+        render(
+            <App state={state}>
+                <Navigation
+                    backURL={`https://alberta.livingarchives.org/locations/${id}/camera`}
+                    title='Location' />
+                <Location />
+            </App>,
+            state.reactMountNode
+        )
     }
 }
 
+// Export the route handlers
+export const location = {
+    urls: ['/locations/:id', '/locations/:id/*'],
+    route,
+    hooks: (state: Object) => ({ before: before(state), after: after(state) })
+}

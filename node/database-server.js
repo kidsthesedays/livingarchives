@@ -17,7 +17,7 @@ const db = pgp(`postgres://${DB_USER}:${DB_PASS}@postgres:5432/${DB_NAME}`)
 
 // Logger and request body parser
 app.use(morgan('combined'))
-app.use(cors({ origin: ['https://alberta.livingarchives.org'] }))
+app.use(cors({ origin: 'https://alberta.livingarchives.org' }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
