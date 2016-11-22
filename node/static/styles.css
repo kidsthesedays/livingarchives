@@ -1,1 +1,7 @@
 /* General */
+@import url('normalize.css');
+
+body, html, .location-map, #mount {
+    height: 100%;
+    width: 100%;
+}
