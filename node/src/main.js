@@ -2,8 +2,8 @@
 
 import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
-import * as routes from './routes/index'
 import Navigo from 'navigo'
+import { routes } from './routes/index'
 
 import {
     CSS3DArgonHUD,
@@ -17,32 +17,14 @@ import { fetchLocationData } from './cache'
 function main() {
     // Used by the Navigo router library
     const BASE_URL: string = 'http://alberta.livingarchives.dev'
-
-    // set default reference frame
-    //
-    //
-    // create a webglrenderer
-    // create a cssrenderer
-    // create a css3dargonHUD
-    //
-    // add the camera and userlocation to the scene
-    // set the pixelration of the webglrenderer
-    // add renderers + hud to the app element
-    //
-    // fetch the main "hud" element from the document (so we can manipulate this)
-    //
-    // create/initialize each point as a object?
-    //
-    // functions for updateEvent/renderEvent, for starting/pausing
-    //  requestAnimationFrame for renderEvent
-
-
+    // Application Router
     const Router: Object = new Navigo(BASE_URL)
 
-    // Main state of our application
+    // Main state of our application (mutable)
     let state: Object = {
         router: Router,
         reactMountNode: document.getElementById('mount'),
+        argonMountNode: document.getElementById('argon'),
         app: Argon.init(),
         scene: new THREE.Scene(),
         camera: new THREE.PerspectiveCamera(),
@@ -59,9 +41,8 @@ function main() {
     // Initialize basic argon setup
     state = setupArgon(state)
 
+    // Fetch and cache location data
     fetchLocationData(json => {
-        console.log('Fetched location data:', json)
-
         // Setup all locations
         state.locations = json.locations.map(location => {
             //  filter out content based on location id
@@ -71,76 +52,21 @@ function main() {
 
             return setupLocation(location, content)
         })
-
-        console.log(state.locations)
     })
 
-    const locationMapHooks: Object = {
-        before: routes.beforeLocationMap(state),
-        after: routes.afterLocationMap(state)
-    }
+    // TODO fetch and initialize user data
 
-    const locationCameraHooks: Object = {
-        before: routes.beforeLocationCamera(state),
-        after: routes.afterLocationCamera(state)
-    }
+    // Iterate through all routes and their urls,
+    // add a new route for each of these urls
+    routes.forEach(r => {
+        r.urls.forEach(url => Router.on(
+            url,
+            r.route(state),
+            r.hooks(state)
+        ))
+    })
 
-    const locationHooks: Object = {
-        before: routes.beforeLocation(state),
-        after: routes.afterLocation(state)
-    }
-
-    const locationsMapHooks: Object = {
-        before: routes.beforeLocationsMap(state),
-        after: routes.afterLocationsMap(state)
-    }
-
-    const locationsListHooks: Object = {
-        before: routes.beforeLocationsList(state),
-        after: routes.afterLocationsList(state)
-    }
-
-    const guideHooks: Object = {
-        before: routes.beforeGuide(state),
-        after: routes.afterGuide(state)
-    }
-
-    Router.on(
-        '/locations/:id/map',
-        routes.locationMap(state),
-        locationMapHooks
-    )
-    Router.on(
-        '/locations/:id/camera',
-        routes.locationCamera(state),
-        locationCameraHooks
-    )
-    Router.on(
-        '/locations/:id',
-        routes.location(state),
-        locationHooks
-    )
-    Router.on(
-        '/locations/:id/*',
-        routes.location(state),
-        locationHooks
-    )
-    Router.on(
-        '/map',
-        routes.locationsMap(state),
-        locationsMapHooks
-    )
-    Router.on(
-        '/locations',
-        routes.locationsList(state),
-        locationsListHooks
-    )
-    Router.on(
-        '/*',
-        routes.guide(state),
-        guideHooks
-    )
-    
+    // Resolve the current url
     Router.resolve()
 }
 

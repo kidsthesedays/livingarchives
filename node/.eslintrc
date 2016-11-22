@@ -26,6 +26,7 @@
         "spaced-comment": 2,
         "space-infix-ops": 2,
         "comma-dangle": 2,
-        "react/prop-types": 0
+        "react/prop-types": 0,
+        "react/display-name": 0
     }
 }

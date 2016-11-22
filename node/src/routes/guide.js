@@ -6,28 +6,44 @@ import {
     unmountComponentAtNode
 } from 'react-dom'
 
+import App from '../components/app'
+import Navigation from '../components/navigation'
 import Guide from '../components/guide'
 
-export function beforeGuide(state: Object): Function {
+// Before
+function before(state: Object): Function {
     return (done: Function) => {
-        console.log('Before guide:', state)
         unmountComponentAtNode(state.reactMountNode)
+        state.argonMountNode.style.display = 'none'
         done()
     }
 }
 
-export function afterGuide(state: Object): Function {
+// After
+function after(): Function {
     return () => {
-        console.log('After guide:', state)
     }
 }
 
-// Show the guide
-export function guide(state: Object): Function {
-    // Enclosing function invoked by the routing library
+// Guide route
+function route(state: Object): Function {
     return () => {
         console.log('Guide:', state)
-        render(<Guide router={state.router} />, state.reactMountNode)
+        render(
+            <App state={state}>
+                <Navigation
+                    back={false}
+                    title='Guide' />
+                <Guide />
+            </App>,
+            state.reactMountNode
+        )
     }
 }
 
+// Export the route handlers
+export const guide: Object = {
+    urls: ['/*'],
+    route,
+    hooks: (state: Object) => ({ before: before(state), after: after(state) })
+}

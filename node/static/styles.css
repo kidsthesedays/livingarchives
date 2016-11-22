@@ -1,7 +1,33 @@
 /* General */
-@import url('normalize.css');
+.app {
+    border: 1px solid black;
+    max-width: 800px;
+    margin: 0 auto;
+}
 
-body, html, .location-map, #mount {
-    height: 100%;
-    width: 100%;
+.navigation {
+    display: flex;
+}
+
+.navigation .left {
+    flex: 1 1 0;
+    padding: 5px 10px;
+}
+
+.navigation .center {
+    flex: 3 1 0;
+    padding: 5px 10px;
+}
+
+.navigation .right {
+    flex: 1 1 0;
+    padding: 5px 10px;
+}
+
+.navigation .left p {
+    display: inline-block;
+}
+
+.navigation .center p {
+    display: inline-block;
 }
