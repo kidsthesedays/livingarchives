@@ -11,7 +11,7 @@ import {
     Marker
 } from 'react-google-maps'
 
-const renderMarker: Function = navigateToLocation => location => )
+const renderMarker: Function = navigateToLocation => location => (
     <Marker
         position={{
             lat: location.meta.latitude,
