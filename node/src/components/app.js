@@ -3,10 +3,14 @@
 import React, { Children, cloneElement, Component } from 'react'
 
 class App extends Component {
-    constructor(props) {
+
+    watchID: number
+    state: Object
+
+    constructor(props: Object) {
         super(props)
 
-        this.watchID = null
+        this.watchID = 0
         this.state = {
             userPosition: null
         }
