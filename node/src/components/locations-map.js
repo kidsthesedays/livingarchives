@@ -1,5 +1,4 @@
 // @flow
-/* global google */
 
 import React from 'react'
 
@@ -11,19 +10,24 @@ import {
     Marker
 } from 'react-google-maps'
 
-const renderMarker: Function = navigateToLocation => location => )
-    <Marker
-        position={{
-            lat: location.meta.latitude,
-            lng: location.meta.longitude
-        }}
-        onClick={navigateToLocation(location.meta.id)}
-        key={location.meta.name} />
-)
+const renderMarker: Function = navigateToLocation => location => {
+
+    const pos: Object = {
+        lat: location.meta.latitude,
+        lng: location.meta.longitude
+    }
+
+    return (
+        <Marker
+            position={pos}
+            onClick={navigateToLocation(location.meta.id)}
+            label={String(location.meta.position)}
+            key={location.meta.name} />
+    )
+}
 
 const Map: Function = withGoogleMap(({ navigateToLocation, locations }) => {
 
-    // const center: Object = new google.maps.LatLng(55.68177, 12.55855)
     const center: Object = {
         lat: 55.68177,
         lng: 12.55855
@@ -47,9 +51,14 @@ const Map: Function = withGoogleMap(({ navigateToLocation, locations }) => {
 })
 
 const LocationsMap: Function = ({ state }: Object): Object => {
-
     const { locations, router } = state
-    const navigateToLocation = id => () => router.navigate(`https://alberta.livingarchives.org/locations/${id}/map`, true)
+
+    const navigateToLocation = id => () => {
+        const url: string = `https://alberta.livingarchives.org/locations/${id}/map`
+        state.prevRoute = 'https://alberta.livingarchives.org/map'
+        router.navigate(url, true)
+    }
+
     const div = <div style={{ height: '100%' }} />
 
     return (

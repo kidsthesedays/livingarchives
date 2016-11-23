@@ -28,6 +28,7 @@ function after(): Function {
 function route(state: Object): Function {
     return () => {
         console.log('Guide:', state)
+
         render(
             <App state={state}>
                 <Guide />

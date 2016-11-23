@@ -6,7 +6,10 @@ const Navigation: Function = ({ state, back, backURL, title, right }: Object): O
 
     const { router } = state
 
-    const goBack: Function = () => router.navigate(backURL || '', true)
+    const goBack: Function = () => {
+        state.prevRoute = ''
+        router.navigate(backURL || '', true)
+    }
 
     return (
         <div className='navigation'>

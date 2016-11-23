@@ -2,6 +2,7 @@
 
 import 'whatwg-fetch'
 
+// TODO check for errors when parsing JSON
 // Store and fetch data from local storage
 // Based on wether a value was passed or not
 function cache(key: string, value: ?Object): Object | bool {
@@ -9,7 +10,6 @@ function cache(key: string, value: ?Object): Object | bool {
 
     if (typeof value === 'undefined') {
         if (data) {
-            // TODO try/catch for JSON parsing
             const json: Object = JSON.parse(data)
             return json.hasOwnProperty(key) ? json[key] : false
         }

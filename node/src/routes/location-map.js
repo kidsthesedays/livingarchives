@@ -34,12 +34,14 @@ function route(state: Object): Function {
         const { id } = params
 
         // NOTE: weak equality check due to strings
-        const location = state.locations.filter(l => l.meta.id == id).reduce((_, n) => n, {})
+        const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
+
+        // TODO check if we didnt find a location?
 
         render(
             <App state={state}>
                 <Navigation
-                    backURL='https://alberta.livingarchives.org/locations'
+                    backURL={state.prevRoute || 'https://alberta.livingarchives.org/locations'}
                     title='Location map' />
                 <LocationMap
                     location={location} />

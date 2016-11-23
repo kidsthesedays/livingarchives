@@ -30,10 +30,19 @@ function after(): Function {
 function route(state: Object): Function {
     return () => {
         console.log('Locations Map:', state)
+
+        const { router } = state
+
+        const goToList = () => router.navigate('https://alberta.livingarchives.org/locations', true)
+        const listIcon = () => (
+            <button type='button' className='switch-to-list' onClick={goToList}>List</button>
+        )
+
         render(
             <App state={state}>
                 <Navigation
-                    backURL='https://alberta.livingarchives.org/locations'
+                    backURL='https://alberta.livingarchives.org/'
+                    right={listIcon}
                     title='All locations' />
                 <LocationsMap />
             </App>,
