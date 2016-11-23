@@ -9,13 +9,14 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationsList from '../components/locations-list'
+import { setupLocationData } from '../utilities'
 
 // Before
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
-        done()
+        setupLocationData(state, done)
     }
 }
 
@@ -29,11 +30,20 @@ function after(): Function {
 function route(state: Object): Function {
     return () => {
         console.log('Locations list:', state)
+
+        const { router } = state
+
+        const goToMap = () => router.navigate('https://alberta.livingarchives.org/map', true)
+        const mapIcon = () => (
+            <button type='button' className='switch-to-map' onClick={goToMap}>Map</button>
+        )
+
         render(
             <App state={state}>
                 <Navigation
                     backURL='https://alberta.livingarchives.org'
-                    title='Locations' />
+                    right={mapIcon}
+                    title='All locations' />
                 <LocationsList />
             </App>,
             state.reactMountNode

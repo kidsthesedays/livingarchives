@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react'
+import { humanReadableDistance } from '../utilities'
 
 const sortByPosition: Function = (a, b): number => a.meta.position - b.meta.position
 
@@ -9,8 +10,10 @@ const renderLocation: Function = navigate => (location, i) => (
         key={i}
         onClick={navigate(location.meta.id)}
         className='locations-list-item'>
-        <p>Location {location.meta.position}</p>
-        <p>{location.meta.adress}</p>
+        <p className='title'>Location {location.meta.position}</p>
+        <p className='adress'>{location.meta.adress}</p>
+        <p className='distance'>{humanReadableDistance(Math.floor((Math.random() * 700) + 500))}</p>
+        <div className='arrow'>&gt;</div>
     </div>
 )
 
