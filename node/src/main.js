@@ -11,7 +11,7 @@ import {
 } from './CSS3DArgon'
 
 import { setupArgon } from './argon'
-import { setupLocationData } from './utilities'
+import { setupLocationData } from './utilities'
 
 function main() {
     // Used by the Navigo router library

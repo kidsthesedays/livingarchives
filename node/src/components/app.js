@@ -29,7 +29,7 @@ class App extends Component {
         // Error handler
         const error: Function = e => console.error(e)
 
-        if ("geolocation" in navigator) {
+        if ('geolocation' in navigator) {
 
             this.watchID = navigator.geolocation.watchPosition(
                 success,
@@ -46,7 +46,7 @@ class App extends Component {
     }
 
     componentWillUnmount() {
-        if ("geolocation" in navigator) {
+        if ('geolocation' in navigator) {
             navigator.geolocation.clearWatch(this.watchID)
         }
     }
