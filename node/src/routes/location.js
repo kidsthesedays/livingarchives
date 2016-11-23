@@ -9,13 +9,14 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import Location from '../components/location'
+import { setupLocationData } from '../utilities'
 
 // Before
 function before(state: Object): Function {
     return (done: Function) => {
-        console.log('Before location:', state)
         unmountComponentAtNode(state.reactMountNode)
-        done()
+        state.argonMountNode.style.display = 'none'
+        setupLocationData(state, done)
     }
 }
 
@@ -31,13 +32,16 @@ function route(state: Object): Function {
         console.log('Location:', state, params)
 
         const { id } = params
+        
+        // NOTE: weak equality check due to strings
+        const location = state.locations.filter(l => l.meta.id == id).reduce((_, n) => n, {})
 
         render(
             <App state={state}>
                 <Navigation
-                    backURL={`https://alberta.livingarchives.org/locations/${id}/camera`}
-                    title='Location' />
-                <Location />
+                    backURL={`https://alberta.livingarchives.org/locations/${id}/camera`} />
+                <Location
+                    location={location} />
             </App>,
             state.reactMountNode
         )
@@ -46,7 +50,7 @@ function route(state: Object): Function {
 
 // Export the route handlers
 export const location = {
-    urls: ['/locations/:id', '/locations/:id/*'],
+    urls: ['/locations/:id', '/locations/:id/story', '/locations/:id/*'],
     route,
     hooks: (state: Object) => ({ before: before(state), after: after(state) })
 }

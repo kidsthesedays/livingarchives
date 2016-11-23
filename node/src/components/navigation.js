@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const Navigation: Function = ({ state, back, backURL, title }: Object): Object => {
+const Navigation: Function = ({ state, back, backURL, title, right }: Object): Object => {
 
     const { router } = state
 
@@ -13,12 +13,13 @@ const Navigation: Function = ({ state, back, backURL, title }: Object): Object =
             <div className='left' onClick={goBack}>
                 {back === false
                     ? ''
-                    : <p>back</p>}
+                    : <p>&lt;</p>}
             </div>
             <div className='center'>
                 <p>{title || ''}</p>
             </div>
             <div className='right'>
+                {right ? right() : ''}
             </div>
         </div>
     )

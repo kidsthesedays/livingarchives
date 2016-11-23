@@ -7,7 +7,6 @@ import {
 } from 'react-dom'
 
 import App from '../components/app'
-import Navigation from '../components/navigation'
 import Guide from '../components/guide'
 
 // Before
@@ -31,9 +30,6 @@ function route(state: Object): Function {
         console.log('Guide:', state)
         render(
             <App state={state}>
-                <Navigation
-                    back={false}
-                    title='Guide' />
                 <Guide />
             </App>,
             state.reactMountNode

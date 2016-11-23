@@ -9,12 +9,13 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationCamera from '../components/location-camera'
+import { setupLocationData } from '../utilities'
 
 // Before
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
-        done()
+        setupLocationData(state, done)
     }
 }
 
@@ -28,13 +29,19 @@ function after(): Function {
 function route(state: Object): Function {
     return (params: Object) => {
         console.log('Location camera', state, params)
+
         const { id } = params
+        
+        // NOTE: weak equality check due to strings
+        const location = state.locations.filter(l => l.meta.id == id).reduce((_, n) => n, {})
+
         render(
             <App state={state}>
                 <Navigation
-                    backURL={`https://alberta.livingarchives.org/locations/${id}/camera`}
-                    title='Location camera' />
-                <LocationCamera />
+                    backURL={`https://alberta.livingarchives.org/locations/${id}/map`}
+                    title={`Location ${location.meta.position}`} />
+                <LocationCamera
+                    location={location} />
             </App>,
             state.reactMountNode
         )
