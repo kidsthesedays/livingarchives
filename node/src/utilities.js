@@ -40,6 +40,8 @@ export function setupLocation(meta: Object, content: string): Object {
         )
     })
 
+    // We need to add a location object to the geo object
+    // to be able to calculate the distance between two objects
     geoObject.add(locationObject)
 
     return {
@@ -52,6 +54,7 @@ export function setupLocation(meta: Object, content: string): Object {
     }
 }
 
+// Limit amount of time between function calls to a function
 export function throttle(fn: Function, ms: number): Function {
     let lastCall: number = 0
     return function() {
@@ -64,6 +67,7 @@ export function throttle(fn: Function, ms: number): Function {
     }
 }
 
+// Format distance into a more readable format
 export function humanReadableDistance(d: number): string {
     // Kilometer
     if (d > 1000) {
@@ -75,7 +79,8 @@ export function humanReadableDistance(d: number): string {
     return `${d}m`
 }
 
-export function setupLocationData(state: Object, cb: Function) {
+// Fetch and setup location data for the cache from the API
+export function setupLocationData(state: Object, cb: ?Function) {
     fetchLocationData(json => {
         state.locations = json.locations.map(location => {
             //  filter out content based on location id
@@ -86,22 +91,23 @@ export function setupLocationData(state: Object, cb: Function) {
             return setupLocation(location, content)
         })
 
-        cb()
+        cb && cb(json)
     })
 }
 
-// export function rad(x) {
-//     return x * Math.PI / 180;
-// }
-// 
-// export function getDistance(p1, p2) {
-//     var R = 6378137; // Earth’s mean radius in meter
-//     var dLat = rad(p2.lat() - p1.lat());
-//     var dLong = rad(p2.lng() - p1.lng());
-//     var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-//         Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) *
-//         Math.sin(dLong / 2) * Math.sin(dLong / 2);
-//     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//     var d = R * c;
-//     return d; // returns the distance in meter
-// }
+// Calculate the rad of 'n'
+export function rad(n: number): number {
+    return n * Math.PI / 180;
+}
+
+// Returns the distance between to lat/lng points
+export function getDistance(p1: Object, p2: Object): number {
+    // Earth’s mean radius in meter
+    const R: number = 6378137
+    const dLat: number = rad(p2.lat - p1.lat)
+    const dLong: number = rad(p2.lng - p1.lng)
+    const a: number = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2)
+    const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    const d: number = R * c
+    return d
+}

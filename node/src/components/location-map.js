@@ -1,10 +1,6 @@
 // @flow
-/* global google */
 
 import React, { Component } from 'react'
-import {
-    updateUserAndLocationPosition
-} from '../argon'
 
 import { mapStyles } from './map-style'
 
@@ -16,12 +12,11 @@ import {
 } from 'react-google-maps'
 
 import {
-    throttle,
-    humanReadableDistance
+    humanReadableDistance,
+    getDistance
 } from '../utilities'
 
-const Map: Function = withGoogleMap(({ location }) => {
-    // const center: Object = new google.maps.LatLng(location.meta.latitude, location.meta.longitude)
+const Map: Function = withGoogleMap(({ location }: Object) => {
     const center: Object = {
         lat: location.meta.latitude,
         lng: location.meta.longitude
@@ -60,36 +55,59 @@ const Map: Function = withGoogleMap(({ location }) => {
 })
 
 class Distance extends Component {
+
+    state: Object
+
     constructor(props) {
         super(props)
 
-        const { state, location } = this.props
+        // const { state, location } = this.props
+
+        // this.state = {
+        //     distance: 0,
+        //     updateEventFunc: throttle(updateUserAndLocationPosition(
+        //         state,
+        //         location.meta.id,
+        //         n => this.setState({ distance: n })
+        //     ), 2000)
+        // }
 
         this.state = {
-            distance: 0,
-            updateEventFunc: throttle(updateUserAndLocationPosition(
-                state,
-                location.meta.id,
-                n => this.setState({ distance: n })
-            ), 2000)
+            distance: 0
         }
     }
 
     componentDidMount() {
-        const { state } = this.props
-        state.app.updateEvent.addEventListener(this.state.updateEventFunc)
+        // const { state } = this.props
+        // state.app.updateEvent.addEventListener(this.state.updateEventFunc)
     }
 
     componentWillUnmount() {
-        const { state } = this.props
-        state.app.updateEvent.removeEventListener(this.state.updateEventFunc)
+        // const { state } = this.props
+        // state.app.updateEvent.removeEventListener(this.state.updateEventFunc)
     }
 
     render() {
+        const { location, userPosition } = this.props
+
+        if (userPosition === null) {
+            return (
+                <div className='location-map-distance'>
+                    <p>Distance: ?</p>
+                </div>
+            )
+        }
+
+        const locationCoords = {
+            lat: location.meta.latitude,
+            lng: location.meta.longitude
+        }
+
+        const distance = humanReadableDistance(getDistance(locationCoords, userPosition))
 
         return (
             <div className='location-map-distance'>
-                <p>Distance: {humanReadableDistance(this.state.distance)}</p>
+                <p>Distance: {distance}</p>
             </div>
         )
     }
@@ -97,19 +115,9 @@ class Distance extends Component {
 
 class LocationMap extends Component {
     render() {
-        const { state, location } = this.props
+        const { state, location, userPosition } = this.props
 
-        if (!location.hasOwnProperty('meta')) {
-            return (
-                <div className='location-map'>
-                    <p>No location found</p>
-                </div>
-            )
-        }
-
-        const { router } = state
-        const handleClick = () => router.navigate(`https://alberta.livingarchives.org/locations/${location.meta.id}/camera`, true)
-
+        const handleClick = () => state.router.navigate(`https://alberta.livingarchives.org/locations/${location.meta.id}/camera`, true)
         const div = <div style={{ height: '100%' }} />
 
         return (
@@ -127,6 +135,7 @@ class LocationMap extends Component {
                 </button>
 
                 <Distance
+                    userPosition={userPosition}
                     state={state}
                     location={location} />
             </div>

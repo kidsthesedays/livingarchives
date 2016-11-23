@@ -11,6 +11,7 @@ import {
 } from './CSS3DArgon'
 
 import { setupArgon } from './argon'
+import { setupLocationData } from './utilities'
 
 function main() {
     // Used by the Navigo router library
@@ -33,26 +34,16 @@ function main() {
         }),
         cssRenderer: new CSS3DArgonRenderer(),
         hud: new CSS3DArgonHUD(),
-        locations: []
+        locations: [],
+        prevRoute: '',
+        userPosition: {},
+        userData: {}
     }
 
     // Initialize basic argon setup
     state = setupArgon(state)
-
-    // TODO fetchlocationdata anyway? so its already loaded?
-
-    // Fetch and cache location data
-    // fetchLocationData(json => {
-    //     // Setup all locations
-    //     state.locations = json.locations.map(location => {
-    //         //  filter out content based on location id
-    //         const content: string = json.content
-    //             .filter(c => c.id === location.id)
-    //             .reduce((_, c) => c.html, '')
-
-    //         return setupLocation(location, content)
-    //     })
-    // })
+    // Fetch location data and store it in the cache
+    setupLocationData(state)
 
     // TODO fetch and initialize user data
 

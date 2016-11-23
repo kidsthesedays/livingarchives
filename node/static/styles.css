@@ -704,4 +704,11 @@ body {
 .locations-map {
     height: 100%;
     position: relative;
-}/*}}}*/
+}
+.switch-to-list {
+    border: none;
+    color: white;
+    background: none;
+    cursor: pointer;
+}
+/*}}}*/

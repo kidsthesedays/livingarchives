@@ -1,33 +1,60 @@
 // @flow
 
-import React from 'react'
-import { humanReadableDistance } from '../utilities'
+import React, { Component } from 'react'
+import {
+    humanReadableDistance,
+    getDistance
+} from '../utilities'
 
 const sortByPosition: Function = (a, b): number => a.meta.position - b.meta.position
 
-const renderLocation: Function = navigate => (location, i) => (
+class Distance extends Component {
+
+    state: Object
+
+    constructor(props) {
+        super(props)
+        this.state = { distance: 0 }
+    }
+
+    render() {
+        const { location, userPosition } = this.props
+
+        if (userPosition === null) {
+            return (
+                <p className='distance'>Distance: ?</p>
+            )
+        }
+
+        const locationCoords = {
+            lat: location.meta.latitude,
+            lng: location.meta.longitude
+        }
+
+        const distance = humanReadableDistance(getDistance(locationCoords, userPosition))
+
+        return (
+            <p className='distance'>{distance}</p>
+        )
+    }
+}
+
+const renderLocation: Function = (navigate, userPosition) => (location, i) => (
     <div
         key={i}
         onClick={navigate(location.meta.id)}
         className='locations-list-item'>
         <p className='title'>Location {location.meta.position}</p>
         <p className='adress'>{location.meta.adress}</p>
-        <p className='distance'>{humanReadableDistance(Math.floor((Math.random() * 700) + 500))}</p>
+        <Distance
+            userPosition={userPosition}
+            location={location} />
         <div className='arrow'>&gt;</div>
     </div>
 )
 
-const LocationsList: Function = ({ state }: Object): Object => {
-    const {
-        locations,
-        router
-    } = state
-
-    if (locations.length === 0) {
-        return (
-            <div className='loading'>Loading</div>
-        )
-    }
+const LocationsList: Function = ({ state, userPosition }: Object): Object => {
+    const { locations, router } = state
 
     const navigate: Function = id => () => {
         const url: string = `https://alberta.livingarchives.org/locations/${id}/map`
@@ -36,7 +63,7 @@ const LocationsList: Function = ({ state }: Object): Object => {
 
     return (
         <div className='locations-list'>
-            {locations.sort(sortByPosition).map(renderLocation(navigate))}
+            {locations.sort(sortByPosition).map(renderLocation(navigate, userPosition))}
         </div>
     )
 }
