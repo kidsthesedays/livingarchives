@@ -630,8 +630,17 @@ html {
     cursor: pointer;
 }
 
+.location-map-button.disabled {
+    background: #666666;
+    color: #dddddd;
+}
+
 .location-map-button:hover {
     background: #1bae4f;
+}
+
+.location-map-button.disabled:hover {
+    background: #888888;
 }
 
 .location-map-distance {

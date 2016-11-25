@@ -11,7 +11,8 @@ import {
     Marker
 } from 'react-google-maps'
 
-// import Distance from './distance'
+import { calculateDistance } from '../utilities'
+import { locationVisited } from '../cache'
 
 const Map: Function = withGoogleMap(({ location }: Object) => {
     const center: Object = {
@@ -51,78 +52,56 @@ const Map: Function = withGoogleMap(({ location }: Object) => {
     )
 })
 
-// class Distance extends Component {
-// 
-//     state: Object
-// 
-//     constructor(props) {
-//         super(props)
-// 
-//         // const { state, location } = this.props
-// 
-//         // this.state = {
-//         //     distance: 0,
-//         //     updateEventFunc: throttle(updateUserAndLocationPosition(
-//         //         state,
-//         //         location.meta.id,
-//         //         n => this.setState({ distance: n })
-//         //     ), 2000)
-//         // }
-// 
-//         this.state = {
-//             distance: 0
-//         }
-//     }
-// 
-//     componentDidMount() {
-//         // const { state } = this.props
-//         // state.app.updateEvent.addEventListener(this.state.updateEventFunc)
-//     }
-// 
-//     componentWillUnmount() {
-//         // const { state } = this.props
-//         // state.app.updateEvent.removeEventListener(this.state.updateEventFunc)
-//     }
-// 
-//     render() {
-//         const { location, userPosition } = this.props
-// 
-//         if (userPosition === null) {
-//             return (
-//                 <div className='location-map-distance'>
-//                     <p>Distance: ?</p>
-//                 </div>
-//             )
-//         }
-// 
-//         const locationCoords = {
-//             lat: location.meta.latitude,
-//             lng: location.meta.longitude
-//         }
-// 
-//         const distance = humanReadableDistance(getDistance(locationCoords, userPosition))
-// 
-//         return (
-//             <div className='location-map-distance'>
-//                 <p>Distance: {distance}</p>
-//             </div>
-//         )
-//     }
-// }
 
 class LocationMap extends Component {
     render() {
-        const { state, location } = this.props
+        const { state, location, userPosition } = this.props
 
-        const handleClick = () => state.router.navigate(`https://alberta.livingarchives.org/locations/${location.meta.id}/camera`, true)
+        const handleClick = () => {
+            locationVisited(location.meta.id)
+            state.router.navigate(`https://alberta.livingarchives.org/locations/${location.meta.id}/camera`, true)
+        }
 
         const div = <div style={{ height: '100%' }} />
 
-        // const renderDistance = d => (
-        //     <div className='location-map-distance'>
-        //         <p>Distance: {d}</p>
-        //     </div>
-        // )
+        const activeButton = (
+            <button 
+                className='location-map-button'
+                onClick={handleClick}
+                type='button'>
+                Go to AR mode
+            </button>
+        )
+
+        const disabledButton = (
+            <button 
+                className='location-map-button disabled'
+                type='button'>
+                Go to AR mode
+            </button>
+        )
+
+
+        if (userPosition === null) {
+            return (
+                <div className='location-map'>
+                    <Map
+                        location={location}
+                        containerElement={div}
+                        mapElement={div} />
+
+                    {disabledButton}
+                </div>
+            )
+        }
+
+        const distance = calculateDistance(
+            userPosition,
+            {
+                lat: location.meta.latitude,
+                lng: location.meta.longitude
+            }
+        )
 
         return (
             <div className='location-map'>
@@ -131,13 +110,7 @@ class LocationMap extends Component {
                     containerElement={div}
                     mapElement={div} />
 
-                <button 
-                    className='location-map-button'
-                    onClick={handleClick}
-                    type='button'>
-                    Go to AR mode
-                </button>
-
+                {distance < 1000 ? activeButton : disabledButton }
             </div>
         )
     }

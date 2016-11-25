@@ -9,14 +9,19 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationCamera from '../components/location-camera'
-import { setupLocationData } from '../utilities'
+
+import {
+    setupLocationData,
+    setupUserData
+} from '../utilities'
 
 // Before
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.documentRootNode.style.background = 'transparent'
-        setupLocationData(state, done)
+        // Setup location data then the user data
+        setupLocationData(state, () => setupUserData(state, done))
     }
 }
 

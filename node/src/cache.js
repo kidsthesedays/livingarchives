@@ -75,3 +75,27 @@ export function fetchUserData(callback: Function) {
         callback(cached)
     }
 }
+
+export function locationVisited(id: number) {
+    const userData: Object | bool = cache('userData')
+
+    console.log('cached?', userData)
+    if (userData === false) {
+        return false
+    }
+
+    // const newUserData = Object.assign(userData, {
+    //     locations: Object.assign(userData.locations, {
+    //         Object.assign(userData.locations[`location_${id}`], {
+    //             visited: true
+    //         })
+    //     })
+    // })
+
+    userData.locations[`location_${id}`].visited = true
+
+    // console.log(newUserData)
+
+    console.log(userData)
+    cache('userData', userData)
+}

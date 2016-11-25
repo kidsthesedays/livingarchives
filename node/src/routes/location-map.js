@@ -6,7 +6,10 @@ import {
     unmountComponentAtNode
 } from 'react-dom'
 
-import { setupLocationData } from '../utilities'
+import {
+    setupLocationData,
+    setupUserData
+} from '../utilities'
 
 import App from '../components/app'
 import Navigation from '../components/navigation'
@@ -18,7 +21,8 @@ function before(state: Object): Function {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
         state.documentRootNode.style.background = 'white'
-        setupLocationData(state, done)
+        // Setup location data then the user data
+        setupLocationData(state, () => setupUserData(state, done))
     }
 }
 
