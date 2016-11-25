@@ -16,6 +16,7 @@ function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
+        state.documentRootNode.style.background = 'white'
         setupLocationData(state, done)
     }
 }
@@ -41,7 +42,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backURL={`https://alberta.livingarchives.org/locations/${id}/camera`} />
+                    backUrl={`https://alberta.livingarchives.org/locations/${id}/camera`} />
                 <Location
                     location={location} />
             </App>,

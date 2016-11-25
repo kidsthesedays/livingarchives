@@ -47,6 +47,14 @@
             "adress": "Kapelvej 38, 2200 København N",
             "latitude": 55.68766,
             "longitude": 12.55151
+        },
+        {
+            "id": 7,
+            "position": 7,
+            "name": "Folkets park",
+            "adress": "Amiralsgatan 35",
+            "latitude": 55.594510,
+            "longitude": 13.015824
         }
     ]
 }

@@ -6,16 +6,18 @@ import {
     unmountComponentAtNode
 } from 'react-dom'
 
+import { setupLocationData } from '../utilities'
+
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationMap from '../components/location-map'
-import { setupLocationData } from '../utilities'
 
 // Before
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
+        state.documentRootNode.style.background = 'white'
         setupLocationData(state, done)
     }
 }
@@ -41,7 +43,9 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backURL={state.prevRoute || 'https://alberta.livingarchives.org/locations'}
+                    backUrl={state.prevRoute || 'https://alberta.livingarchives.org/locations'}
+                    distance={true}
+                    location={location}
                     title='Location map' />
                 <LocationMap
                     location={location} />

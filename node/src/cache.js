@@ -1,6 +1,7 @@
 // @flow
 
 import 'whatwg-fetch'
+import { guid } from './utilities'
 
 // TODO check for errors when parsing JSON
 // Store and fetch data from local storage
@@ -41,6 +42,35 @@ export function fetchLocationData(callback: Function) {
                 callback(json)
             })
             .catch(err => console.log(err))
+    } else {
+        callback(cached)
+    }
+}
+
+export function fetchUserData(callback: Function) {
+    const cached: Object | bool = cache('userData')
+
+    if (cached === false) {
+        fetchLocationData(json => {
+            const userData: Object = {
+                id: guid(window),
+                currentSound: {
+                    id: 0,
+                    position: null
+                },
+                locations: json.locations.reduce((a, n) => {
+                    a[`location_${n.id}`] = {
+                        id: n.id,
+                        unlocked: false,
+                        visited: false
+                    }
+                    return a
+                }, {})
+            }
+
+            cache('userData', userData)
+            callback(userData)
+        })
     } else {
         callback(cached)
     }

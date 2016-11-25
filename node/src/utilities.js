@@ -2,7 +2,10 @@
 
 import { Object3D } from 'three'
 import { Cesium } from '@argonjs/argon'
-import { fetchLocationData } from './cache'
+import {
+    fetchLocationData,
+    fetchUserData
+} from './cache'
 
 // Format floating points
 export function toFixed(value: number, precision: number = 0): number {
@@ -10,13 +13,27 @@ export function toFixed(value: number, precision: number = 0): number {
     return Math.round(value * p) / p
 }
 
+export function generateHash(s: string): number {
+    let hash: number = 0
+    let i: number
+    let len: number
+    let chr: number
+
+    for (i = 0, len = s.length; i < len; i++) {
+        chr = s.charCodeAt(i)
+        hash = ((hash << 5) - hash) + chr
+        hash |= 0
+    }
+
+    return hash
+}
+
 // Creates a GUID based on several different browser variables
 // It wont be compliant with RFC4122 but hopefully good enough
-export function guid(): string {
+export function guid(window: Object): number {
     const nav: Object = window.navigator
     const screen: Object = window.screen
-
-    return [
+    const s: string = [
         nav.mimeTypes.length,
         nav.userAgent.replace(/D+/g, ''),
         nav.plugins.length,
@@ -24,6 +41,8 @@ export function guid(): string {
         screen.width || '',
         screen.pixelDepth || ''
     ].join('')
+
+    return generateHash(s)
 }
 
 // Setup a new location
@@ -76,7 +95,7 @@ export function humanReadableDistance(d: number): string {
     }
 
     // Meter
-    return `${d}m`
+    return `${Math.floor(d)}m`
 }
 
 // Fetch and setup location data for the cache from the API
@@ -95,13 +114,20 @@ export function setupLocationData(state: Object, cb: ?Function) {
     })
 }
 
+export function setupUserData(state: Object, cb: ?Function) {
+    fetchUserData(userData => {
+        state.userData = userData
+        cb && cb(userData)
+    })
+}
+
 // Calculate the rad of 'n'
 export function rad(n: number): number {
     return n * Math.PI / 180;
 }
 
 // Returns the distance between to lat/lng points
-export function getDistance(p1: Object, p2: Object): number {
+export function calculateDistance(p1: Object, p2: Object): number {
     // Earth’s mean radius in meter
     const R: number = 6378137
     const dLat: number = rad(p2.lat - p1.lat)

@@ -468,7 +468,7 @@ html, body, #mount {
     height: 100%;
 }
 
-body {
+html {
     background: white;
 }
 
@@ -536,9 +536,11 @@ body {
     position: relative;
 }
 
+/*
 .locations-list-item:hover .arrow {
     color: #1DB954;
 }
+*/
 
 .locations-list-item p {
     margin: 0;

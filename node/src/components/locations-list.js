@@ -1,57 +1,30 @@
 // @flow
 
-import React, { Component } from 'react'
-import {
-    humanReadableDistance,
-    getDistance
-} from '../utilities'
+import React from 'react'
+
+import Distance from './distance'
 
 const sortByPosition: Function = (a, b): number => a.meta.position - b.meta.position
 
-class Distance extends Component {
+const renderLocation: Function = (navigate, userPosition) => (location, i) => {
 
-    state: Object
+    const renderDistance: Object = d => <p className='distance'>{d}</p>
 
-    constructor(props) {
-        super(props)
-        this.state = { distance: 0 }
-    }
-
-    render() {
-        const { location, userPosition } = this.props
-
-        if (userPosition === null) {
-            return (
-                <p className='distance'>Distance: ?</p>
-            )
-        }
-
-        const locationCoords = {
-            lat: location.meta.latitude,
-            lng: location.meta.longitude
-        }
-
-        const distance = humanReadableDistance(getDistance(locationCoords, userPosition))
-
-        return (
-            <p className='distance'>{distance}</p>
-        )
-    }
+    return (
+        <div
+            key={i}
+            onClick={navigate(location.meta.id)}
+            className='locations-list-item'>
+            <p className='title'>Location {location.meta.position}</p>
+            <p className='adress'>{location.meta.adress}</p>
+            <Distance
+                userPosition={userPosition}
+                location={location}
+                render={renderDistance} />
+            <div className='arrow'>&gt;</div>
+        </div>
+    )
 }
-
-const renderLocation: Function = (navigate, userPosition) => (location, i) => (
-    <div
-        key={i}
-        onClick={navigate(location.meta.id)}
-        className='locations-list-item'>
-        <p className='title'>Location {location.meta.position}</p>
-        <p className='adress'>{location.meta.adress}</p>
-        <Distance
-            userPosition={userPosition}
-            location={location} />
-        <div className='arrow'>&gt;</div>
-    </div>
-)
 
 const LocationsList: Function = ({ state, userPosition }: Object): Object => {
     const { locations, router } = state

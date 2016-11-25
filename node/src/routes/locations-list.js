@@ -9,14 +9,19 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationsList from '../components/locations-list'
-import { setupLocationData } from '../utilities'
+import {
+    setupLocationData,
+    setupUserData
+} from '../utilities'
 
 // Before
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
-        setupLocationData(state, done)
+        state.documentRootNode.style.background = 'white'
+        // Setup location data then the user data
+        setupLocationData(state, () => setupUserData(state, done))
     }
 }
 
@@ -31,9 +36,7 @@ function route(state: Object): Function {
     return () => {
         console.log('Locations list:', state)
 
-        const { router } = state
-
-        const goToMap = () => router.navigate('https://alberta.livingarchives.org/map', true)
+        const goToMap = () => state.router.navigate('https://alberta.livingarchives.org/map', true)
         const mapIcon = () => (
             <button type='button' className='switch-to-map' onClick={goToMap}>Map</button>
         )
@@ -41,8 +44,8 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backURL='https://alberta.livingarchives.org'
-                    right={mapIcon}
+                    backUrl='https://alberta.livingarchives.org'
+                    renderRight={mapIcon}
                     title='All locations' />
                 <LocationsList />
             </App>,

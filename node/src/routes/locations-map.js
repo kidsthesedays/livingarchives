@@ -16,6 +16,7 @@ function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
+        state.documentRootNode.style.background = 'white'
         setupLocationData(state, done)
     }
 }
@@ -31,9 +32,7 @@ function route(state: Object): Function {
     return () => {
         console.log('Locations Map:', state)
 
-        const { router } = state
-
-        const goToList = () => router.navigate('https://alberta.livingarchives.org/locations', true)
+        const goToList = () => state.router.navigate('https://alberta.livingarchives.org/locations', true)
         const listIcon = () => (
             <button type='button' className='switch-to-list' onClick={goToList}>List</button>
         )
@@ -41,8 +40,8 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backURL='https://alberta.livingarchives.org/'
-                    right={listIcon}
+                    backUrl='https://alberta.livingarchives.org/'
+                    renderRight={listIcon}
                     title='All locations' />
                 <LocationsMap />
             </App>,

@@ -15,6 +15,7 @@ import { setupLocationData } from '../utilities'
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
+        state.documentRootNode.style.background = 'transparent'
         setupLocationData(state, done)
     }
 }
@@ -40,7 +41,9 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backURL={`https://alberta.livingarchives.org/locations/${id}/map`}
+                    backUrl={`https://alberta.livingarchives.org/locations/${id}/map`}
+                    distance={true}
+                    location={location}
                     title={`Location ${location.meta.position}`} />
                 <LocationCamera
                     location={location} />

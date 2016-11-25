@@ -34,7 +34,6 @@ class App extends Component {
         const error: Function = e => console.error(e)
 
         if ('geolocation' in navigator) {
-
             this.watchID = navigator.geolocation.watchPosition(
                 success,
                 error
@@ -43,7 +42,6 @@ class App extends Component {
             if (state.userPosition.hasOwnProperty('lat')) {
                 this.setState({ userPosition: state.userPosition })
             }
-
         } else {
             console.error('Geolocation not supported')
         }
