@@ -54,9 +54,8 @@ const LocationsMap: Function = ({ state }: Object): Object => {
     const { locations, router } = state
 
     const navigateToLocation = id => () => {
-        const url: string = `https://alberta.livingarchives.org/locations/${id}/map`
-        state.prevRoute = 'https://alberta.livingarchives.org/map'
-        router.navigate(url, true)
+        state.prevRoute = '/map'
+        router.navigate(`/locations/${id}/map`)
     }
 
     const div = <div style={{ height: '100%' }} />

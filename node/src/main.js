@@ -22,6 +22,7 @@ function main() {
     // Main state of our application (mutable)
     let state: Object = {
         router: Router,
+        navigate: path => Router.navigate(`${window.location.origin}${path}`, true),
         documentRootNode: document.documentElement,
         reactMountNode: document.getElementById('mount'),
         argonMountNode: document.getElementById('argon'),

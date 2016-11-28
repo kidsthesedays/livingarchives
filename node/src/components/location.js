@@ -4,7 +4,7 @@ import React from 'react'
 
 const Location: Function = ({ state, location }: Object): Object => {
 
-    const navigateToList = () => state.router.navigate('https://alberta.livingarchives.org/locations', true)
+    const navigateToList = () => state.navigate('/locations')
 
     return (
         <div className='location'>

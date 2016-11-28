@@ -4,9 +4,7 @@ import React from 'react'
 
 const Guide = ({ state }: Object): Object => {
 
-    const { router } = state
-
-    const navigate: Function = () => router.navigate('https://alberta.livingarchives.org/locations', true)
+    const navigate: Function = () => state.navigate('/locations')
 
     return (
         <div className='guide'>

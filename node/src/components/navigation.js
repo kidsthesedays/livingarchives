@@ -19,7 +19,7 @@ const Navigation: Function = (props: Object): Object => {
 
     const goBack: Function = () => {
         state.prevRoute = ''
-        state.router.navigate(backUrl || '', true)
+        state.navigate(backUrl || '')
     }
 
     const renderDistance = d => <div className='distance'>{d}</div>

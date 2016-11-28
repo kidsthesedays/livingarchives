@@ -46,7 +46,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backUrl={`https://alberta.livingarchives.org/locations/${id}/camera`} />
+                    backUrl={`/locations/${id}/camera`} />
                 <Location
                     location={location} />
             </App>,

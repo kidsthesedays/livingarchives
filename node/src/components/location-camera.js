@@ -12,8 +12,7 @@ const LocationCamera: Function = ({ state, location }: Object): Object => {
         )
     }
 
-    const { router } = state
-    const handleClick = () => router.navigate(`https://alberta.livingarchives.org/locations/${location.meta.id}/story`, true)
+    const handleClick = () => state.navigate(`/locations/${location.meta.id}/story`)
 
     return (
         <div className='location-camera'>

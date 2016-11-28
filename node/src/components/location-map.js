@@ -59,7 +59,7 @@ class LocationMap extends Component {
 
         const handleClick = () => {
             locationVisited(location.meta.id)
-            state.router.navigate(`https://alberta.livingarchives.org/locations/${location.meta.id}/camera`, true)
+            state.navigate(`/locations/${location.meta.id}/camera`)
         }
 
         const div = <div style={{ height: '100%' }} />
@@ -115,7 +115,7 @@ class LocationMap extends Component {
 
                 {hasVisitedLocation
                     ? activeButton
-                    : distance < 1000 ? activeButton : disabledButton }
+                    : distance < 100000 ? activeButton : disabledButton }
             </div>
         )
     }

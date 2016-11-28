@@ -27,12 +27,9 @@ const renderLocation: Function = (navigate, userPosition) => (location, i) => {
 }
 
 const LocationsList: Function = ({ state, userPosition }: Object): Object => {
-    const { locations, router } = state
+    const { locations } = state
 
-    const navigate: Function = id => () => {
-        const url: string = `https://alberta.livingarchives.org/locations/${id}/map`
-        router.navigate(url, true)
-    }
+    const navigate: Function = id => () => state.navigate(`/locations/${id}/map`)
 
     return (
         <div className='locations-list'>

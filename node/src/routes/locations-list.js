@@ -36,7 +36,7 @@ function route(state: Object): Function {
     return () => {
         console.log('Locations list:', state)
 
-        const goToMap = () => state.router.navigate('https://alberta.livingarchives.org/map', true)
+        const goToMap = () => state.navigate('/map')
         const mapIcon = () => (
             <button type='button' className='switch-to-map' onClick={goToMap}>Map</button>
         )
@@ -44,7 +44,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backUrl='https://alberta.livingarchives.org'
+                    backUrl='/'
                     renderRight={mapIcon}
                     title='All locations' />
                 <LocationsList />

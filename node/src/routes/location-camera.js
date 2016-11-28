@@ -46,7 +46,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
-                    backUrl={`https://alberta.livingarchives.org/locations/${id}/map`}
+                    backUrl={`/locations/${id}/map`}
                     distance={true}
                     location={location}
                     title={`Location ${location.meta.position}`} />
