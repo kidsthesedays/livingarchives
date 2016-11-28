@@ -541,7 +541,7 @@ body {
 .locations-list {
 }
 .locations-list-item {
-    background: #555;
+    background: rgba(0, 0, 0, 0.6);
     cursor: pointer;
     margin-bottom: 1px;
     padding: 90px 15px 15px 15px;

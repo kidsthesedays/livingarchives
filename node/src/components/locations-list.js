@@ -14,14 +14,23 @@ const renderLocation: Function = (navigate, userPosition) => (location, i) => {
         <div
             key={i}
             onClick={navigate(location.meta.id)}
-            className='locations-list-item'>
-            <p className='title'>Location {location.meta.position}</p>
-            <p className='adress'>{location.meta.adress}</p>
-            <Distance
-                userPosition={userPosition}
-                location={location}
-                render={renderDistance} />
-            <div className='arrow'>&gt;</div>
+            style={{
+                backgroundImage: `url(/static/location_${location.meta.id}.png)`,
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: '100%'
+           }}
+            className='locations-list-item-outer'>
+            <div
+                className='locations-list-item'>
+                <p className='title'>Location {location.meta.position}</p>
+                <p className='adress'>{location.meta.adress}</p>
+                <Distance
+                    userPosition={userPosition}
+                    location={location}
+                    render={renderDistance} />
+                <div className='arrow'>&gt;</div>
+            </div>
         </div>
     )
 }

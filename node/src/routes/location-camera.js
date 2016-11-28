@@ -9,6 +9,7 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationCamera from '../components/location-camera'
+import ErrorView from '../components/error-view'
 
 import {
     setupLocationData,
@@ -42,6 +43,25 @@ function route(state: Object): Function {
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
         // TODO check if we didnt find a location?
+        if (!location.hasOwnProperty('meta')) {
+            console.log('Location not found!')
+        }
+
+        const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
+
+        if (!hasVisitedLocation) {
+            return render(
+                <App state={state}>
+                    <Navigation
+                        backUrl={`/locations/${id}/map`}
+                        distance={true}
+                        location={location}
+                        title={`Location ${location.meta.position}`} />
+                    <ErrorView msg='You need to visit the location first!' />
+                </App>,
+                state.reactMountNode
+            )
+        }
 
         render(
             <App state={state}>

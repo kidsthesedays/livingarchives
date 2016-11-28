@@ -2462,6 +2462,10 @@ react:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
 
+react-audio-player:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-audio-player/-/react-audio-player-0.3.0.tgz#74a353cfb94ff81f0654ac5802d5cc4b04871b7c"
+
 react-display-name@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/react-display-name/-/react-display-name-0.2.0.tgz#0e1f7086e45a32d07764df35ed32ff16f1259790"

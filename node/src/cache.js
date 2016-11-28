@@ -90,3 +90,16 @@ export function locationVisited(id: number) {
         cache('userData', userData)
     }
 }
+
+export function locationUnlocked(id: number) {
+    const userData: Object = cache('userData')
+
+    if (!userData.hasOwnProperty('id')) {
+        return false
+    }
+
+    if (userData.hasOwnProperty('locations') && userData.locations.hasOwnProperty(`location_${id}`)) {
+        userData.locations[`location_${id}`].unlocked = true
+        cache('userData', userData)
+    }
+}

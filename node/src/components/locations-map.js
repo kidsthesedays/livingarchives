@@ -1,4 +1,5 @@
 // @flow
+/* global google */
 
 import React from 'react'
 
@@ -26,11 +27,35 @@ const renderMarker: Function = navigateToLocation => location => {
     )
 }
 
-const Map: Function = withGoogleMap(({ navigateToLocation, locations }) => {
+const Map: Function = withGoogleMap(({ navigateToLocation, locations, userPosition }) => {
 
     const center: Object = {
         lat: 55.68177,
         lng: 12.55855
+    }
+
+    const userMarkerOpts = {
+        clickable: false,
+        cursor: 'pointer',
+        draggable: false,
+        flat: true,
+        optimized: false,
+        position: {
+            lat: userPosition ? userPosition.lat : 0,
+            lng: userPosition ? userPosition.lng : 0,
+            enableHighAccuracy: true,
+            maximumAge: 1000
+        },
+        title: 'Current location',
+        zIndex: 2,
+        icon: {
+            url: '/static/gpsloc.png',
+            size: new google.maps.Size(34, 34),
+            scaledSize: new google.maps.Size(17, 17),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(8, 8)
+        },
+        key: 'User location'
     }
 
     return (
@@ -45,12 +70,13 @@ const Map: Function = withGoogleMap(({ navigateToLocation, locations }) => {
                 fullscreenControl: false,
                 scaleControl: false
             }}>
+            <Marker {...userMarkerOpts} />
             {locations.map(renderMarker(navigateToLocation))}
         </GoogleMap>
     )
 })
 
-const LocationsMap: Function = ({ state }: Object): Object => {
+const LocationsMap: Function = ({ state, userPosition }: Object): Object => {
     const { locations, router } = state
 
     const navigateToLocation = id => () => {
@@ -64,6 +90,7 @@ const LocationsMap: Function = ({ state }: Object): Object => {
         <div className='locations-map'>
             <Map
                 navigateToLocation={navigateToLocation}
+                userPosition={userPosition}
                 locations={locations}
                 containerElement={div}
                 mapElement={div} />

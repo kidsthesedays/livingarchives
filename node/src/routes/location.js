@@ -9,6 +9,8 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import Location from '../components/location'
+import ErrorView from '../components/error-view'
+
 import {
     setupLocationData,
     setupUserData
@@ -42,6 +44,23 @@ function route(state: Object): Function {
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
         // TODO check if we didnt find a location?
+        if (!location.hasOwnProperty('meta')) {
+            console.log('Location not found!')
+        }
+
+        const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
+        const hasUnlockedLocation = state.userData.locations[`location_${location.meta.id}`].unlocked
+
+        if (!hasVisitedLocation || !hasUnlockedLocation) {
+            return render(
+                <App state={state}>
+                    <Navigation
+                        backUrl={`/locations/${id}/camera`} />
+                    <ErrorView msg='You need to visit and unlock the location!' />
+                </App>,
+                state.reactMountNode
+            )
+        }
 
         render(
             <App state={state}>

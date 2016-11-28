@@ -1,4 +1,5 @@
 // @flow
+/* global google */
 
 import React, { Component } from 'react'
 
@@ -14,13 +15,37 @@ import {
 import { calculateDistance } from '../utilities'
 import { locationVisited } from '../cache'
 
-const Map: Function = withGoogleMap(({ location }: Object) => {
+const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
     const center: Object = {
         lat: location.meta.latitude,
         lng: location.meta.longitude
     }
 
     // For custom icons add the attribute "icon=''" with a source url to a png
+
+    const userMarkerOpts = {
+        clickable: false,
+        cursor: 'pointer',
+        draggable: false,
+        flat: true,
+        optimized: false,
+        position: {
+            lat: userPosition ? userPosition.lat : 0,
+            lng: userPosition ? userPosition.lng : 0,
+            enableHighAccuracy: true,
+            maximumAge: 1000
+        },
+        title: 'Current location',
+        zIndex: 2,
+        icon: {
+            url: '/static/gpsloc.png',
+            size: new google.maps.Size(34, 34),
+            scaledSize: new google.maps.Size(17, 17),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(8, 8)
+        },
+        key: 'User location'
+    }
 
     return (
         <GoogleMap
@@ -34,6 +59,8 @@ const Map: Function = withGoogleMap(({ location }: Object) => {
                 fullscreenControl: false,
                 scaleControl: false
             }}>
+
+            <Marker {...userMarkerOpts} />
 
             <Circle
                 center={center}
@@ -110,6 +137,7 @@ class LocationMap extends Component {
             <div className='location-map'>
                 <Map
                     location={location}
+                    userPosition={userPosition}
                     containerElement={div}
                     mapElement={div} />
 

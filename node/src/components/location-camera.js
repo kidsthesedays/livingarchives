@@ -1,29 +1,52 @@
 // @flow
 
-import React from 'react'
+import React, { Component } from 'react'
 
-const LocationCamera: Function = ({ state, location }: Object): Object => {
+import { locationUnlocked } from '../cache'
 
-    if (!location.hasOwnProperty('meta')) {
-        return (
-            <div className='location-camera'>
-                <p>No location found</p>
-            </div>
-        )
+// TODO should only be able to unlock if the user has "scanned" the object
+
+class LocationCamera extends Component {
+    constructor(props: Object) {
+        super(props)
     }
 
-    const handleClick = () => state.navigate(`/locations/${location.meta.id}/story`)
 
-    return (
-        <div className='location-camera'>
+    render() {
+        const { state, location } = this.props
+
+        const handleClick = () => {
+            locationUnlocked(location.meta.id)
+            state.navigate(`/locations/${location.meta.id}/story`)
+        }
+
+        // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
+        // TODO fix later
+        const hasUnlockedLocation: bool = true
+
+        const activeButton = (
             <button 
                 className='location-camera-button'
                 onClick={handleClick}
                 type='button'>
                 Unlock the story
             </button>
-        </div>
-    )
+        )
+
+        const disabledButton = (
+            <button 
+                className='location-camera-button disabled'
+                type='button'>
+                Find the circle
+            </button>
+        )
+
+        return (
+            <div className='location-camera'>
+                {hasUnlockedLocation ? activeButton : disabledButton}
+            </div>
+        )
+    }
 }
 
 export default LocationCamera
