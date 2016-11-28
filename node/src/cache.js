@@ -6,16 +6,16 @@ import { guid } from './utilities'
 // TODO check for errors when parsing JSON
 // Store and fetch data from local storage
 // Based on wether a value was passed or not
-function cache(key: string, value: ?Object): Object | bool {
+function cache(key: string, value: ?Object): Object {
     const data: ?string = localStorage.getItem('lva-cache')
 
     if (typeof value === 'undefined') {
         if (data) {
             const json: Object = JSON.parse(data)
-            return json.hasOwnProperty(key) ? json[key] : false
+            return json.hasOwnProperty(key) ? json[key] : {}
         }
 
-        return false
+        return {}
     }
 
     if (data) {
@@ -27,14 +27,14 @@ function cache(key: string, value: ?Object): Object | bool {
         localStorage.setItem('lva-cache', JSON.stringify(json))
     }
 
-    return true
+    return {}
 }
 
 // Fetch the location data from our API
 export function fetchLocationData(callback: Function) {
-    const cached: Object | bool = cache('locationData')
+    const cached: Object = cache('locationData')
 
-    if (cached === false) {
+    if (!cached.hasOwnProperty('locations')) {
         fetch('https://api.livingarchives.org/locations')
             .then(res => res.json())
             .then(json => {
@@ -47,10 +47,11 @@ export function fetchLocationData(callback: Function) {
     }
 }
 
+// Fetch user data from the cache, create a new one otherwise
 export function fetchUserData(callback: Function) {
-    const cached: Object | bool = cache('userData')
+    const cached: Object = cache('userData')
 
-    if (cached === false) {
+    if (!cached.hasOwnProperty('id')) {
         fetchLocationData(json => {
             const userData: Object = {
                 id: guid(window),
@@ -76,26 +77,16 @@ export function fetchUserData(callback: Function) {
     }
 }
 
+// TODO should we create a new object (copy) instead of mutating the current one?
 export function locationVisited(id: number) {
-    const userData: Object | bool = cache('userData')
+    const userData: Object = cache('userData')
 
-    console.log('cached?', userData)
-    if (userData === false) {
+    if (!userData.hasOwnProperty('id')) {
         return false
     }
 
-    // const newUserData = Object.assign(userData, {
-    //     locations: Object.assign(userData.locations, {
-    //         Object.assign(userData.locations[`location_${id}`], {
-    //             visited: true
-    //         })
-    //     })
-    // })
-
-    userData.locations[`location_${id}`].visited = true
-
-    // console.log(newUserData)
-
-    console.log(userData)
-    cache('userData', userData)
+    if (userData.hasOwnProperty('locations') && userData.locations.hasOwnProperty(`location_${id}`)) {
+        userData.locations[`location_${id}`].visited = true
+        cache('userData', userData)
+    }
 }

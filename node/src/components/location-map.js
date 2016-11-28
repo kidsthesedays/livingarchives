@@ -64,6 +64,8 @@ class LocationMap extends Component {
 
         const div = <div style={{ height: '100%' }} />
 
+        const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
+
         const activeButton = (
             <button 
                 className='location-map-button'
@@ -103,6 +105,7 @@ class LocationMap extends Component {
             }
         )
 
+        // TODO fix distance
         return (
             <div className='location-map'>
                 <Map
@@ -110,7 +113,9 @@ class LocationMap extends Component {
                     containerElement={div}
                     mapElement={div} />
 
-                {distance < 1000 ? activeButton : disabledButton }
+                {hasVisitedLocation
+                    ? activeButton
+                    : distance < 1000 ? activeButton : disabledButton }
             </div>
         )
     }

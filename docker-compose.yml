@@ -36,7 +36,6 @@ services:
         ports:
             - "80:80"
             - "443:443"
-            # Have a dev-compose file that adds these?
             - "8001:8001" # skybox
             - "8002:8002" # root site
         volumes:
