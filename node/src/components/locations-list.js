@@ -19,7 +19,7 @@ const renderLocation: Function = (navigate, userPosition) => (location, i) => {
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: '100%'
-           }}
+            }}
             className='locations-list-item-outer'>
             <div
                 className='locations-list-item'>
