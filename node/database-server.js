@@ -2,6 +2,8 @@
 const marked = require('marked')
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'))
+const path = require('path')
+const json2csv = require('json2csv')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -25,33 +27,63 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 // Fetches all statistics from the database
 app.get('/statistics', (req, res, next) => {
-    db.any('select * from statistics')
-        .then(data => res.status(200).json({ message: 'success', data }))
-        .catch(err => next(err))
+    // CSV header fields
+    const fields = ['id', 'guid', 'location', 'type', 'created']
+    // Success (json and csv) & Error handlers
+    const json = data => res.status(200).json({ message: 'success', data })
+    const csv = data => res.status(200).type('csv').send(json2csv({ data, fields }))
+    const e = err => next(err)
+    // If the user request CSV or not
+    const isCSV = req.query.format && req.query.format == 'csv' ? true : false
+
+    if (req.query.type) {
+        db.any('SELECT * FROM statistics WHERE type=${type}', req.query).then(isCSV ? csv : json).catch(e)
+    } else {
+        db.any('SELECT * FROM statistics').then(isCSV ? csv : json).catch(e)
+    }
 })
 
 // Inserts one statistic into the database
 app.post('/statistics', (req, res, next) => {
-    db.none('insert into statistics(guid, type, location, created) values (${guid}, ${type}, ${location}, now())', req.body)
-        .then(() => res.status(201).json({ message: 'success' }))
+    // TODO filter req.body - otherwise return some error -> return 400
+
+    if (!req.body.guid || !req.body.location || !req.body.type) {
+        return res.status(400).json({ message: 'Bad request' })
+    }
+
+    db.any('SELECT guid FROM statistics WHERE guid=${guid} AND location=${location} AND type=${type}', req.body)
+        .then(data => {
+            if (data.length) {
+                // Row already exsists
+                res.status(202).json({ message: 'success' })
+            } else {
+                db.none('INSERT INTO statistics(guid, type, location, created) VALUES (${guid}, ${type}, ${location}, now())', req.body)
+                    .then(() => res.status(201).json({ message: 'success' }))
+                    .catch(err => next(err))
+            }
+        })
         .catch(err => next(err))
 })
+
+// Method of getting the ID from a filename (ex location_1.md)
+const getID = f => Number(f.match(/\d+/)[0])
 
 // Shouldnt be requested to often if client stores the data in localStorage (possible bottleneck)
 app.get('/locations', (req, res, next) => {
     // Directory of content for each location
     const dir = `${__dirname}/locations`
     // Fetch meta data for each location
-    fs.readFileAsync('locations.json', 'utf8')
+    fs.readFileAsync(`${dir}/locations.json`, 'utf8')
         .then(JSON.parse)
         // Fetch content for each location
         .then(json => (
             fs.readdirAsync(dir)
+                .filter(filename => path.extname(filename) === '.md')
                 .map(filename => (
                     fs.readFileAsync(`${dir}/${filename}`, 'utf8')
                         // Convert markdown to HTML and extract location ID from the filename
                         .then(fileContent => ({
-                            id: Number(filename.split('.')[0].split('_')[1]),
+                            id: getID(filename),
                             html: marked(fileContent)
                         }))
                         .catch(err => next(err))

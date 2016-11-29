@@ -11,7 +11,10 @@ import {
 } from './CSS3DArgon'
 
 import { setupArgon } from './argon'
-import { setupLocationData } from './utilities'
+import {
+    setupLocationData,
+    setupUserData
+} from './utilities'
 
 function main() {
     // Used by the Navigo router library
@@ -44,10 +47,9 @@ function main() {
 
     // Initialize basic argon setup
     state = setupArgon(state)
-    // Fetch location data and store it in the cache
+    // Fetch location + user data and store it in the cache
     setupLocationData(state)
-
-    // TODO fetch and initialize user data
+    setupUserData(state)
 
     // Iterate through all routes and their urls,
     // add a new route for each of these urls

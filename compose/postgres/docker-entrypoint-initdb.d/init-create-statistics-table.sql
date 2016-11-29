@@ -2,8 +2,9 @@ DROP TABLE IF EXISTS statistics;
 
 CREATE TABLE statistics (
     id SERIAL PRIMARY KEY,
-    guid VARCHAR,
+    guid INTEGER,
+    location INTEGER,
     type VARCHAR,
-    location VARCHAR,
-    created DATE
+    created DATE,
+    UNIQUE (guid, location, type)
 );
