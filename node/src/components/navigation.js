@@ -24,13 +24,14 @@ const Navigation: Function = (props: Object): Object => {
 
     const renderDistance = d => <div className='distance'>{d}</div>
 
-    let left: Object = <div className='left'></div>
-    let right: Object = <div className='right'></div>
+    let left: Object = <div></div>
+    let right: Object = <div></div>
+    let center: Object = <p>{title || ''}</p>
 
     if (renderLeft) {
         left = renderLeft()
     } else if (backUrl) {
-        left = <div className='left' onClick={goBack}><p>&lt;</p></div>
+        left = <div onClick={goBack}><p>&lt;</p></div>
     }
 
     if (renderRight) {
@@ -44,13 +45,12 @@ const Navigation: Function = (props: Object): Object => {
         )
     }
 
+
     return (
         <div className='navigation'>
-            {left}
-            <div className='center'>
-                <p>{title || ''}</p>
-            </div>
-            {right}
+            <div className='left'>{left}</div>
+            <div className='center'>{center}</div>
+            <div className='right'>{right}</div>
         </div>
     )
 }

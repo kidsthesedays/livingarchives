@@ -8,8 +8,10 @@ import {
 } from '../utilities'
 
 const Distance: Function = ({ location, userPosition, render }: Object) => {
+    // Render a distance of 0 meters if no user position is available
     if (userPosition === null) {
-        return null
+        const temp: Object = render(humanReadableDistance(0))
+        return <div>{temp}</div>
     }
 
     const locationCoords: Object = {

@@ -147,13 +147,9 @@ export function prepare(method: string, body: Object): Object {
     }
 }
 
-export function sendStatistic(user: number, location: number, type: string) {
+export function sendStatistic(guid: number, location: number, type: string) {
     const url: string = 'https://api.livingarchives.org/statistics'
-    const data: Object = {
-        guid: user,
-        type: type,
-        location: location
-    }
+    const data: Object = { guid, type, location }
     const payload: Object = prepare('POST', data)
 
     // TODO what should we do with the response and error?

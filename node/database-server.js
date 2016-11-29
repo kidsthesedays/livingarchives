@@ -45,14 +45,17 @@ app.get('/statistics', (req, res, next) => {
 
 // Inserts one statistic into the database
 app.post('/statistics', (req, res, next) => {
-    // TODO filter req.body - otherwise return some error -> return 400
-
-    if (!req.body.guid || !req.body.location || !req.body.type) {
+    // Request doesnt contain enough data
+    if (!req.body.hasOwnProperty('guid')
+        || !req.body.hasOwnProperty('location')
+        || !req.body.hasOwnProperty('type')) {
         return res.status(400).json({ message: 'Bad request' })
     }
 
     db.any('SELECT guid FROM statistics WHERE guid=${guid} AND location=${location} AND type=${type}', req.body)
         .then(data => {
+            console.log(data)
+
             if (data.length) {
                 // Row already exsists
                 res.status(202).json({ message: 'success' })
