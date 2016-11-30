@@ -1,5 +1,5 @@
 // @flow
-/* global google */
+
 declare var google: Object
 
 import React from 'react'
