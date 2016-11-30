@@ -7,6 +7,25 @@ import {
     fetchUserData
 } from './cache'
 
+// Format seconds to 0:00:00 format
+function formatSeconds(seconds) {
+    seconds = Number(seconds)
+
+    const h = Math.floor(seconds / 3600) | 0
+    const m = Math.floor(seconds / 60) | 0
+    const s = Math.floor(seconds % 60) | 0
+
+    var hms = ''
+
+    if (h > 0) {
+        hms += '' + h + ':' + (m < 10 ? '0' : '')
+    }
+
+    hms += '' + m + ':' + (s < 10 ? '0' : '')
+    hms += '' + s
+    return hms
+}
+
 // Format floating points
 export function toFixed(value: number, precision: number = 0): number {
     const p: number = Math.pow(10, precision)
@@ -98,6 +117,7 @@ export function humanReadableDistance(d: number): string {
     return `${Math.floor(d)}m`
 }
 
+
 // Fetch and setup location data for the cache from the API
 export function setupLocationData(state: Object, cb: ?Function) {
     fetchLocationData(json => {
@@ -137,3 +157,4 @@ export function calculateDistance(p1: Object, p2: Object): number {
     const d: number = R * c
     return d
 }
+
