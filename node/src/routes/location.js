@@ -63,6 +63,7 @@ function route(state: Object): Function {
             return render(
                 <App state={state}>
                     <Navigation
+                        title={`Location ${id}`}
                         backUrl={`/locations/${id}/camera`} />
                     <ErrorView msg='You need to visit and unlock the location!' />
                 </App>,
@@ -73,6 +74,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
+                    title={`Location ${id}`}
                     backUrl={`/locations/${id}/camera`} />
                 <Location
                     location={location} />
