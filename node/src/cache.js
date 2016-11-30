@@ -113,7 +113,7 @@ export function setCurrentSound(id: number, position: number) {
 
     if (userData.hasOwnProperty('currentSound')
         && userData.hasOwnProperty('locations')
-        && userData.hasOwnProperty(`location_${id}`)) {
+        && userData.locations.hasOwnProperty(`location_${id}`)) {
 
         // Update current sound
         userData.currentSound.id = id

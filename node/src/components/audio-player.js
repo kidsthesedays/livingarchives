@@ -1,16 +1,17 @@
 // @flow
 import React, { Component } from 'react'
+import Slider from 'react-rangeslider'
 
 import { formatSeconds } from '../utilities'
 
-
+import { setCurrentSound } from '../cache'
 
 class AudioPlayer extends Component {
     state: Object
     audio: Object
 
-    constructor(props: Object) { 
-        super(props)
+    constructor(props: Object, context: Object) { 
+        super(props, context)
         
         this.audio = new Audio(`/static/${this.props.src}`)
 
@@ -21,7 +22,6 @@ class AudioPlayer extends Component {
         }
         
     }
-
 
     play() {
         this.audio.play()
@@ -62,17 +62,19 @@ class AudioPlayer extends Component {
             this.play()
         }
 
+        setCurrentSound(this.props.locationID, this.state.elapsedTime)
+
         this.setState({
             isPlaying: !isPlaying
         })
     }
 
-    handleSongPlaying(e) {
+    handleSongPlaying(elapsedTime) {
         this.setState({
-            elapsedTime: e.target.value
+            elapsedTime: elapsedTime
         })
 
-        this.audio.currentTime = e.target.value
+        this.audio.currentTime = elapsedTime
     }
 
     componentDidMount() {
@@ -110,27 +112,29 @@ class AudioPlayer extends Component {
 
         return (
             <div className='audio-player'>
-                <p>{title}</p>
+            <p>{title}</p>
+                <div className='audio-player-controls'>
+                    {/* pause play */}
+                    <button onClick={this.handlePlayPauseClick.bind(this)} className='play-pause'>
+                        <i className={isPlaying ? 'icon ion-ios-pause' : 'icon ion-ios-play'}></i>
+                    </button>
 
-                {/* pause play */}
-                <button onClick={this.handlePlayPauseClick.bind(this)} className='play-pause'>
-                    <i className={isPlaying ? 'icon ion-ios-pause' : 'icon ion-ios-play'}></i>
-                </button>
+                    {/* current time and total */}
+                    <p>{currentTime} / {total}</p>
 
-                {/* current time and total */}
-                <p>{currentTime} / {total}</p>
 
-                {/* slider/progress bar */}
-                <input 
-                    type="range" 
-                    value={elapsedTime} 
-                    max={audio.duration} 
-                    onChange={this.handleSongPlaying.bind(this)}></input>
+                    <Slider 
+                        value={elapsedTime}
+                        max={audio.duration}
+                        orientation="horizontal"
+                        onChange={this.handleSongPlaying.bind(this)}
+                    />
 
-                {/* mute button */}
-                <button onClick={this.handleMuteUnmuteClick.bind(this)} className='mute-unmute'>
-                    <i className={isMuted ? 'icon ion-ios-volume-low' : 'icon ion-ios-volume-high' }></i>
-                </button>
+                    {/* mute button */}
+                    <button onClick={this.handleMuteUnmuteClick.bind(this)} className='mute-unmute'>
+                        <i className={isMuted ? 'icon ion-ios-volume-low' : 'icon ion-ios-volume-high' }></i>
+                    </button>
+                </div>
             </div>
         )
     }

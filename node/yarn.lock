@@ -846,6 +846,10 @@ circular-json@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.1.tgz#be8b36aefccde8b3ca7aa2d6afc07a37242c0d2d"
 
+classnames@^2.2.3:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+
 cli-cursor@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-1.0.2.tgz#64da3f7d56a54412e59794bd62dc35295e8f2987"
@@ -2547,6 +2551,12 @@ react-google-maps@beta:
 react-prop-types-element-of-type@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/react-prop-types-element-of-type/-/react-prop-types-element-of-type-2.2.0.tgz#bcc332d3903c2259cf68c28a81c4a663faba59ac"
+
+react-rangeslider:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-rangeslider/-/react-rangeslider-1.0.9.tgz#cbef46b9bee8aaf9a191292ae7ef19b272d7ec83"
+  dependencies:
+    classnames "^2.2.3"
 
 readable-stream@^1.0.27-1, readable-stream@^1.1.13:
   version "1.1.14"

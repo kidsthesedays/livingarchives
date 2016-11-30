@@ -11,7 +11,7 @@ const Location: Function = ({ state, location }: Object): Object => {
     return (
         <div className='location'>
 
-            <AudioPlayer src='example.mp3' title='Title' />
+            <AudioPlayer src='example.mp3' title='Title' locationID={location.meta.id}/>
 
             <div dangerouslySetInnerHTML={{ __html: location.content }} />
 
