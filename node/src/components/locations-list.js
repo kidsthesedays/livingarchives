@@ -37,7 +37,9 @@ const Location: Function = ({ location, navigate, userData, userPosition, render
                         render={renderDistance} />
                     <div className='visited'>{unlocked ? 'check' : ''}</div>
                 </div>
-                <div className='arrow'>&gt;</div>
+                <div className='arrow'>
+                    <i className='icon ion-ios-arrow-right'></i>
+                </div>
             </div>
         </div>
     )

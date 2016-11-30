@@ -31,7 +31,11 @@ const Navigation: Function = (props: Object): Object => {
     if (renderLeft) {
         left = renderLeft()
     } else if (backUrl) {
-        left = <div onClick={goBack}><p>&lt;</p></div>
+        left = (
+            <div onClick={goBack} className='back-button'>
+                <i className='icon ion-ios-arrow-left'></i>
+            </div>
+        )
     }
 
     if (renderRight) {
