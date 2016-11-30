@@ -2,9 +2,14 @@
 
 import React from 'react'
 
+import { userStartedTour } from '../cache'
+
 const Guide = ({ state }: Object): Object => {
 
-    const navigate: Function = () => state.navigate('/locations')
+    const navigate: Function = () => {
+        userStartedTour()
+        state.navigate('/locations')
+    }
 
     return (
         <div className='guide'>

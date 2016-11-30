@@ -45,7 +45,15 @@ function route(state: Object): Function {
 
         // TODO check if we didnt find a location?
         if (!location.hasOwnProperty('meta')) {
-            console.log('Location not found!')
+            return render(
+                <App state={state}>
+                    <Navigation
+                        backUrl='/locations'
+                        title='Unknown location' />
+                    <ErrorView msg='The location doesnt exist' />
+                </App>,
+                state.reactMountNode
+            )
         }
 
         const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
@@ -55,6 +63,7 @@ function route(state: Object): Function {
             return render(
                 <App state={state}>
                     <Navigation
+                        title={`Location ${id}`}
                         backUrl={`/locations/${id}/camera`} />
                     <ErrorView msg='You need to visit and unlock the location!' />
                 </App>,
@@ -65,6 +74,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
+                    title={`Location ${id}`}
                     backUrl={`/locations/${id}/camera`} />
                 <Location
                     location={location} />

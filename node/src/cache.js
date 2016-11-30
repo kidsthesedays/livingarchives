@@ -1,7 +1,10 @@
 // @flow
 
 import 'whatwg-fetch'
-import { guid } from './utilities'
+import {
+    guid,
+    sendStatistic
+} from './utilities'
 
 // TODO check for errors when parsing JSON
 // Store and fetch data from local storage
@@ -55,6 +58,7 @@ export function fetchUserData(callback: Function) {
         fetchLocationData(json => {
             const userData: Object = {
                 id: guid(window),
+                hasStarted: false,
                 currentSound: {
                     id: 0,
                     position: null
@@ -85,9 +89,17 @@ export function locationVisited(id: number) {
         return false
     }
 
-    if (userData.hasOwnProperty('locations') && userData.locations.hasOwnProperty(`location_${id}`)) {
+    if (userData.hasOwnProperty('locations')
+        && userData.locations.hasOwnProperty(`location_${id}`)
+        && !userData.locations[`location_${id}`].visited) {
+        // Only update cache and send statistics if the location hasnt been visited 
         userData.locations[`location_${id}`].visited = true
         cache('userData', userData)
+        sendStatistic(
+            userData.id,
+            id,
+            'visited'
+        )
     }
 }
 
@@ -98,8 +110,34 @@ export function locationUnlocked(id: number) {
         return false
     }
 
-    if (userData.hasOwnProperty('locations') && userData.locations.hasOwnProperty(`location_${id}`)) {
+    if (userData.hasOwnProperty('locations')
+        && userData.locations.hasOwnProperty(`location_${id}`)
+        && !userData.locations[`location_${id}`].unlocked) {
+        // Only update cache and send statistics if the location hasnt been unlocked
         userData.locations[`location_${id}`].unlocked = true
         cache('userData', userData)
+        sendStatistic(
+            userData.id,
+            id,
+            'unlocked'
+        )
+    }
+}
+
+export function userStartedTour() {
+    const userData: Object = cache('userData')
+
+    if (!userData.hasOwnProperty('id')) {
+        return false
+    }
+
+    if (userData.hasOwnProperty('hasStarted') && !userData.hasStarted) {
+        userData.hasStarted = true
+        cache('userData', userData)
+        sendStatistic(
+            userData.id,
+            0,
+            'started'
+        )
     }
 }

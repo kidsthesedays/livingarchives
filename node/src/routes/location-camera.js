@@ -42,9 +42,16 @@ function route(state: Object): Function {
         // NOTE: weak equality check due to strings
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
-        // TODO check if we didnt find a location?
         if (!location.hasOwnProperty('meta')) {
-            console.log('Location not found!')
+            return render(
+                <App state={state}>
+                    <Navigation
+                        backUrl='/locations'
+                        title='Unknown location' />
+                    <ErrorView msg='The location doesnt exist' />
+                </App>,
+                state.reactMountNode
+            )
         }
 
         const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited

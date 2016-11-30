@@ -14,6 +14,7 @@ import {
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationMap from '../components/location-map'
+import ErrorView from '../components/error-view'
 
 // Before
 function before(state: Object): Function {
@@ -42,7 +43,17 @@ function route(state: Object): Function {
         // NOTE: weak equality check due to strings
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
-        // TODO check if we didnt find a location?
+        if (!location.hasOwnProperty('meta')) {
+            return render(
+                <App state={state}>
+                    <Navigation
+                        backUrl='/locations'
+                        title='Unknown location' />
+                    <ErrorView msg='The location doesnt exist' />
+                </App>,
+                state.reactMountNode
+            )
+        }
 
         render(
             <App state={state}>
