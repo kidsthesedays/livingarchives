@@ -77,11 +77,11 @@ const Map: Function = withGoogleMap(({ navigateToLocation, locations, userPositi
 })
 
 const LocationsMap: Function = ({ state, userPosition }: Object): Object => {
-    const { locations, router } = state
+    const { locations } = state
 
     const navigateToLocation = id => () => {
         state.prevRoute = '/map'
-        router.navigate(`/locations/${id}/map`)
+        state.navigate(`/locations/${id}/map`)
     }
 
     const div = <div style={{ height: '100%' }} />

@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-const ErrorView = ({ msg }) => {
+const ErrorView = ({ msg }: Object) => {
     return (
         <p>{msg}</p>
     )

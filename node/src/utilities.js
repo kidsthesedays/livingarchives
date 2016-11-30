@@ -1,5 +1,6 @@
 // @flow
 
+import 'whatwg-fetch'
 import { Object3D } from 'three'
 import { Cesium } from '@argonjs/argon'
 import {
@@ -136,4 +137,24 @@ export function calculateDistance(p1: Object, p2: Object): number {
     const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
     const d: number = R * c
     return d
+}
+
+export function prepare(method: string, body: Object): Object {
+    return {
+        method,
+        headers: new Headers({ 'Content-type': 'application/json' }),
+        body: JSON.stringify(body)
+    }
+}
+
+export function sendStatistic(guid: number, location: number, type: string) {
+    const url: string = 'https://api.livingarchives.org/statistics'
+    const data: Object = { guid, type, location }
+    const payload: Object = prepare('POST', data)
+
+    // TODO what should we do with the response and error?
+    // TODO should a callback be invoked?
+    return fetch(url, payload)
+        .then(res => console.log(res))
+        .catch(e => console.log(e))
 }

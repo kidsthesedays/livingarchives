@@ -21,8 +21,6 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
         lng: location.meta.longitude
     }
 
-    // For custom icons add the attribute "icon=''" with a source url to a png
-
     const userMarkerOpts = {
         clickable: false,
         cursor: 'pointer',
@@ -39,8 +37,8 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
         zIndex: 2,
         icon: {
             url: '/static/gpsloc.png',
-            size: new google.maps.Size(34, 34),
-            scaledSize: new google.maps.Size(17, 17),
+            size: new google.maps.Size(42, 42),
+            scaledSize: new google.maps.Size(21, 21),
             origin: new google.maps.Point(0, 0),
             anchor: new google.maps.Point(8, 8)
         },
@@ -74,6 +72,7 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
                 }} />
             <Marker
                 position={center}
+                label={String(location.meta.id)}
                 key={location.meta.name} />
         </GoogleMap>
     )
