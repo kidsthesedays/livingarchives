@@ -9,7 +9,7 @@ import {
 } from './cache'
 
 // Format seconds to 0:00:00 format
-export function formatSeconds(seconds) {
+export function formatSeconds(seconds: number) {
     seconds = Number(seconds)
 
     const h = Math.floor(seconds / 3600) | 0

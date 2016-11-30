@@ -1,4 +1,6 @@
 // @flow
+declare var Audio
+
 import React, { Component } from 'react'
 import Slider from 'react-rangeslider'
 
@@ -9,6 +11,7 @@ import { setCurrentSound } from '../cache'
 class AudioPlayer extends Component {
     state: Object
     audio: Object
+    timerID: number
 
     constructor(props: Object, context: Object) { 
         super(props, context)
@@ -69,7 +72,7 @@ class AudioPlayer extends Component {
         })
     }
 
-    handleSongPlaying(elapsedTime) {
+    handleSongPlaying(elapsedTime: Number) {
         this.setState({
             elapsedTime: elapsedTime
         })
