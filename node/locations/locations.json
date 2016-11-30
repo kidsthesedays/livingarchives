@@ -36,14 +36,14 @@
             "id": 5,
             "position": 5,
             "name": "Old St Josephs Hospital",
-            "adress": "Uknown",
+            "adress": "Griffenfeldsgade",
             "latitude": 55.68678,
             "longitude": 12.55287
         },
         {
             "id": 6,
             "position": 6,
-            "name": "Final resting place? Hellig Kors Kirke",
+            "name": "Hellig Kors Kirke",
             "adress": "Kapelvej 38, 2200 København N",
             "latitude": 55.68766,
             "longitude": 12.55151
@@ -52,7 +52,7 @@
             "id": 7,
             "position": 7,
             "name": "Folkets park",
-            "adress": "Amiralsgatan 35",
+            "adress": "Amiralsgatan 35, 214 37 Malmö",
             "latitude": 55.594510,
             "longitude": 13.015824
         }

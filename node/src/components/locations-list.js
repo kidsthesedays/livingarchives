@@ -31,15 +31,15 @@ const Location: Function = ({ location, navigate, userData, userPosition, render
                 <p className='title'>{title}</p>
                 <p className='adress'>{location.meta.adress}</p>
                 <div className='bottom'>
-                    <Distance
-                        userPosition={userPosition}
-                        location={location}
-                        render={renderDistance} />
                     <div className='visited'>
                         {unlocked
                             ? <i className='ion-ios-checkmark'></i>
                             : ''}
                     </div>
+                    <Distance
+                        userPosition={userPosition}
+                        location={location}
+                        render={renderDistance} />
                 </div>
                 <div className='arrow'>
                     <i className='icon ion-ios-arrow-right'></i>

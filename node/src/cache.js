@@ -67,7 +67,8 @@ export function fetchUserData(callback: Function) {
                     a[`location_${n.id}`] = {
                         id: n.id,
                         unlocked: false,
-                        visited: false
+                        visited: false,
+                        listened: false
                     }
                     return a
                 }, {})
@@ -103,6 +104,35 @@ export function locationVisited(id: number) {
     }
 }
 
+export function setCurrentSound(id: number, position: number) {
+    const userData: Object = cache('userData')
+
+    if (!userData.hasOwnProperty('id')) {
+        return false
+    }
+
+    if (userData.hasOwnProperty('currentSound')
+        && userData.hasOwnProperty('locations')
+        && userData.hasOwnProperty(`location_${id}`)) {
+
+        // Update current sound
+        userData.currentSound.id = id
+        userData.currentSound.position = position
+
+        if (!userData.locations[`location_${id}`].listened) {
+            // Only update cache and send statistics if the location-sound hasnt been listened to
+            userData.locations[`location_${id}`].listened = true
+            sendStatistic(
+                userData.id,
+                id,
+                'listened'
+            )
+        }
+
+        cache('userData', userData)
+    }
+}
+
 export function locationUnlocked(id: number) {
     const userData: Object = cache('userData')
 
@@ -123,6 +153,8 @@ export function locationUnlocked(id: number) {
         )
     }
 }
+
+
 
 export function userStartedTour() {
     const userData: Object = cache('userData')
