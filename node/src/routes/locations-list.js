@@ -38,7 +38,9 @@ function route(state: Object): Function {
 
         const goToMap = () => state.navigate('/map')
         const mapIcon = () => (
-            <button type='button' className='switch-to-map' onClick={goToMap}>Map</button>
+            <button type='button' className='switch-to-map' onClick={goToMap}>
+                <i className='icon ion-ios-location'></i>
+            </button>
         )
 
         render(

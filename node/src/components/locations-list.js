@@ -35,7 +35,11 @@ const Location: Function = ({ location, navigate, userData, userPosition, render
                         userPosition={userPosition}
                         location={location}
                         render={renderDistance} />
-                    <div className='visited'>{unlocked ? 'check' : ''}</div>
+                    <div className='visited'>
+                        {unlocked
+                            ? <i className='ion-ios-checkmark'></i>
+                            : ''}
+                    </div>
                 </div>
                 <div className='arrow'>
                     <i className='icon ion-ios-arrow-right'></i>
