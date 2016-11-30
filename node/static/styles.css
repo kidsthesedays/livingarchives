@@ -747,7 +747,6 @@ body {
 
 /* Audio Player */ /*{{{*/
 .audio-player {
-  width: 225px;
   margin: 100px auto;
   background-color: #ddddda;
   border-bottom-right-radius: 4px;
@@ -757,15 +756,14 @@ body {
 
 /* Loader *//*{{{*/
 .spinner {
-  margin: 100px auto 0;
   width: 70px;
   text-align: center;
 }
 
 .spinner > div {
-  width: 18px;
-  height: 18px;
-  background-color: #333;
+  width: 12px;
+  height: 12px;
+  background-color: white;
 
   border-radius: 100%;
   display: inline-block;

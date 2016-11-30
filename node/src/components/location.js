@@ -2,12 +2,16 @@
 
 import React from 'react'
 
+import AudioPlayer from './audio-player'
+
 const Location: Function = ({ state, location }: Object): Object => {
 
     const navigateToList = () => state.navigate('/locations')
 
     return (
         <div className='location'>
+
+            <AudioPlayer src='example.mp3' title='Title' />
 
             <div dangerouslySetInnerHTML={{ __html: location.content }} />
 
