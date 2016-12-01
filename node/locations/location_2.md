@@ -1,5 +1,3 @@
-# The Exhibition Space: Tivoli Gardens
-
 Several reasons come to mind when trying to figure out what’s made Papyrus such a widely used (or at the very least recognizable) typeface. A good jumping off point is Michael Beirut’s piece for the Design Observer. In it, Beirut outlines the three things “most people” tend to gravitate towards when judging the quality of a logo design, in other words the three key ingredients to making low-hanging fruit designs of **questionable** value. According to him, people prefer logos and graphics that look like they took effort to create, they prefer things that are literal rather than metaphorical and they prefer things they are “used to.” It would appear that to Beirut, Papyrus could be the prototypal low hanging fruit of branding since it has all the ingredients to become popular with the masses.
 
 ## A Spiritual Brand:

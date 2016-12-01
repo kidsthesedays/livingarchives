@@ -43,11 +43,20 @@ function route(state: Object): Function {
         // NOTE: weak equality check due to strings
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
+        const goHome = () => state.navigate('/locations')
+        const goHomeIcon = () => (
+            <button type='button' className='go-home' onClick={goHome}>
+                <i className='icon ion-ios-home'></i>
+            </button>
+        )
+
+
         // TODO check if we didnt find a location?
         if (!location.hasOwnProperty('meta')) {
             return render(
                 <App state={state}>
                     <Navigation
+                        renderRight={goHomeIcon}
                         backUrl='/locations'
                         title='Unknown location' />
                     <ErrorView msg='The location doesnt exist' />
@@ -63,6 +72,7 @@ function route(state: Object): Function {
             return render(
                 <App state={state}>
                     <Navigation
+                        renderRight={goHomeIcon}
                         title={`Location ${id}`}
                         backUrl={`/locations/${id}/camera`} />
                     <ErrorView msg='You need to visit and unlock the location!' />
@@ -74,6 +84,7 @@ function route(state: Object): Function {
         render(
             <App state={state}>
                 <Navigation
+                    renderRight={goHomeIcon}
                     title={`Location ${id}`}
                     backUrl={`/locations/${id}/camera`} />
                 <Location

@@ -92,12 +92,29 @@ class LocationMap extends Component {
 
         const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
 
+        // const activeButton = (
+        //     <button 
+        //         className='location-map-button'
+        //         onClick={handleClick}
+        //         type='button'>
+        //         Go to AR mode
+        //     </button>
+        // )
+
+        // const disabledButton = (
+        //     <button 
+        //         className='location-map-button disabled'
+        //         type='button'>
+        //         Go to AR mode
+        //     </button>
+        // )
+
         const activeButton = (
             <button 
                 className='location-map-button'
                 onClick={handleClick}
                 type='button'>
-                Go to AR mode
+                <i className='icon ion-ios-checkmark-empty'></i>
             </button>
         )
 
@@ -105,10 +122,9 @@ class LocationMap extends Component {
             <button 
                 className='location-map-button disabled'
                 type='button'>
-                Go to AR mode
+                <i className='icon ion-ios-close-empty'></i>
             </button>
         )
-
 
         if (userPosition === null) {
             return (

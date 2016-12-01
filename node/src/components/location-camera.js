@@ -24,12 +24,29 @@ class LocationCamera extends Component {
         // TODO fix later
         const hasUnlockedLocation: bool = true
 
+        // const activeButton = (
+        //     <button 
+        //         className='location-camera-button'
+        //         onClick={handleClick}
+        //         type='button'>
+        //         Unlock the story
+        //     </button>
+        // )
+
+        // const disabledButton = (
+        //     <button 
+        //         className='location-camera-button disabled'
+        //         type='button'>
+        //         Find the circle
+        //     </button>
+        // )
+
         const activeButton = (
             <button 
                 className='location-camera-button'
                 onClick={handleClick}
                 type='button'>
-                Unlock the story
+                <i className='icon ion-ios-unlocked'></i>
             </button>
         )
 
@@ -37,7 +54,7 @@ class LocationCamera extends Component {
             <button 
                 className='location-camera-button disabled'
                 type='button'>
-                Find the circle
+                <i className='icon ion-ios-locked'></i>
             </button>
         )
 

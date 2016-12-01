@@ -26,7 +26,7 @@ const Navigation: Function = (props: Object): Object => {
 
     let left: Object = <div></div>
     let right: Object = <div></div>
-    let center: Object = <p>{title || ''}</p>
+    let center: Object = <h2>{title || ''}</h2>
 
     if (renderLeft) {
         left = renderLeft()

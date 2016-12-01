@@ -11,9 +11,13 @@ const Location: Function = ({ state, location }: Object): Object => {
     return (
         <div className='location'>
 
-            <AudioPlayer src='example.mp3' title='Title' locationID={location.meta.id}/>
+            <h1 className='location-name'>{location.meta.name}</h1>
 
-            <div dangerouslySetInnerHTML={{ __html: location.content }} />
+            <AudioPlayer src='example.mp3' title='Voice recording: Victor' locationID={location.meta.id}/>
+
+            <div
+                className='location-content'
+                dangerouslySetInnerHTML={{ __html: location.content }} />
 
             <button 
                 className='location-navigate-to-list'

@@ -42,10 +42,18 @@ function route(state: Object): Function {
         // NOTE: weak equality check due to strings
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
+        const goHome = () => state.navigate('/locations')
+        const goHomeIcon = () => (
+            <button type='button' className='go-home' onClick={goHome}>
+                <i className='icon ion-ios-home'></i>
+            </button>
+        )
+
         if (!location.hasOwnProperty('meta')) {
             return render(
                 <App state={state}>
                     <Navigation
+                        renderRight={goHomeIcon}
                         backUrl='/locations'
                         title='Unknown location' />
                     <ErrorView msg='The location doesnt exist' />

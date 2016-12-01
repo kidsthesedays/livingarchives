@@ -39,7 +39,7 @@ function route(state: Object): Function {
         const goToList = () => state.navigate('/locations')
         const listIcon = () => (
             <button type='button' className='switch-to-list' onClick={goToList}>
-                <i className='icon ion-ios-list-outline'></i>
+                <i className='icon ion-ios-list'></i>
             </button>
         )
 

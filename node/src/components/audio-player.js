@@ -115,25 +115,21 @@ class AudioPlayer extends Component {
 
         return (
             <div className='audio-player'>
-            <p>{title}</p>
+                <h5 className='title'>{title}</h5>
+
                 <div className='audio-player-controls'>
-                    {/* pause play */}
                     <button onClick={this.handlePlayPauseClick.bind(this)} className='play-pause'>
                         <i className={isPlaying ? 'icon ion-ios-pause' : 'icon ion-ios-play'}></i>
                     </button>
 
-                    {/* current time and total */}
-                    <p>{currentTime} / {total}</p>
-
+                    <p className='elapsed-time'>{currentTime} / {total}</p>
 
                     <Slider 
                         value={elapsedTime}
                         max={audio.duration}
                         orientation="horizontal"
-                        onChange={this.handleSongPlaying.bind(this)}
-                    />
+                        onChange={this.handleSongPlaying.bind(this)} />
 
-                    {/* mute button */}
                     <button onClick={this.handleMuteUnmuteClick.bind(this)} className='mute-unmute'>
                         <i className={isMuted ? 'icon ion-ios-volume-low' : 'icon ion-ios-volume-high' }></i>
                     </button>
