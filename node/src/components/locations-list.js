@@ -13,7 +13,7 @@ const Location: Function = ({ location, navigate, userData, userPosition, render
         backgroundImage: `url(/static/location_${location.meta.id}.png)`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundSize: '100%'
+        backgroundSize: 'cover'
     }
 
     const locationCache = userData.locations[`location_${location.meta.id}`]
@@ -29,7 +29,7 @@ const Location: Function = ({ location, navigate, userData, userPosition, render
             <div className='locations-list-item'>
 
                 <p className='title'>{title}</p>
-                <p className='adress'>{location.meta.adress}</p>
+                <p className='address'>{location.meta.address}</p>
                 <div className='bottom'>
                     <div className='visited'>
                         {unlocked
