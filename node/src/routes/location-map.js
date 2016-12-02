@@ -69,7 +69,8 @@ function route(state: Object): Function {
                     backUrl={state.prevRoute || '/locations'}
                     distance={true}
                     location={location}
-                    title='Location map' />
+                    info={true}
+                    title={`Location ${location.meta.position}`} />
                 <LocationMap
                     location={location} />
             </App>,

@@ -6,7 +6,10 @@ import AudioPlayer from './audio-player'
 
 const Location: Function = ({ state, location }: Object): Object => {
 
-    const navigateToList = () => state.navigate('/locations')
+    const navigateToList = () => {
+        state.prevRoute = `/locations/${location.meta.id}`
+        state.navigate('/locations')
+    }
 
     return (
         <div className='location'>

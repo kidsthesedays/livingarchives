@@ -10,21 +10,12 @@ import {
 
 // Format seconds to 0:00:00 format
 export function formatSeconds(seconds: number) {
-    seconds = Number(seconds)
-
+    // Bitwise conversion
     const h = Math.floor(seconds / 3600) | 0
     const m = Math.floor(seconds / 60) | 0
     const s = Math.floor(seconds % 60) | 0
 
-    var hms = ''
-
-    if (h > 0) {
-        hms += '' + h + ':' + (m < 10 ? '0' : '')
-    }
-
-    hms += '' + m + ':' + (s < 10 ? '0' : '')
-    hms += '' + s
-    return hms
+    return `${h > 0 ? h + ':' : ''}${m < 10 ? '0' + m : m}:${s < 10 ? '0' + s : s}`
 }
 
 // Format floating points
@@ -176,4 +167,22 @@ export function sendStatistic(guid: number, location: number, type: string) {
     return fetch(url, payload)
         .then(res => console.log(res))
         .catch(e => console.log(e))
+}
+
+export function checkUserDataProp(prop: string, state: Object, id: number): bool {
+    if (!state.hasOwnProperty('userData')
+        || !state.userData.locations.hasOwnProperty(`location_${id}`)
+        || !state.userData.locations[`location_${id}`][prop]) {
+        return false
+    }
+    
+    return true
+}
+
+export function userHasVisitedLocation(state: Object, id: number): bool {
+    return checkUserDataProp('visited', state, id)
+}
+
+export function userHasUnlockedLocation(state: Object, id: number): bool {
+    return checkUserDataProp('unlocked', state, id)
 }

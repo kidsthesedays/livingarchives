@@ -14,6 +14,7 @@ const Navigation: Function = (props: Object): Object => {
         distance,
         location,
         backUrl,
+        info,
         userPosition
     } = props
 
@@ -40,15 +41,26 @@ const Navigation: Function = (props: Object): Object => {
 
     if (renderRight) {
         right = renderRight() 
-    } else if (distance) {
+    } else if (distance && !info) {
         right = (
             <Distance
                 userPosition={userPosition}
                 location={location}
                 render={renderDistance} />
         )
+    } else if (distance && info) {
+        right = (
+            <div className='info-and-distance'>
+                <Distance
+                    userPosition={userPosition}
+                    location={location}
+                    render={renderDistance} />
+                <div className='info'>
+                    <i className='icon ion-ios-information'></i>
+                </div>
+            </div>
+        )
     }
-
 
     return (
         <div className='navigation'>

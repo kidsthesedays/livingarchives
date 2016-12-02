@@ -2,18 +2,18 @@
 declare var google: Object
 
 import React, { Component } from 'react'
-
 import { mapStyles } from './map-style'
-
 import {
     withGoogleMap,
     GoogleMap,
     Circle,
     Marker
 } from 'react-google-maps'
-
-import { calculateDistance } from '../utilities'
 import { locationVisited } from '../cache'
+import {
+    calculateDistance,
+    userHasVisitedLocation
+} from '../utilities'
 
 const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
     const center: Object = {
@@ -81,35 +81,22 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
 
 class LocationMap extends Component {
     render() {
-        const { state, location, userPosition } = this.props
+        const {
+            state,
+            location,
+            userPosition
+        } = this.props
 
-        const handleClick = () => {
+        const handleClick: Function = () => {
             locationVisited(location.meta.id)
             state.navigate(`/locations/${location.meta.id}/camera`)
         }
 
-        const div = <div style={{ height: '100%' }} />
+        const div: Object = <div style={{ height: '100%' }} />
 
-        const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
+        const visited: bool = userHasVisitedLocation(state, location.meta.id)
 
-        // const activeButton = (
-        //     <button 
-        //         className='location-map-button'
-        //         onClick={handleClick}
-        //         type='button'>
-        //         Go to AR mode
-        //     </button>
-        // )
-
-        // const disabledButton = (
-        //     <button 
-        //         className='location-map-button disabled'
-        //         type='button'>
-        //         Go to AR mode
-        //     </button>
-        // )
-
-        const activeButton = (
+        const activeButton: Object = (
             <button 
                 className='location-map-button'
                 onClick={handleClick}
@@ -118,7 +105,7 @@ class LocationMap extends Component {
             </button>
         )
 
-        const disabledButton = (
+        const disabledButton: Object = (
             <button 
                 className='location-map-button disabled'
                 type='button'>
@@ -139,15 +126,17 @@ class LocationMap extends Component {
             )
         }
 
-        const distance = calculateDistance(
+        const locationPosition: Object = {
+            lat: location.meta.latitude,
+            lng: location.meta.longitude
+        }
+
+        const distance: number = calculateDistance(
             userPosition,
-            {
-                lat: location.meta.latitude,
-                lng: location.meta.longitude
-            }
+            locationPosition
         )
 
-        // TODO fix distance
+        // TODO fix distance-limit
         return (
             <div className='location-map'>
                 <Map
@@ -156,9 +145,9 @@ class LocationMap extends Component {
                     containerElement={div}
                     mapElement={div} />
 
-                {hasVisitedLocation
+                {visited
                     ? activeButton
-                    : distance < 100000 ? activeButton : disabledButton }
+                    : distance < 1000000000 ? activeButton : disabledButton }
             </div>
         )
     }

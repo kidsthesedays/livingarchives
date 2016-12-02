@@ -1,13 +1,17 @@
 // @flow
 
 import React from 'react'
-
 import Distance from './distance'
+
+import {
+    userHasVisitedLocation,
+    userHasUnlockedLocation
+} from '../utilities'
 
 const sortByPosition: Function = (a, b): number => a.meta.position - b.meta.position
 const renderDistance: Object = d => <p className='distance'>{d}</p>
 
-const Location: Function = ({ location, navigate, userData, userPosition, renderDistance }: Object): Object => {
+const Location: Function = ({ location, navigate, state, userPosition, renderDistance }: Object): Object => {
 
     const backgroundStyle = {
         backgroundImage: `url(/static/location_${location.meta.id}.png)`,
@@ -16,10 +20,10 @@ const Location: Function = ({ location, navigate, userData, userPosition, render
         backgroundSize: 'cover'
     }
 
-    const locationCache = userData.locations[`location_${location.meta.id}`]
-    const unlocked = locationCache.visited && locationCache.unlocked
+    const visited = userHasVisitedLocation(state, location.meta.id)
+    const unlocked = userHasUnlockedLocation(state, location.meta.id)
 
-    const title = unlocked ? location.meta.name : `Location ${location.meta.position}`
+    const title = visited && unlocked ? location.meta.name : `Location ${location.meta.position}`
 
     return (
         <div
@@ -58,7 +62,7 @@ const LocationsList: Function = ({ state, userPosition }: Object): Object => {
             key={i}
             location={location}
             navigate={navigate}
-            userData={state.userData}
+            state={state}
             userPosition={userPosition}
             renderDistance={renderDistance} />
     ))

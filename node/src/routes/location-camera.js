@@ -13,7 +13,8 @@ import ErrorView from '../components/error-view'
 
 import {
     setupLocationData,
-    setupUserData
+    setupUserData,
+    userHasVisitedLocation
 } from '../utilities'
 
 // Before
@@ -62,9 +63,9 @@ function route(state: Object): Function {
             )
         }
 
-        const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
+        const visited: bool = userHasVisitedLocation(state, location.meta.id)
 
-        if (!hasVisitedLocation) {
+        if (!visited) {
             return render(
                 <App state={state}>
                     <Navigation
@@ -84,6 +85,7 @@ function route(state: Object): Function {
                     backUrl={`/locations/${id}/map`}
                     distance={true}
                     location={location}
+                    info={true}
                     title={`Location ${location.meta.position}`} />
                 <LocationCamera
                     location={location} />

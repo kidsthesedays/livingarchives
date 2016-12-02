@@ -13,7 +13,9 @@ import ErrorView from '../components/error-view'
 
 import {
     setupLocationData,
-    setupUserData
+    setupUserData,
+    userHasVisitedLocation,
+    userHasUnlockedLocation
 } from '../utilities'
 
 // Before
@@ -65,10 +67,10 @@ function route(state: Object): Function {
             )
         }
 
-        const hasVisitedLocation = state.userData.locations[`location_${location.meta.id}`].visited
-        const hasUnlockedLocation = state.userData.locations[`location_${location.meta.id}`].unlocked
+        const visited = userHasVisitedLocation(state, location.meta.id)
+        const unlocked = userHasUnlockedLocation(state, location.meta.id)
 
-        if (!hasVisitedLocation || !hasUnlockedLocation) {
+        if (!visited || !unlocked) {
             return render(
                 <App state={state}>
                     <Navigation
