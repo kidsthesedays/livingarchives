@@ -14,6 +14,7 @@ import {
     calculateDistance,
     userHasVisitedLocation
 } from '../utilities'
+import Distance from '../components/distance'
 
 const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
     const center: Object = {
@@ -136,6 +137,8 @@ class LocationMap extends Component {
             locationPosition
         )
 
+        const renderDistance = d => <div className='distance'>{d}</div>
+
         // TODO fix distance-limit
         return (
             <div className='location-map'>
@@ -144,6 +147,13 @@ class LocationMap extends Component {
                     userPosition={userPosition}
                     containerElement={div}
                     mapElement={div} />
+
+                <div className='distance-container'>
+                    <Distance
+                        userPosition={userPosition}
+                        location={location}
+                        render={renderDistance} />
+                </div>
 
                 {visited
                     ? activeButton

@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 
 import { locationUnlocked } from '../cache'
+import Distance from '../components/distance'
 
 // TODO should only be able to unlock if the user has "scanned" the object
 
@@ -13,7 +14,11 @@ class LocationCamera extends Component {
 
 
     render() {
-        const { state, location } = this.props
+        const {
+            state,
+            userPosition,
+            location
+        } = this.props
 
         const handleClick = () => {
             locationUnlocked(location.meta.id)
@@ -58,8 +63,16 @@ class LocationCamera extends Component {
             </button>
         )
 
+        const renderDistance = d => <div className='distance'>{d}</div>
+
         return (
             <div className='location-camera'>
+                <div className='distance-container'>
+                    <Distance
+                        userPosition={userPosition}
+                        location={location}
+                        render={renderDistance} />
+                </div>
                 {hasUnlockedLocation ? activeButton : disabledButton}
             </div>
         )

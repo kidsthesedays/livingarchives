@@ -79,12 +79,20 @@ function route(state: Object): Function {
             )
         }
 
+        const info = () => (
+            <div>
+                <h2>Info</h2>
+                <p>Här får vi fylla på med lite vettig info osv sen.</p>
+            </div>
+        )
+
         render(
             <App state={state}>
                 <Navigation
                     backUrl={`/locations/${id}/map`}
                     distance={true}
                     location={location}
+                    renderInfo={info}
                     info={true}
                     title={`Location ${location.meta.position}`} />
                 <LocationCamera

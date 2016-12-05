@@ -63,6 +63,13 @@ function route(state: Object): Function {
             )
         }
 
+        const info = () => (
+            <div>
+                <h2>Info</h2>
+                <p>Här får vi fylla på med lite vettig info osv sen.</p>
+            </div>
+        )
+
         render(
             <App state={state}>
                 <Navigation
@@ -70,6 +77,7 @@ function route(state: Object): Function {
                     distance={true}
                     location={location}
                     info={true}
+                    renderInfo={info}
                     title={`Location ${location.meta.position}`} />
                 <LocationMap
                     location={location} />
