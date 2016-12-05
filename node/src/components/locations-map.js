@@ -50,7 +50,7 @@ const Map: Function = withGoogleMap(({ navigateToLocation, locations, userPositi
         title: 'Current location',
         zIndex: 2,
         icon: {
-            url: '/static/gpsloc.png',
+            url: '/static/images/gpsloc.png',
             size: new google.maps.Size(34, 34),
             scaledSize: new google.maps.Size(17, 17),
             origin: new google.maps.Point(0, 0),

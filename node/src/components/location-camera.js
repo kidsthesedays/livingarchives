@@ -25,26 +25,10 @@ class LocationCamera extends Component {
             state.navigate(`/locations/${location.meta.id}/story`)
         }
 
-        // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
         // TODO fix later
+        // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
         const hasUnlockedLocation: bool = true
 
-        // const activeButton = (
-        //     <button 
-        //         className='location-camera-button'
-        //         onClick={handleClick}
-        //         type='button'>
-        //         Unlock the story
-        //     </button>
-        // )
-
-        // const disabledButton = (
-        //     <button 
-        //         className='location-camera-button disabled'
-        //         type='button'>
-        //         Find the circle
-        //     </button>
-        // )
 
         const activeButton = (
             <button 

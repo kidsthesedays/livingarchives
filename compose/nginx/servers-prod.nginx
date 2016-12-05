@@ -42,7 +42,6 @@ server {
         log_not_found off;
     }
 
-    # TODO test this
     location /static {
         alias /opt/node/static;
     }

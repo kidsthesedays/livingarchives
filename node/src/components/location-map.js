@@ -37,7 +37,7 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
         title: 'Current location',
         zIndex: 2,
         icon: {
-            url: '/static/gpsloc.png',
+            url: '/static/images/gpsloc.png',
             size: new google.maps.Size(42, 42),
             scaledSize: new google.maps.Size(21, 21),
             origin: new google.maps.Point(0, 0),
@@ -121,6 +121,13 @@ class LocationMap extends Component {
                         location={location}
                         containerElement={div}
                         mapElement={div} />
+
+                    <div className='distance-container'>
+                        <Distance
+                            userPosition={userPosition}
+                            location={location}
+                            render={renderDistance} />
+                    </div>
 
                     {disabledButton}
                 </div>

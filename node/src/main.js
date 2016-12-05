@@ -18,7 +18,7 @@ import {
 
 function main() {
     // Used by the Navigo router library
-    const BASE_URL: string = 'http://alberta.livingarchives.dev'
+    const BASE_URL: string = 'http://alberta.livingarchives.org'
     // Application Router
     const Router: Object = new Navigo(BASE_URL)
 

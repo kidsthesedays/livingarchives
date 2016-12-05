@@ -6,7 +6,7 @@ volumes:
 
 services:
     postgres:
-        container_name: living-archives-postgres
+        container_name: livingarchives-postgres
         build: ./compose/postgres
         volumes:
             - "pgdata:/var/lib/postgresql/data"
@@ -14,7 +14,7 @@ services:
         env_file: .env-node
 
     node:
-        container_name: living-archives-node
+        container_name: livingarchives-node
         build:
             context: .
             dockerfile: ./compose/node/Dockerfile
@@ -25,7 +25,7 @@ services:
             - ./node:/opt/node:rw
 
     nginx:
-        container_name: living-archives-nginx
+        container_name: livingarchives-nginx
         build:
             context: .
             dockerfile: ./compose/nginx/Dockerfile

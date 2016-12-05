@@ -4,6 +4,7 @@ set -e
 echo "Requesting certificate via letsencrypt (certbot)..."
 # Create a letsencrypt certificate
 certbot-auto certonly \
+    --non-interactive \
     --email sebastianbengtegard@gmail.com \
     --agree-tos \
     --webroot \

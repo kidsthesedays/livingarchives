@@ -17,7 +17,10 @@ const Location: Function = ({ state, location }: Object): Object => {
             <h1 className='location-name'>{location.meta.name}</h1>
             <p className='location-address'>{location.meta.address}</p>
 
-            <AudioPlayer src='example.mp3' title='Voice recording: Victor' locationID={location.meta.id}/>
+            <AudioPlayer
+                src={location.meta.audio.src} 
+                title={location.meta.audio.title} 
+                locationID={location.meta.id} />
 
             <div
                 className='location-content'

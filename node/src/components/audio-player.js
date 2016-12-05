@@ -14,7 +14,7 @@ class AudioPlayer extends Component {
     constructor(props: Object, context: Object) { 
         super(props, context)
         
-        this.audio = new Audio(`/static/${this.props.src}`)
+        this.audio = new Audio(`/static/audio/${this.props.src}`)
 
         this.state = {
             isPlaying: false,
