@@ -83,14 +83,17 @@ export function humanReadableDistance(d: number): string {
 // Fetch and setup location data for the cache from the API
 export function setupLocationData(state: Object, cb: ?Function) {
     fetchLocationData(json => {
-        state.locations = json.locations.map(location => {
-            //  filter out content based on location id
-            const content: string = json.content
-                .filter(c => c.id === location.id)
-                .reduce((_, c) => c.html, '')
+        // Only create locations if none exist
+        if (!state.locations.length) {
+            state.locations = json.locations.map(location => {
+                //  filter out content based on location id
+                const content: string = json.content
+                    .filter(c => c.id === location.id)
+                    .reduce((_, c) => c.html, '')
 
-            return setupLocation(location, content, state)
-        })
+                return setupLocation(location, content, state)
+            })
+        }
 
         cb && cb(json)
     })

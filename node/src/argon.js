@@ -34,13 +34,14 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     })
 
     let label: Object = document.createElement('div')
-    let p: Object = document.createElement('p')
     label.className = 'indicator-container'
     label.style.background = '#444444'
     label.style.padding = '15px'
     label.style.width = '100px'
     label.style.height = '100px'
     label.style.opacity = '0.7'
+
+    let p: Object = document.createElement('p')
     p.className = 'indicator'
     p.textContent = meta.position
     label.appendChild(p)
@@ -55,6 +56,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // We need to add a location object to the geo object
     // to be able to calculate the distance between two objects
     geoObject.add(locationObject)
+    console.log(meta.id)
 
     return {
         initialized: false,
@@ -66,82 +68,6 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
         labelObject
     }
 }
-
-/*
-        if (hasLabel) {
-            this.labelElement = this.createLabel(name)
-            this.parentElement.appendChild(this.labelElement)
-            this.labelObject = new CSS3DSprite(this.labelElement)
-            this.labelObject.scale.set(0.02, 0.02, 0.02)
-            this.labelObject.position.set(0, 1.25, 0)
-            this.geoObject.add(this.labelObject)
-        }
-
-        this.geoObject.add(this.pointObject)
-
-    createLabel(text) {
-        let div = document.createElement('div')
-        let p = document.createElement('p')
-
-        p.className = 'point-text'
-        p.textContent = text
-
-        div.className = 'point-container'
-        div.appendChild(p)
-
-        return div
-    }
-
-    renderEventFunc() {
-        const viewport = this.app.view.getViewport()
-        let subviews = this.app.view.getSubviews()
-
-        const monoMode = subviews.length === 1
-
-        this.renderer.setSize(viewport.width, viewport.height)
-        this.cssRenderer.setSize(viewport.width, viewport.height)
-        this.hud.setSize(viewport.width, viewport.height)
-
-        for (let subview of subviews) {
-            let frustum = subview.frustum
-
-            this.camera.position.copy(subview.pose.position)
-            this.camera.quaternion.copy(subview.pose.orientation)
-
-            // log(toFixed(this.camera.getWorldDirection(this.direction).y, 4))
-            // log(toFixed(this.camera.getWorldDirection(this.direction).y, 4) < -0.75 ? 'tittar ner' : 'tittar upp')
-
-            this.camera.projectionMatrix.fromArray(subview.projectionMatrix)
-
-            let { x, y, width, height } = subview.viewport
-
-            this.camera.fov = THREE.Math.radToDeg(frustum.fovy)
-
-            this.cssRenderer.setViewport(x, y, width, height, subview.index)
-            this.cssRenderer.render(this.scene, this.camera, subview.index)
-
-            this.renderer.setViewport(x, y, width, height)
-            this.renderer.setScissor(x, y, width, height)
-            this.renderer.setScissorTest(true)
-            this.renderer.render(this.scene, this.camera)
-
-            // if monoMode...
-
-            this.hud.setViewport(x, y, width, height, subview.index)
-            this.hud.render(subview.index)
-        }
-    }
-
-    app.renderEvent.addEventListener(() => {
-        // only schedule a new callback if the old one has completed
-        if (!rAFpending) {
-            rAFpending = true;
-            viewport = app.view.getViewport();
-            subViews = app.view.getSubviews();
-            window.requestAnimationFrame(renderFunc);
-        }
-    });
-*/
 
 // Calculate distance between two 3D objects (THREE)
 export function getDistanceFromUser(user: Object, location: Object): number {
