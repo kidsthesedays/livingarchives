@@ -21,6 +21,7 @@ import {
 function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
+        state.argonMountNode.style.display = 'block'
         state.documentRootNode.style.background = 'transparent'
         // Setup location data then the user data
         setupLocationData(state, () => setupUserData(state, done))

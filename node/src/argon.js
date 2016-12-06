@@ -40,7 +40,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     label.style.width = '100px'
     label.style.height = '100px'
     label.style.opacity = '0.7'
-    label.style.borderRadius = '40px'
+    label.style.borderRadius = '100px'
 
     let p: Object = document.createElement('p')
     p.className = 'indicator'
