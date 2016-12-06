@@ -126,7 +126,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             }
 
             // Send distance to callback
-            // cb && cb(getDistanceFromUser(userLocation, location))
+            cb && cb(false, getDistanceFromUser(userLocation, location))
         })
     }
 }
