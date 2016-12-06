@@ -16,10 +16,7 @@ class LocationCamera extends Component {
     constructor(props: Object) {
         super(props)
 
-        const {
-            state,
-            location
-        } = this.props
+        const { state, location } = this.props
 
         this.updateFunc = throttle(
             updateUserAndLocationPosition(
