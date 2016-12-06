@@ -18,13 +18,10 @@ class LocationCamera extends Component {
 
         const { state, location } = this.props
 
-        this.updateFunc = throttle(
-            updateUserAndLocationPosition(
+        this.updateFunc = updateUserAndLocationPosition(
                 state,
                 location.meta.id,
-                n => console.log(n)
-            ),
-            1000
+                throttle(n => console.log(n), 1000)
         )
 
         this.renderFunc = renderArgon(state)

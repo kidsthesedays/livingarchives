@@ -56,7 +56,6 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // We need to add a location object to the geo object
     // to be able to calculate the distance between two objects
     geoObject.add(locationObject)
-    console.log(meta.id)
 
     return {
         initialized: false,
@@ -101,6 +100,14 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         locations.filter(l => l.meta.id == id).forEach(location => {
             // Initialize location for Argon as a reference frame
             if (!location.initialized) {
+
+                const defaultFrame = app.context.getDefaultReferenceFrame()
+                let lPos = userPose.position.clone()
+                lPos.x += 10
+
+                location.geoEntity.position.setValue(lPos, defaultFrame)
+                location.geoEntity.orientation.setValue(Argon.Cesium.Quaternion.IDENTITY)
+
                 if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                     location.initialized = true
                     scene.add(location.geoObject) 
