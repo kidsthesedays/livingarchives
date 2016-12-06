@@ -20,7 +20,7 @@ export function setupArgon(state: Object) {
 }
 
 // Setup a new location
-export function setupLocation(meta: Object, content: string): Object {
+export function setupLocation(meta: Object, content: string, state: Object): Object {
     // THREE.js 3D objects and a Cesium entity - these represents the location/pose
     let locationObject: Object = new THREE.Object3D()
     let geoObject: Object = new THREE.Object3D()
@@ -33,14 +33,18 @@ export function setupLocation(meta: Object, content: string): Object {
         )
     })
 
-    let div: Object = document.createElement('div')
+    let label: Object = document.createElement('div')
     let p: Object = document.createElement('p')
-    div.className = 'indicator-container'
+    label.className = 'indicator-container'
+    label.style.background = '#444444'
+    label.style.padding = '15px'
     p.className = 'indicator'
     p.textContent = meta.position
-    div.appendChild(p)
+    label.appendChild(p)
 
-    let labelObject: Object = new CSS3DSprite(div)
+    state.locationIndicatorNode.appendChild(label)
+
+    let labelObject: Object = new CSS3DSprite(label)
     labelObject.scale.set(0.02, 0.02, 0.02)
     labelObject.position.set(0, 1.25, 0)
     geoObject.add(labelObject)
