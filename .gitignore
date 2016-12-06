@@ -2,7 +2,7 @@
 .env-node
 .env
 node/node_modules
-node/static/bundle.js
+node/static/js/bundle.js
 npm-debug.log
 certbot-auto
 certbot.log

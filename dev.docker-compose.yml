@@ -36,7 +36,8 @@ services:
         ports:
             - "80:80"
             - "443:443"
+            - "8001:8001" # skybox (testing)
+            - "8002:8002" # landing page (testing)
         volumes:
-            - /etc/letsencrypt/:/etc/letsencrypt
             - ./sites/skybox:/opt/sites/skybox:rw
             - ./sites/livingarchives:/opt/sites/livingarchives:rw
