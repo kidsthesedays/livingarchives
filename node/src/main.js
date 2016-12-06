@@ -39,7 +39,7 @@ function main() {
             logarithimDepthBuffer: true
         }),
         cssRenderer: new CSS3DArgonRenderer(),
-        hud: new CSS3DArgonHUD(),
+        hud: new CSS3DArgonHUD(), // TODO unused?
         locations: [],
         prevRoute: '',
         userPosition: {},
