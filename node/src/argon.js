@@ -16,7 +16,7 @@ export function setupArgon(state: Object) {
     // append renderers to our app view
     state.app.view.element.appendChild(state.renderer.domElement)
     state.app.view.element.appendChild(state.cssRenderer.domElement)
-    state.app.view.element.appendChild(state.hud.domElement)
+    // state.app.view.element.appendChild(state.hud.domElement)
 }
 
 // Setup a new location

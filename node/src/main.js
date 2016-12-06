@@ -6,7 +6,7 @@ import Navigo from 'navigo'
 import { routes } from './routes/index'
 
 import {
-    CSS3DArgonHUD,
+    // CSS3DArgonHUD,
     CSS3DArgonRenderer
 } from './CSS3DArgon'
 
@@ -36,10 +36,10 @@ function main() {
         userLocation: new THREE.Object3D(),
         renderer: new THREE.WebGLRenderer({
             alpha: true,
-            logarithimDepthBuffer: true
+            logarithmicDepthBuffer: true
         }),
         cssRenderer: new CSS3DArgonRenderer(),
-        hud: new CSS3DArgonHUD(), // TODO unused?
+        // hud: new CSS3DArgonHUD(), // TODO unused?
         locations: [],
         prevRoute: '',
         userPosition: {},
