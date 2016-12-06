@@ -1,16 +1,13 @@
 #!/bin/bash
 
 echo "Download certbot-auto into /usr/local/bin"
-curl https://dl.eff.org/certbot-auto > /usr/local/bin/certbot-auto
-
-echo "Make /usr/local/bin/certbot-auto executable..."
-chmod a+x /usr/local/bin/certbot-auto
+curl https://dl.eff.org/certbot-auto > certbot-auto
 
 echo "Requesting certificate via letsencrypt (certbot)..."
 
 # Create a letsencrypt certificate
 # NOTE: directories are based on the containers
-certbot-auto certonly \
+./certbot-auto certonly \
     --non-interactive \
     --email sebastianbengtegard@gmail.com \
     --agree-tos \
@@ -30,5 +27,8 @@ docker-compose restart
 
 echo "Switch to HTTPS-only nginx configuration..."
 docker-compose exec nginx switch-to-https-only
+
+echo "Cleanup..."
+rm ./certbot-auto
 
 echo "Done."
