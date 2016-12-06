@@ -21,7 +21,7 @@ class LocationCamera extends Component {
         this.updateFunc = updateUserAndLocationPosition(
                 state,
                 location.meta.id,
-                throttle(n => console.log(n), 1000)
+                throttle(n => console.log('latest', n), 1000)
         )
 
         this.renderFunc = renderArgon(state)
