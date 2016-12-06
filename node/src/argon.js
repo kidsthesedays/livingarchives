@@ -210,15 +210,15 @@ export function renderArgon(state: Object): Function {
             camera.quaternion.copy(subview.pose.orientation)
             camera.projectionMatrix.fromArray(subview.projectionMatrix)
 
-            const { x, y, w, h } = subview.viewport
+            const { x, y, width, height } = subview.viewport
 
             camera.fov = THREE.Math.radToDeg(subview.frustum.fovy)
 
-            cssRenderer.setViewport(x, y, w, h, subview.index)
+            cssRenderer.setViewport(x, y, width, height, subview.index)
             cssRenderer.render(scene, camera, subview.index)
 
-            renderer.setViewport(x, y, w, h)
-            renderer.setScissor(x, y, w, h)
+            renderer.setViewport(x, y, width, height)
+            renderer.setScissor(x, y, width, height)
             renderer.setScissorTest(true)
             renderer.render(scene, camera)
         }
