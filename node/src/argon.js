@@ -101,12 +101,12 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             // Initialize location for Argon as a reference frame
             if (!location.initialized) {
 
-                const defaultFrame = app.context.getDefaultReferenceFrame()
-                let lPos = userPose.position.clone()
-                lPos.x += 10
+                // const defaultFrame = app.context.getDefaultReferenceFrame()
+                // let lPos = userPose.position.clone()
+                // lPos.x += 10
 
-                location.geoEntity.position.setValue(lPos, defaultFrame)
-                location.geoEntity.orientation.setValue(Argon.Cesium.Quaternion.IDENTITY)
+                // location.geoEntity.position.setValue(lPos, defaultFrame)
+                // location.geoEntity.orientation.setValue(Argon.Cesium.Quaternion.IDENTITY)
 
                 if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                     location.initialized = true
@@ -116,8 +116,8 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             
             // Update geo position
             const locationPose: Object = app.context.getEntityPose(location.geoEntity)
-            location.geoObject.position.copy(locationPose)
-            location.geoObject.quaternion.copy(locationPose)
+            location.geoObject.position.copy(locationPose.position)
+            location.geoObject.quaternion.copy(locationPose.orientation)
 
             // Send distance to callback
             cb && cb(getDistanceFromUser(userLocation, location))
