@@ -9,16 +9,16 @@ services:
         container_name: livingarchives-postgres
         build: ./compose/postgres
         volumes:
-            - "pgdata:/var/lib/postgresql/data"
-            - "pgbackup:/backups"
-        env_file: .env-node
+            - pgdata:/var/lib/postgresql/data
+            - pgbackup:/backups
+        env_file: .env
 
     node:
         container_name: livingarchives-node
         build:
             context: .
             dockerfile: ./compose/node/Dockerfile
-        env_file: .env-node
+        env_file: .env
         depends_on:
             - postgres
         volumes:
@@ -36,8 +36,9 @@ services:
         ports:
             - "80:80"
             - "443:443"
-            - "8001:8001" # skybox
-            - "8002:8002" # root site
+            - "8001:8001" # skybox (testing)
+            - "8002:8002" # landing page (testing)
         volumes:
+            - /etc/letsencrypt/:/etc/letsencrypt
             - ./sites/skybox:/opt/sites/skybox:rw
             - ./sites/livingarchives:/opt/sites/livingarchives:rw

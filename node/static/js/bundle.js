@@ -85,6 +85,7 @@
 	        documentRootNode: document.documentElement,
 	        reactMountNode: document.getElementById('mount'),
 	        argonMountNode: document.getElementById('argon'),
+	        locationIndicatorNode: document.getElementById('indicators'),
 	        app: Argon.init(),
 	        scene: new THREE.Scene(),
 	        camera: new THREE.PerspectiveCamera(),
@@ -102,7 +103,7 @@
 	    };
 
 	    // Initialize basic argon setup
-	    state = (0, _argon2.setupArgon)(state);
+	    (0, _argon2.setupArgon)(state);
 	    // Fetch location + user data and store it in the cache
 	    (0, _utilities.setupLocationData)(state);
 	    (0, _utilities.setupUserData)(state);
@@ -85544,7 +85545,16 @@
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-	// TODO check for errors when parsing JSON
+	// Parse json more safely
+	function parseJSON(json) {
+	    try {
+	        return JSON.parse(json);
+	    } catch (e) {
+	        console.log('Unable to parse JSON', e.message);
+	        return {};
+	    }
+	}
+
 	// Store and fetch data from local storage
 	// Based on wether a value was passed or not
 	function cache(key, value) {
@@ -85552,7 +85562,7 @@
 
 	    if (typeof value === 'undefined') {
 	        if (data) {
-	            var json = JSON.parse(data);
+	            var json = parseJSON(data);
 	            return json.hasOwnProperty(key) ? json[key] : {};
 	        }
 
@@ -85560,7 +85570,7 @@
 	    }
 
 	    if (data) {
-	        var _json = JSON.parse(data);
+	        var _json = parseJSON(data);
 	        _json[key] = value;
 	        localStorage.setItem('lva-cache', JSON.stringify(_json));
 	    } else {
@@ -86166,7 +86176,6 @@
 	exports.toFixed = toFixed;
 	exports.generateHash = generateHash;
 	exports.guid = guid;
-	exports.setupLocation = setupLocation;
 	exports.throttle = throttle;
 	exports.humanReadableDistance = humanReadableDistance;
 	exports.setupLocationData = setupLocationData;
@@ -86181,9 +86190,7 @@
 
 	__webpack_require__(188);
 
-	var _three = __webpack_require__(5);
-
-	var _argon = __webpack_require__(1);
+	var _argon = __webpack_require__(521);
 
 	var _cache = __webpack_require__(187);
 
@@ -86198,6 +86205,8 @@
 	}
 
 	// Format floating points
+
+
 	function toFixed(value) {
 	    var precision = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
 
@@ -86228,31 +86237,6 @@
 	    var s = [nav.mimeTypes.length, nav.userAgent.replace(/D+/g, ''), nav.plugins.length, screen.height || '', screen.width || '', screen.pixelDepth || ''].join('');
 
 	    return generateHash(s);
-	}
-
-	// Setup a new location
-	function setupLocation(meta, content) {
-	    // THREE.js 3D objects and a Cesium entity - these represents the location/pose
-	    var locationObject = new _three.Object3D();
-	    var geoObject = new _three.Object3D();
-	    var geoEntity = new _argon.Cesium.Entity({
-	        name: meta.name,
-	        orientation: _argon.Cesium.Quaternion.IDENTITY,
-	        position: _argon.Cesium.Cartesian3.fromDegrees(meta.longitude, meta.latitude)
-	    });
-
-	    // We need to add a location object to the geo object
-	    // to be able to calculate the distance between two objects
-	    geoObject.add(locationObject);
-
-	    return {
-	        initialized: false,
-	        meta: meta,
-	        content: content,
-	        geoEntity: geoEntity,
-	        geoObject: geoObject,
-	        locationObject: locationObject
-	    };
 	}
 
 	// Limit amount of time between function calls to a function
@@ -86291,7 +86275,7 @@
 	                return c.html;
 	            }, '');
 
-	            return setupLocation(location, content);
+	            return (0, _argon.setupLocation)(location, content);
 	        });
 
 	        cb && cb(json);
@@ -98173,7 +98157,8 @@
 	        }, {});
 
 	        var goHome = function goHome() {
-	            return state.navigate('/locations');
+	            state.prevRoute = location.hasOwnProperty('meta') ? '/locations/' + location.meta.id + '/story' : '/locations';
+	            state.navigate('/locations');
 	        };
 	        var goHomeIcon = function goHomeIcon() {
 	            return _react2.default.createElement(
@@ -98259,7 +98244,7 @@
 
 
 	    var navigateToList = function navigateToList() {
-	        state.prevRoute = '/locations/' + location.meta.id;
+	        state.prevRoute = '/locations/' + location.meta.id + '/story';
 	        state.navigate('/locations');
 	    };
 
@@ -100059,12 +100044,15 @@
 	    value: true
 	});
 	exports.setupArgon = setupArgon;
+	exports.setupLocation = setupLocation;
 	exports.getDistanceFromUser = getDistanceFromUser;
 	exports.updateUserAndLocationPosition = updateUserAndLocationPosition;
 
 	var _argon = __webpack_require__(1);
 
 	var Argon = _interopRequireWildcard(_argon);
+
+	var _three = __webpack_require__(5);
 
 	var _utilities = __webpack_require__(189);
 
@@ -100083,8 +100071,33 @@
 	    state.app.view.element.appendChild(state.renderer.domElement);
 	    state.app.view.element.appendChild(state.cssRenderer.domElement);
 	    state.app.view.element.appendChild(state.hud.domElement);
+	}
 
-	    return state;
+	// Setup a new location
+
+
+	function setupLocation(meta, content) {
+	    // THREE.js 3D objects and a Cesium entity - these represents the location/pose
+	    var locationObject = new _three.Object3D();
+	    var geoObject = new _three.Object3D();
+	    var geoEntity = new Argon.Cesium.Entity({
+	        name: meta.name,
+	        orientation: Argon.Cesium.Quaternion.IDENTITY,
+	        position: Argon.Cesium.Cartesian3.fromDegrees(meta.longitude, meta.latitude)
+	    });
+
+	    // We need to add a location object to the geo object
+	    // to be able to calculate the distance between two objects
+	    geoObject.add(locationObject);
+
+	    return {
+	        initialized: false,
+	        meta: meta,
+	        content: content,
+	        geoEntity: geoEntity,
+	        geoObject: geoObject,
+	        locationObject: locationObject
+	    };
 	}
 
 	// Calculate distance between two 3D objects (THREE)
@@ -100114,8 +100127,8 @@
 	        userLocation.position.copy(userPose.position);
 
 	        // Update position for all locations
-	        locations.filter(function (loc) {
-	            return loc.meta.id == id;
+	        locations.filter(function (l) {
+	            return l.meta.id == id;
 	        }).forEach(function (location) {
 	            // Initialize location for Argon as a reference frame
 	            if (!location.initialized) {
@@ -100130,7 +100143,9 @@
 	            location.geoObject.position.copy(locationPose);
 	            location.geoObject.quaternion.copy(locationPose);
 
-	            cb(getDistanceFromUser(userLocation, location));
+	            // Send distance to callback
+	            // cb(getDistanceFromUser(userLocation, location))
+	            cb(1);
 	        });
 	    };
 	}

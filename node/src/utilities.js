@@ -1,8 +1,7 @@
 // @flow
 
 import 'whatwg-fetch'
-import { Object3D } from 'three'
-import { Cesium } from '@argonjs/argon'
+import { setupLocation } from './argon'
 import {
     fetchLocationData,
     fetchUserData
@@ -54,34 +53,6 @@ export function guid(window: Object): number {
     ].join('')
 
     return generateHash(s)
-}
-
-// Setup a new location
-export function setupLocation(meta: Object, content: string): Object {
-    // THREE.js 3D objects and a Cesium entity - these represents the location/pose
-    let locationObject: Object = new Object3D()
-    let geoObject: Object = new Object3D()
-    let geoEntity: Object = new Cesium.Entity({
-        name: meta.name,
-        orientation: Cesium.Quaternion.IDENTITY,
-        position: Cesium.Cartesian3.fromDegrees(
-            meta.longitude,
-            meta.latitude
-        )
-    })
-
-    // We need to add a location object to the geo object
-    // to be able to calculate the distance between two objects
-    geoObject.add(locationObject)
-
-    return {
-        initialized: false,
-        meta,
-        content,
-        geoEntity,
-        geoObject,
-        locationObject
-    }
 }
 
 // Limit amount of time between function calls to a function

@@ -554,6 +554,7 @@ body {
     background: none;
     cursor: pointer;
     line-height: 1.2;
+    padding-bottom: 0;
 }
 .navigation .switch-to-list {
     font-size: 24px;
@@ -563,6 +564,7 @@ body {
     cursor: pointer;
     outline: none;
     line-height: 1.2;
+    padding-bottom: 0;
 }
 
 .navigation .go-home {

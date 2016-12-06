@@ -1,10 +1,11 @@
 // @flow
 
 import * as Argon from '@argonjs/argon'
+import { Object3D } from 'three'
 import { toFixed } from './utilities'
 
 // Initialize stuff for argon
-export function setupArgon(state: Object): Object {
+export function setupArgon(state: Object) {
     state.app.context.setDefaultReferenceFrame(state.app.context.localOriginEastUpSouth)
     state.scene.add(state.camera)
     state.scene.add(state.userLocation)
@@ -16,8 +17,34 @@ export function setupArgon(state: Object): Object {
     state.app.view.element.appendChild(state.renderer.domElement)
     state.app.view.element.appendChild(state.cssRenderer.domElement)
     state.app.view.element.appendChild(state.hud.domElement)
+}
 
-    return state
+// Setup a new location
+export function setupLocation(meta: Object, content: string): Object {
+    // THREE.js 3D objects and a Cesium entity - these represents the location/pose
+    let locationObject: Object = new Object3D()
+    let geoObject: Object = new Object3D()
+    let geoEntity: Object = new Argon.Cesium.Entity({
+        name: meta.name,
+        orientation: Argon.Cesium.Quaternion.IDENTITY,
+        position: Argon.Cesium.Cartesian3.fromDegrees(
+            meta.longitude,
+            meta.latitude
+        )
+    })
+
+    // We need to add a location object to the geo object
+    // to be able to calculate the distance between two objects
+    geoObject.add(locationObject)
+
+    return {
+        initialized: false,
+        meta,
+        content,
+        geoEntity,
+        geoObject,
+        locationObject
+    }
 }
 
 // Calculate distance between two 3D objects (THREE)
@@ -44,7 +71,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         userLocation.position.copy(userPose.position)
 
         // Update position for all locations
-        locations.filter(loc => loc.meta.id == id).forEach(location => {
+        locations.filter(l => l.meta.id == id).forEach(location => {
             // Initialize location for Argon as a reference frame
             if (!location.initialized) {
                 if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
@@ -58,7 +85,9 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             location.geoObject.position.copy(locationPose)
             location.geoObject.quaternion.copy(locationPose)
 
-            cb(getDistanceFromUser(userLocation, location))
+            // Send distance to callback
+            // cb(getDistanceFromUser(userLocation, location))
+            cb(1)
         })
     }
 }

@@ -5,19 +5,17 @@ COPY ./compose/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY ./compose/nginx/ssl-params.nginx /etc/nginx/ssl-params.nginx
 COPY ./compose/nginx/servers.nginx /etc/nginx/servers.nginx
 COPY ./compose/nginx/servers-prod.nginx /etc/nginx/servers-prod.nginx
-COPY ./compose/nginx/upgrade-ssl.sh /usr/local/bin/upgrade-ssl
+COPY ./compose/nginx/switch-to-https-only.sh /usr/local/bin/switch-to-https-only
 # Copy webroots
 COPY ./sites/skybox /opt/sites/skybox/
 COPY ./sites/livingarchives /opt/sites/livingarchives/
 
-RUN chmod +x /usr/local/bin/upgrade-ssl
+RUN chmod +x /usr/local/bin/switch-to-https-only
 
 # Install curl for downloading the certbot
 # Download certbot-auto and make it executable
 RUN apt-get -qq update \
-    && apt-get -qq -y install curl openssl \
-    && curl https://dl.eff.org/certbot-auto > /usr/local/bin/certbot-auto \
-    && chmod a+x /usr/local/bin/certbot-auto
+    && apt-get -qq -y install openssl
 
 RUN openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 

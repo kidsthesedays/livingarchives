@@ -6,7 +6,16 @@ import {
     sendStatistic
 } from './utilities'
 
-// TODO check for errors when parsing JSON
+// Parse json more safely
+function parseJSON(json) {
+    try {
+        return JSON.parse(json)
+    } catch (e) {
+        console.log('Unable to parse JSON', e.message)
+        return {}
+    }
+}
+
 // Store and fetch data from local storage
 // Based on wether a value was passed or not
 function cache(key: string, value: ?Object): Object {
@@ -14,7 +23,7 @@ function cache(key: string, value: ?Object): Object {
 
     if (typeof value === 'undefined') {
         if (data) {
-            const json: Object = JSON.parse(data)
+            const json: Object = parseJSON(data)
             return json.hasOwnProperty(key) ? json[key] : {}
         }
 
@@ -22,7 +31,7 @@ function cache(key: string, value: ?Object): Object {
     }
 
     if (data) {
-        const json: Object = JSON.parse(data)
+        const json: Object = parseJSON(data)
         json[key] = value
         localStorage.setItem('lva-cache', JSON.stringify(json))
     } else {

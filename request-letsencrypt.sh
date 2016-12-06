@@ -1,8 +1,15 @@
 #!/bin/bash
-set -e
+
+echo "Download certbot-auto into /usr/local/bin"
+curl https://dl.eff.org/certbot-auto > /usr/local/bin/certbot-auto
+
+echo "Make /usr/local/bin/certbot-auto executable..."
+chmod a+x /usr/local/bin/certbot-auto
 
 echo "Requesting certificate via letsencrypt (certbot)..."
+
 # Create a letsencrypt certificate
+# NOTE: directories are based on the containers
 certbot-auto certonly \
     --non-interactive \
     --email sebastianbengtegard@gmail.com \
@@ -18,11 +25,10 @@ certbot-auto certonly \
         -d alberta.livingarchives.org \
         -d api.livingarchives.org
 
-echo "Swapping nginx configuration from development to production"
-# Move configuration for development
-mv /etc/nginx/servers.nginx /etc/nginx/servers-dev.nginx
-# Move configuration for production
-mv /etc/nginx/servers-prod.nginx /etc/nginx/servers.nginx
-# Reload nginx
-echo "Reloading nginx..."
-nginx -s reload
+echo "Restarting docker-compose..."
+docker-compose restart
+
+echo "Switch to HTTPS-only nginx configuration..."
+docker-compose exec nginx switch-to-https-only
+
+echo "Done."

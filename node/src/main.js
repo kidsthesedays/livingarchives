@@ -29,6 +29,7 @@ function main() {
         documentRootNode: document.documentElement,
         reactMountNode: document.getElementById('mount'),
         argonMountNode: document.getElementById('argon'),
+        locationIndicatorNode: document.getElementById('indicators'),
         app: Argon.init(),
         scene: new THREE.Scene(),
         camera: new THREE.PerspectiveCamera(),
@@ -46,7 +47,7 @@ function main() {
     }
 
     // Initialize basic argon setup
-    state = setupArgon(state)
+    setupArgon(state)
     // Fetch location + user data and store it in the cache
     setupLocationData(state)
     setupUserData(state)

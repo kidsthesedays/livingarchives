@@ -45,7 +45,10 @@ function route(state: Object): Function {
         // NOTE: weak equality check due to strings
         const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
 
-        const goHome = () => state.navigate('/locations')
+        const goHome = () => {
+            state.prevRoute = location.hasOwnProperty('meta') ? `/locations/${location.meta.id}/story` : '/locations'
+            state.navigate('/locations')
+        }
         const goHomeIcon = () => (
             <button type='button' className='go-home' onClick={goHome}>
                 <i className='icon ion-ios-home'></i>
