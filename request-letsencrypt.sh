@@ -1,7 +1,10 @@
 #!/bin/bash
 
 echo "Download certbot-auto into /usr/local/bin"
-curl https://dl.eff.org/certbot-auto > certbot-auto
+curl https://dl.eff.org/certbot-auto > ./certbot-auto
+
+echo "Make ./certbot-auto executable..."
+chmod a+x ./certbot-auto
 
 echo "Requesting certificate via letsencrypt (certbot)..."
 
