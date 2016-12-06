@@ -4,6 +4,7 @@ import * as Argon from '@argonjs/argon'
 import { Object3D } from 'three'
 import { toFixed } from './utilities'
 
+
 // Initialize stuff for argon
 export function setupArgon(state: Object) {
     state.app.context.setDefaultReferenceFrame(state.app.context.localOriginEastUpSouth)

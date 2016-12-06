@@ -30,10 +30,10 @@ $ yarn run compile
 
 #### Step 3
 
-Create an environment file named `.env-node` containing the username, database name and password for [Postgres](https://www.postgresql.org/). The easiest way is copying the example file `.node-env.example` and then edit it with your text editor. This has to be done from the **root** directory.
+Create an environment file named `.env` containing the username, database name and password for [Postgres](https://www.postgresql.org/). The easiest way is copying the example file `.env-example` and then edit it with your text editor. This has to be done from the **root** directory.
 
 ```
-$ cp .env-node.example .env-node
+$ cp .env-example .env
 ```
 
 **Note:** don't forget to replace the example username, database name and password to your own.
@@ -67,7 +67,9 @@ Start the Docker image. This has to be done from the **root** directory.
 $ docker-compose up
 ```
 
-**Note:** to run the process as a daemon `$ docker-compose up -d`
+**Note 1:** to run the process as a daemon `$ docker-compose up -d`
+
+**Note 2:** for a local build use `$ docker-compose -f dev.docker-compose.yml up`
 
 If everything worked you should now be able to visit `skybox.livingarchives.org` in your browser.
 
@@ -89,13 +91,25 @@ $ yarn run watch
 
 #### Docker
 
-Delete all containers
+Upgrade from self-signed SSL certificate to letsencrypt (CA). **This has to be done from the root directory.**
+
+```
+$ sudo sh request-letsencrypt.sh
+```
+
+Clear the table `statistis` from data.
+
+```
+$ docker-compose exec postgres clear-statistics
+```
+
+Delete all containers. **This will delete all other active containers on your system.**
 
 ```
 $ docker rm $(docker ps -a -q)
 ```
 
-Delete all images
+Delete all images. **This will delete all other images on your system.**
 
 ```
 $ docker rmi $(docker images -q)
@@ -106,12 +120,6 @@ Delete postgres volumes
 ```
 $ docker volume rm livingarchives_pgbackup
 $ docker volume rm livingarchives_pgdata
-```
-
-Upgrade from self-signed SSL certificate to letsencrypt (CA)
-
-```
-$ docker-compose exec nginx upgrade-ssl
 ```
 
 Create postgres backup
