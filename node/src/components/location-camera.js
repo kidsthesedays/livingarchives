@@ -20,21 +20,21 @@ class LocationCamera extends Component {
 
 
         // Only throttle callback
-        // this.updateFunc = updateUserAndLocationPosition(
-        //         state,
-        //         location.meta.id,
-        //         throttle(n => console.log('latest', n), 1000)
-        // )
-
-        // Throttle whole update func (800ms)
-        this.updateFunc = throttle(
-            updateUserAndLocationPosition(
+        this.updateFunc = updateUserAndLocationPosition(
                 state,
                 location.meta.id,
-                n => console.log(n)
-            ),
-            800
+                throttle((f, d) => console.log(f ? 'found' : 'list', d), 600)
         )
+
+        // Throttle whole update func (800ms)
+        // this.updateFunc = throttle(
+        //     updateUserAndLocationPosition(
+        //         state,
+        //         location.meta.id,
+        //         n => console.log(n)
+        //     ),
+        //     800
+        // )
 
         // NOTE callback could edit state so button is active
 

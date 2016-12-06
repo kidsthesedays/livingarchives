@@ -40,6 +40,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     label.style.width = '100px'
     label.style.height = '100px'
     label.style.opacity = '0.7'
+    label.style.borderRadius = '40px'
 
     let p: Object = document.createElement('p')
     p.className = 'indicator'
@@ -110,21 +111,22 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             
             // Update geo position
             const locationPose: Object = app.context.getEntityPose(location.geoEntity)
+            location.geoObject.position.copy(locationPose.position)
+            location.geoObject.quaternion.copy(locationPose.orientation)
 
-            if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-                location.geoObject.position.copy(locationPose.position)
-                location.geoObject.quaternion.copy(locationPose.orientation)
-            }
+            // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            //     location.geoObject.position.copy(locationPose.position)
+            //     location.geoObject.quaternion.copy(locationPose.orientation)
+            // }
 
             if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
-                console.log('circle is found!')
-            }
-            if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
-                console.log('circle was lost')
+                cb(true, getDistanceFromUser(userLocation, location))
+            } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
+                cb(false, 0)
             }
 
             // Send distance to callback
-            cb && cb(getDistanceFromUser(userLocation, location))
+            // cb && cb(getDistanceFromUser(userLocation, location))
         })
     }
 }
