@@ -38,6 +38,9 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     label.className = 'indicator-container'
     label.style.background = '#444444'
     label.style.padding = '15px'
+    label.style.width = '100px'
+    label.style.height = '100px'
+    label.style.opacity = '0.7'
     p.className = 'indicator'
     p.textContent = meta.position
     label.appendChild(p)
