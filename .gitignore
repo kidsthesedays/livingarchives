@@ -4,3 +4,5 @@
 node/node_modules
 node/static/bundle.js
 npm-debug.log
+certbot-auto
+certbot.log

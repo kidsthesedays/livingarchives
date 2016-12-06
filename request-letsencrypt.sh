@@ -16,12 +16,12 @@ echo "Requesting certificate via letsencrypt (certbot)..."
     --agree-tos \
     --webroot \
     -t \
-    -w /opt/sites/livingarchives \
+    -w ./sites/livingarchives \
         -d livingarchives.org \
         -d www.livingarchives.org \
-    -w /opt/sites/skybox \
+    -w ./sites/skybox \
         -d skybox.livingarchives.org \
-    -w /opt/node \
+    -w ./node \
         -d alberta.livingarchives.org \
         -d api.livingarchives.org
 
