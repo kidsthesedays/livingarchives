@@ -1,17 +1,49 @@
 // @flow
 
 import React, { Component } from 'react'
-
 import { locationUnlocked } from '../cache'
 import Distance from '../components/distance'
-
-// TODO should only be able to unlock if the user has "scanned" the object
+import { throttle } from '../utilities'
+import {
+    updateUserAndLocationPosition,
+    renderArgon
+} from '../argon'
 
 class LocationCamera extends Component {
+    renderFunc: Function
+    updateFunc: Function
+
     constructor(props: Object) {
         super(props)
+
+        const {
+            state,
+            location
+        } = this.props
+
+        this.updateFunc = throttle(
+            updateUserAndLocationPosition(
+                state,
+                location.meta.id,
+                n => console.log(n)
+            ),
+            1000
+        )
+
+        this.renderFunc = renderArgon(state)
     }
 
+    componentDidMount() {
+        const { state } = this.props
+        state.app.updateEvent.addEventListener(this.updateFunc)
+        state.app.renderEvent.addEventListener(this.renderFunc)
+    }
+
+    componentWillUnmount() {
+        const { state } = this.props
+        state.app.updateEvent.removeEventListener(this.updateFunc)
+        state.app.renderEvent.removeEventListener(this.renderFunc)
+    }
 
     render() {
         const {

@@ -89,7 +89,7 @@ export function setupLocationData(state: Object, cb: ?Function) {
                 .filter(c => c.id === location.id)
                 .reduce((_, c) => c.html, '')
 
-            return setupLocation(location, content)
+            return setupLocation(location, content, state)
         })
 
         cb && cb(json)

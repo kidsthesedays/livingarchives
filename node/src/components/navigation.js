@@ -5,6 +5,9 @@ import React, { Component } from 'react'
 import Distance from '../components/distance'
 
 class Navigation extends Component {
+    state: Object
+    setState: Function
+
     constructor(props: Object) {
         super(props)
         this.state = {
@@ -45,7 +48,7 @@ class Navigation extends Component {
         let left: Object = <div></div>
         let right: Object = <div></div>
         let center: Object = <h2>{title || ''}</h2>
-        let infoComponent: Object | void = null
+        let infoComponent: ?Object = null
 
         if (renderLeft) {
             left = renderLeft()

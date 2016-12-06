@@ -114,6 +114,8 @@ class LocationMap extends Component {
             </button>
         )
 
+        const renderDistance: Function = d => <div className='distance'>{d}</div>
+
         if (userPosition === null) {
             return (
                 <div className='location-map'>
@@ -143,8 +145,6 @@ class LocationMap extends Component {
             userPosition,
             locationPosition
         )
-
-        const renderDistance = d => <div className='distance'>{d}</div>
 
         // TODO fix distance-limit
         return (
