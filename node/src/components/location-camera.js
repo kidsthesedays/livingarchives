@@ -18,11 +18,25 @@ class LocationCamera extends Component {
 
         const { state, location } = this.props
 
-        this.updateFunc = updateUserAndLocationPosition(
+
+        // Only throttle callback
+        // this.updateFunc = updateUserAndLocationPosition(
+        //         state,
+        //         location.meta.id,
+        //         throttle(n => console.log('latest', n), 1000)
+        // )
+
+        // Throttle whole update func (800ms)
+        this.updateFunc = throttle(
+            updateUserAndLocationPosition(
                 state,
                 location.meta.id,
-                throttle(n => console.log('latest', n), 1000)
+                n => console.log(n)
+            ),
+            800
         )
+
+        // NOTE callback could edit state so button is active
 
         this.renderFunc = renderArgon(state)
     }

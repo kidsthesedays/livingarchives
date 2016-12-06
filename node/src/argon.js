@@ -44,6 +44,8 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     let p: Object = document.createElement('p')
     p.className = 'indicator'
     p.textContent = meta.position
+    p.style.color = 'white'
+    p.style.fontSize = '21px'
     label.appendChild(p)
 
     state.locationIndicatorNode.appendChild(label)
@@ -100,14 +102,6 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         locations.filter(l => l.meta.id == id).forEach(location => {
             // Initialize location for Argon as a reference frame
             if (!location.initialized) {
-
-                // const defaultFrame = app.context.getDefaultReferenceFrame()
-                // let lPos = userPose.position.clone()
-                // lPos.x += 10
-
-                // location.geoEntity.position.setValue(lPos, defaultFrame)
-                // location.geoEntity.orientation.setValue(Argon.Cesium.Quaternion.IDENTITY)
-
                 if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                     location.initialized = true
                     scene.add(location.geoObject) 
@@ -116,8 +110,18 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             
             // Update geo position
             const locationPose: Object = app.context.getEntityPose(location.geoEntity)
-            location.geoObject.position.copy(locationPose.position)
-            location.geoObject.quaternion.copy(locationPose.orientation)
+
+            if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+                location.geoObject.position.copy(locationPose.position)
+                location.geoObject.quaternion.copy(locationPose.orientation)
+            }
+
+            if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
+                console.log('circle is found!')
+            }
+            if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
+                console.log('circle was lost')
+            }
 
             // Send distance to callback
             cb && cb(getDistanceFromUser(userLocation, location))
