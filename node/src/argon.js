@@ -33,20 +33,27 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
         )
     })
 
-    let label: Object = document.createElement('div')
-    label.className = 'indicator-container'
+    let mesh: Object = new THREE.Mesh(
+        new THREE.PlaneGeometry(15, 15),
+        new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })
+    )
+    mesh.scale.set(0.001, 0.001, 0.001)
+    locationObject.add(mesh)
 
-    let p: Object = document.createElement('p')
-    p.className = 'indicator'
-    p.textContent = meta.position
-    label.appendChild(p)
+    // let label: Object = document.createElement('div')
+    // label.className = 'indicator-container'
 
-    state.locationIndicatorNode.appendChild(label)
+    // let p: Object = document.createElement('p')
+    // p.className = 'indicator'
+    // p.textContent = meta.position
+    // label.appendChild(p)
 
-    let labelObject: Object = new CSS3DSprite(label)
-    labelObject.scale.set(0.02, 0.02, 0.02)
-    labelObject.position.set(0, 1.25, 0)
-    geoObject.add(labelObject)
+    // state.locationIndicatorNode.appendChild(label)
+
+    // let labelObject: Object = new CSS3DSprite(label)
+    // labelObject.scale.set(0.02, 0.02, 0.02)
+    // labelObject.position.set(0, 1.25, 0)
+    // geoObject.add(labelObject)
 
     // We need to add a location object to the geo object
     // to be able to calculate the distance between two objects
