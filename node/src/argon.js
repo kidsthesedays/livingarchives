@@ -111,22 +111,19 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             //     location.geoObject.position.copy(locationPose.position)
             //     location.geoObject.quaternion.copy(locationPose.orientation)
             // }
+
             if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
                 location.geoObject.position.copy(locationPose.position)
                 location.geoObject.quaternion.copy(locationPose.orientation)
-                console.log('known')
             }
 
             if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
-                // cb(true, getDistanceFromUser(userLocation, location))
-                console.log('found')
+                cb(true, getDistanceFromUser(userLocation, location))
             } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
-                // cb(false, 0)
-                console.log('lost')
+                cb(false, 0)
+            } else {
+                cb(false, getDistanceFromUser(userLocation, location))
             }
-
-            // Send distance to callback
-            cb && cb(false, getDistanceFromUser(userLocation, location))
         })
     }
 }
@@ -140,7 +137,11 @@ export function renderArgon(state: Object): Function {
         cssRenderer
     } = state
 
-    return () => {
+    let pending: bool = false
+
+    const render: Function = () => {
+        pending = false
+
         const viewport = app.view.getViewport()
         const subviews = app.view.getSubviews()
 
@@ -163,6 +164,13 @@ export function renderArgon(state: Object): Function {
             renderer.setScissor(x, y, width, height)
             renderer.setScissorTest(true)
             renderer.render(scene, camera)
+        }
+    }
+
+    return () => {
+        if (!pending) {
+            pending = true
+            window.requestAnimationFrame(render)
         }
     }
 }
