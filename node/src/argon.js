@@ -103,8 +103,8 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             
             // Update geo position
             const locationPose: Object = app.context.getEntityPose(location.geoEntity)
-            location.geoObject.position.copy(locationPose.position)
-            location.geoObject.quaternion.copy(locationPose.orientation)
+            // location.geoObject.position.copy(locationPose.position)
+            // location.geoObject.quaternion.copy(locationPose.orientation)
 
             // NOTE does this improve?
             // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
@@ -112,6 +112,8 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             //     location.geoObject.quaternion.copy(locationPose.orientation)
             // }
             if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+                location.geoObject.position.copy(locationPose.position)
+                location.geoObject.quaternion.copy(locationPose.orientation)
                 console.log('known')
             }
 
