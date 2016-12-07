@@ -17,6 +17,10 @@ import {
 } from './utilities'
 
 function main() {
+    // TODO remove
+    console.log('clearing local storage')
+    localStorage.clear()
+
     // Used by the Navigo router library
     const BASE_URL: string = 'http://alberta.livingarchives.org'
     // Application Router
