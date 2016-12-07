@@ -55,7 +55,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // state.locationIndicatorNode.appendChild(label)
 
     let labelObject: Object = new CSS3DObject(label)
-    labelObject.scale.set(0.2, 0.2, 0.2)
+    labelObject.scale.set(0.02, 0.02, 0.02)
     labelObject.position.set(0, 1.25, 0)
     //
     // labelObject.position.x = 0.0
@@ -149,9 +149,11 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
                 let n: number = getDistanceFromUser(userLocation, tmp)
 
                 if (n > (prev + 4) || n < (prev - 4)) {
+                    console.log('is less then 4+-')
                     location.geoObject.position.copy(locationPose.position)
                     location.geoObject.quaternion.copy(locationPose.orientation)
                 } else {
+                    console.log('not less then, continue')
                     tmp.locationObject.position.copy(locationPose.position)
                     prev = n
                 }
