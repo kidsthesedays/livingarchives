@@ -1,7 +1,7 @@
 // @flow
 import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
-// import { CSS3DSprite } from './CSS3DArgon'
+import { CSS3DObject } from './CSS3DArgon'
 import { toFixed } from './utilities'
 
 // Initialize stuff for argon
@@ -33,30 +33,36 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
         )
     })
 
-    let mesh: Object = new THREE.Mesh(
-        new THREE.PlaneGeometry(15, 15),
-        new THREE.MeshBasicMaterial({
-            color: 0xffff00,
-            side: THREE.DoubleSide
-        })
-    )
-    mesh.scale.set(0.1, 0.1, 0.1)
-    locationObject.add(mesh)
+    // let mesh: Object = new THREE.Mesh(
+    //     new THREE.PlaneGeometry(15, 15),
+    //     new THREE.MeshBasicMaterial({
+    //         color: 0xffff00,
+    //         side: THREE.DoubleSide
+    //     })
+    // )
+    // mesh.scale.set(0.1, 0.1, 0.1)
+    // locationObject.add(mesh)
     console.log(state.length)
 
-    // let label: Object = document.createElement('div')
-    // label.className = 'indicator-container'
+    let label: Object = document.createElement('div')
+    label.className = 'indicator-container'
 
-    // let p: Object = document.createElement('p')
-    // p.className = 'indicator'
-    // p.textContent = meta.position
-    // label.appendChild(p)
+    let p: Object = document.createElement('p')
+    p.className = 'indicator'
+    p.textContent = meta.position
+    label.appendChild(p)
 
     // state.locationIndicatorNode.appendChild(label)
 
-    // let labelObject: Object = new CSS3DSprite(label)
-    // labelObject.scale.set(0.02, 0.02, 0.02)
+    let labelObject: Object = new CSS3DObject(label)
+    labelObject.scale.set(0.02, 0.02, 0.02)
     // labelObject.position.set(0, 1.25, 0)
+    //
+    labelObject.position.x = 0.0
+    labelObject.position.y = 0.0
+    labelObject.position.z = 200.0
+    labelObject.rotation.y = Math.PI
+
     // geoObject.add(labelObject)
 
     // We need to add a location object to the geo object
@@ -69,8 +75,8 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
         content,
         geoEntity,
         geoObject,
-        locationObject
-        // labelObject
+        locationObject,
+        labelObject
     }
 }
 
@@ -113,6 +119,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                 location.initialized = true
                 scene.add(location.geoObject) 
+                userLocation.add(location.labelObject)
             }
         }
         
@@ -134,11 +141,8 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
         if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
             cb(true, getDistanceFromUser(userLocation, location))
-            location.locationObject.position.z = 0
         } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
             cb(false, 0)
-            location.locationObject.position.z = -0.5
-            userLocation.add(location.locationObject)
         } else {
             cb(false, getDistanceFromUser(userLocation, location))
         }
