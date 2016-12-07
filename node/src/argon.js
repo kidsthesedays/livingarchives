@@ -111,15 +111,20 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             //     location.geoObject.position.copy(locationPose.position)
             //     location.geoObject.quaternion.copy(locationPose.orientation)
             // }
+            if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+                console.log('known')
+            }
 
             if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
-                cb(true, getDistanceFromUser(userLocation, location))
+                // cb(true, getDistanceFromUser(userLocation, location))
+                console.log('found')
             } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
-                cb(false, 0)
+                // cb(false, 0)
+                console.log('lost')
             }
 
             // Send distance to callback
-            cb(false, getDistanceFromUser(userLocation, location))
+            cb && cb(false, getDistanceFromUser(userLocation, location))
         })
     }
 }
