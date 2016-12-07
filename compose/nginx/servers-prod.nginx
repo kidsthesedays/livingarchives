@@ -159,6 +159,58 @@ server {
     }
 }
 
+# Aurasma
+# ======
+# Redirect to HTTPS for the skybox project
+server {
+    listen 80;
+    listen [::]:80;
+    server_name aurasma;
+
+    location ~ /.well-known {
+        root /opt/sites/aurasma;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# Aurasma
+# ======
+# Serves the skybox project for Living Archives
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+
+    root /opt/sites/aurasma;
+    index index.html;
+    
+    server_name aurasma.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/aurasma;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
 # Front page
 # ==========
 # Redirect to HTTPS for the root site

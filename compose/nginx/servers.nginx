@@ -110,6 +110,43 @@ server {
     }
 }
 
+# Aurasma (allow HTTP & HTTPS)
+# =================================
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+
+    listen 8003;
+
+    charset utf-8;
+
+    root /opt/sites/aurasma;
+    index index.html;
+    
+    server_name aurasma.livingarchives.org;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/aurasma;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
 # Landing page (allow HTTP & HTTPS)
 # =================================
 server {

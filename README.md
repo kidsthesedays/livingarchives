@@ -97,7 +97,7 @@ Upgrade from self-signed SSL certificate to letsencrypt (CA). **This has to be d
 $ sudo sh request-letsencrypt.sh
 ```
 
-Clear the table `statistis` from data.
+Truncate the table `statistics`.
 
 ```
 $ docker-compose exec postgres clear-statistics

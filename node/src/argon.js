@@ -114,6 +114,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             location.geoObject.position.copy(locationPose.position)
             location.geoObject.quaternion.copy(locationPose.orientation)
 
+            // NOTE does this improve?
             // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
             //     location.geoObject.position.copy(locationPose.position)
             //     location.geoObject.quaternion.copy(locationPose.orientation)

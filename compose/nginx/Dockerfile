@@ -6,9 +6,9 @@ COPY ./compose/nginx/ssl-params.nginx /etc/nginx/ssl-params.nginx
 COPY ./compose/nginx/servers.nginx /etc/nginx/servers.nginx
 COPY ./compose/nginx/servers-prod.nginx /etc/nginx/servers-prod.nginx
 COPY ./compose/nginx/switch-to-https-only.sh /usr/local/bin/switch-to-https-only
+
 # Copy webroots
-COPY ./sites/skybox /opt/sites/skybox/
-COPY ./sites/livingarchives /opt/sites/livingarchives/
+COPY ./sites/ /opt/sites/
 
 RUN chmod +x /usr/local/bin/switch-to-https-only
 
