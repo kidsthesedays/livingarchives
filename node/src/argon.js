@@ -35,18 +35,10 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
 
     let label: Object = document.createElement('div')
     label.className = 'indicator-container'
-    label.style.background = '#444444'
-    label.style.padding = '15px'
-    label.style.width = '100px'
-    label.style.height = '100px'
-    label.style.opacity = '0.7'
-    label.style.borderRadius = '100px'
 
     let p: Object = document.createElement('p')
     p.className = 'indicator'
     p.textContent = meta.position
-    p.style.color = 'white'
-    p.style.fontSize = '21px'
     label.appendChild(p)
 
     state.locationIndicatorNode.appendChild(label)
@@ -127,7 +119,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
             }
 
             // Send distance to callback
-            cb && cb(false, getDistanceFromUser(userLocation, location))
+            cb(false, getDistanceFromUser(userLocation, location))
         })
     }
 }
