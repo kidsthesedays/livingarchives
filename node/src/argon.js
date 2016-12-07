@@ -80,51 +80,54 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         locations
     } = state
 
+    const location: Object = locations.filter(l => l.meta.id == id).reduce((_, l) => l, {})
+
     return (frame: Object) => {
         // Update user position
         const userPose: Object = app.context.getEntityPose(app.context.user)
 
-        if (!(userPose.poseStatus & Argon.PoseStatus.KNOWN)) {
+        if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            userLocation.position.copy(userPose.position)
+        } else {
             return
         }
 
         // Update user position for the 3D Object
-        userLocation.position.copy(userPose.position)
 
         // Update position for all locations
-        locations.filter(l => l.meta.id == id).forEach(location => {
-            // Initialize location for Argon as a reference frame
-            if (!location.initialized) {
-                if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
-                    location.initialized = true
-                    scene.add(location.geoObject) 
-                }
-            }
-            
-            // Update geo position
-            const locationPose: Object = app.context.getEntityPose(location.geoEntity)
-            // location.geoObject.position.copy(locationPose.position)
-            // location.geoObject.quaternion.copy(locationPose.orientation)
+        // locations.filter(l => l.meta.id == id).forEach(location => {
 
-            // NOTE does this improve?
-            // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-            //     location.geoObject.position.copy(locationPose.position)
-            //     location.geoObject.quaternion.copy(locationPose.orientation)
-            // }
-
-            if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-                location.geoObject.position.copy(locationPose.position)
-                location.geoObject.quaternion.copy(locationPose.orientation)
+        // Initialize location for Argon as a reference frame
+        if (!location.initialized) {
+            if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
+                location.initialized = true
+                scene.add(location.geoObject) 
             }
+        }
+        
+        // Update geo position
+        const locationPose: Object = app.context.getEntityPose(location.geoEntity)
+        // location.geoObject.position.copy(locationPose.position)
+        // location.geoObject.quaternion.copy(locationPose.orientation)
 
-            if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
-                cb(true, getDistanceFromUser(userLocation, location))
-            } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
-                cb(false, 0)
-            } else {
-                cb(false, getDistanceFromUser(userLocation, location))
-            }
-        })
+        // NOTE does this improve?
+        // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+        //     location.geoObject.position.copy(locationPose.position)
+        //     location.geoObject.quaternion.copy(locationPose.orientation)
+        // }
+
+        if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            location.geoObject.position.copy(locationPose.position)
+            location.geoObject.quaternion.copy(locationPose.orientation)
+        }
+
+        if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
+            cb(true, getDistanceFromUser(userLocation, location))
+        } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
+            cb(false, 0)
+        } else {
+            cb(false, getDistanceFromUser(userLocation, location))
+        }
     }
 }
 
@@ -151,19 +154,21 @@ export function renderArgon(state: Object): Function {
         for (let subview of subviews) {
             camera.position.copy(subview.pose.position)
             camera.quaternion.copy(subview.pose.orientation)
+
             camera.projectionMatrix.fromArray(subview.projectionMatrix)
+            // camera.fov = THREE.Math.radToDeg(subview.frustum.fovy)
+            camera.fov = subview.frustum.fovy * 180 / Math.PI
 
             const { x, y, width, height } = subview.viewport
-
-            camera.fov = THREE.Math.radToDeg(subview.frustum.fovy)
 
             cssRenderer.setViewport(x, y, width, height, subview.index)
             cssRenderer.render(scene, camera, subview.index)
 
             renderer.setViewport(x, y, width, height)
-            renderer.setScissor(x, y, width, height)
-            renderer.setScissorTest(true)
             renderer.render(scene, camera)
+
+            // renderer.setScissor(x, y, width, height)
+            // renderer.setScissorTest(true)
         }
     }
 
