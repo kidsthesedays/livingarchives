@@ -92,7 +92,7 @@ export function getDistanceFromUser(user: Object, location: Object): number {
 export function updateUserAndLocationPosition(state: Object, id: number, cb: Function): Function {
     const {
         app,
-        scene,
+        // scene,
         userLocation,
         locations
     } = state
@@ -120,6 +120,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
                 location.initialized = true
                 // scene.add(location.geoObject) 
                 userLocation.add(location.labelObject)
+                cb(1)
             }
         }
         
