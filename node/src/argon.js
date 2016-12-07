@@ -55,7 +55,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // state.locationIndicatorNode.appendChild(label)
 
     let labelObject: Object = new CSS3DObject(label)
-    labelObject.scale.set(0.02, 0.02, 0.02)
+    // labelObject.scale.set(0.2, 0.2, 0.2)
     // labelObject.position.set(0, 1.25, 0)
     //
     labelObject.position.x = 0.0
@@ -118,13 +118,13 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         if (!location.initialized) {
             if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                 location.initialized = true
-                scene.add(location.geoObject) 
+                // scene.add(location.geoObject) 
                 userLocation.add(location.labelObject)
             }
         }
         
         // Update geo position
-        const locationPose: Object = app.context.getEntityPose(location.geoEntity)
+        // const locationPose: Object = app.context.getEntityPose(location.geoEntity)
         // location.geoObject.position.copy(locationPose.position)
         // location.geoObject.quaternion.copy(locationPose.orientation)
 
@@ -134,18 +134,18 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         //     location.geoObject.quaternion.copy(locationPose.orientation)
         // }
 
-        if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-            location.geoObject.position.copy(locationPose.position)
-            location.geoObject.quaternion.copy(locationPose.orientation)
-        }
+        // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+        //     location.geoObject.position.copy(locationPose.position)
+        //     location.geoObject.quaternion.copy(locationPose.orientation)
+        // }
 
-        if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
-            cb(true, getDistanceFromUser(userLocation, location))
-        } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
-            cb(false, 0)
-        } else {
-            cb(false, getDistanceFromUser(userLocation, location))
-        }
+        // if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
+        //     cb(true, getDistanceFromUser(userLocation, location))
+        // } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
+        //     cb(false, 0)
+        // } else {
+        //     cb(false, getDistanceFromUser(userLocation, location))
+        // }
     }
 }
 
