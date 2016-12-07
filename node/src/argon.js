@@ -55,15 +55,18 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // state.locationIndicatorNode.appendChild(label)
 
     let labelObject: Object = new CSS3DObject(label)
-    // labelObject.scale.set(0.2, 0.2, 0.2)
-    // labelObject.position.set(0, 1.25, 0)
+    labelObject.scale.set(0.2, 0.2, 0.2)
+    labelObject.position.set(0, 1.25, 0)
     //
-    labelObject.position.x = 0.0
-    labelObject.position.y = 0.0
-    labelObject.position.z = 200.0
-    labelObject.rotation.y = Math.PI
+    // labelObject.position.x = 0.0
+    // labelObject.position.y = 0.0
+    // labelObject.position.z = 200.0
+    // labelObject.rotation.y = Math.PI
 
-    // geoObject.add(labelObject)
+    // let v = new THREE.Vector4(0, 0, 0)
+    // labelObject.lookAt(v)
+
+    geoObject.add(labelObject)
 
     // We need to add a location object to the geo object
     // to be able to calculate the distance between two objects
@@ -92,24 +95,31 @@ export function getDistanceFromUser(user: Object, location: Object): number {
 export function updateUserAndLocationPosition(state: Object, id: number, cb: Function): Function {
     const {
         app,
-        // scene,
+        scene,
         userLocation,
         locations
     } = state
 
     const location: Object = locations.filter(l => l.meta.id == id).reduce((_, l) => l, {})
 
+    let prev: number = 0
+    let tmp: Object = {
+        locationObject: new THREE.Object3D()
+    }
+
+    scene.add(tmp.locationObject)
+
     return (frame: Object) => {
         // Update user position
         const userPose: Object = app.context.getEntityPose(app.context.user)
 
+        // Update user position for the 3D Object
         if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
             userLocation.position.copy(userPose.position)
         } else {
             return
         }
 
-        // Update user position for the 3D Object
 
         // Update position for all locations
         // locations.filter(l => l.meta.id == id).forEach(location => {
@@ -118,35 +128,48 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         if (!location.initialized) {
             if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                 location.initialized = true
-                // scene.add(location.geoObject) 
-                userLocation.add(location.labelObject)
-                cb(1)
+                scene.add(location.geoObject) 
+                // userLocation.add(location.labelObject)
+                // cb(1)
             }
         }
         
         // Update geo position
-        // const locationPose: Object = app.context.getEntityPose(location.geoEntity)
+        const locationPose: Object = app.context.getEntityPose(location.geoEntity)
         // location.geoObject.position.copy(locationPose.position)
         // location.geoObject.quaternion.copy(locationPose.orientation)
 
         // NOTE does this improve?
-        // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-        //     location.geoObject.position.copy(locationPose.position)
-        //     location.geoObject.quaternion.copy(locationPose.orientation)
-        // }
+        if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            if (prev === 0) {
+                tmp.locationObject.position.copy(locationPose.position)
+                location.geoObject.position.copy(locationPose.position)
+                location.geoObject.quaternion.copy(locationPose.orientation)
+            } else {
+                let n: number = getDistanceFromUser(userLocation, tmp)
+
+                if (n > (prev + 4) || n < (prev - 4)) {
+                    location.geoObject.position.copy(locationPose.position)
+                    location.geoObject.quaternion.copy(locationPose.orientation)
+                } else {
+                    tmp.locationObject.position.copy(locationPose.position)
+                    prev = n
+                }
+            }
+        }
 
         // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
         //     location.geoObject.position.copy(locationPose.position)
         //     location.geoObject.quaternion.copy(locationPose.orientation)
         // }
 
-        // if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
-        //     cb(true, getDistanceFromUser(userLocation, location))
-        // } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
-        //     cb(false, 0)
-        // } else {
-        //     cb(false, getDistanceFromUser(userLocation, location))
-        // }
+        if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
+            cb(true, getDistanceFromUser(userLocation, location))
+        } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
+            cb(false, 0)
+        } else {
+            cb(false, getDistanceFromUser(userLocation, location))
+        }
     }
 }
 
