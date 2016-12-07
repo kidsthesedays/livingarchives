@@ -134,8 +134,11 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
         if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
             cb(true, getDistanceFromUser(userLocation, location))
+            location.locationObject.position.z = 0
         } else if (locationPose.poseStatus & Argon.PoseStatus.LOST) {
             cb(false, 0)
+            location.locationObject.position.z = -0.5
+            userLocation.add(location.locationObject)
         } else {
             cb(false, getDistanceFromUser(userLocation, location))
         }
