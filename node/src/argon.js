@@ -35,9 +35,12 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
 
     let mesh: Object = new THREE.Mesh(
         new THREE.PlaneGeometry(15, 15),
-        new THREE.MeshBasicMaterial({ side: THREE.DoubleSide })
+        new THREE.MeshBasicMaterial({
+            color: 0xffff00,
+            side: THREE.DoubleSide
+        })
     )
-    mesh.scale.set(0.001, 0.001, 0.001)
+    mesh.scale.set(0.01, 0.01, 0.01)
     locationObject.add(mesh)
     console.log(state.length)
 
