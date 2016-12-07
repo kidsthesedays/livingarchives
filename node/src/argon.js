@@ -1,7 +1,7 @@
 // @flow
 import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
-import { CSS3DSprite } from './CSS3DArgon'
+// import { CSS3DSprite } from './CSS3DArgon'
 import { toFixed } from './utilities'
 
 // Initialize stuff for argon
@@ -39,6 +39,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     )
     mesh.scale.set(0.001, 0.001, 0.001)
     locationObject.add(mesh)
+    console.log(state.length)
 
     // let label: Object = document.createElement('div')
     // label.className = 'indicator-container'
@@ -65,8 +66,8 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
         content,
         geoEntity,
         geoObject,
-        locationObject,
-        labelObject
+        locationObject
+        // labelObject
     }
 }
 
