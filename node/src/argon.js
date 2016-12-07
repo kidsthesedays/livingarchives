@@ -40,7 +40,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
             side: THREE.DoubleSide
         })
     )
-    mesh.scale.set(0.01, 0.01, 0.01)
+    mesh.scale.set(0.1, 0.1, 0.1)
     locationObject.add(mesh)
     console.log(state.length)
 
