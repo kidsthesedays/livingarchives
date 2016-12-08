@@ -141,11 +141,12 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
         // NOTE does this improve?
         if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            // Always update orientation?
+            location.geoObject.quaternion.copy(locationPose.orientation)
+
             if (prev === 0) {
                 tmp.locationObject.position.copy(locationPose.position)
-                tmp.locationObject.quaternion.copy(locationPose.orientation)
                 location.geoObject.position.copy(locationPose.position)
-                location.geoObject.quaternion.copy(locationPose.orientation)
                 prev = getDistanceFromUser(userLocation, tmp)
             } else {
                 // tmp.locationObject.position.copy(locationPose.position)
@@ -155,11 +156,9 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
                 if (n > (prev + 4) || n < (prev - 4)) {
                     console.log('is less then 4+-')
                     location.geoObject.position.copy(locationPose.position)
-                    location.geoObject.quaternion.copy(locationPose.orientation)
                 } else {
                     console.log('not less then, continue')
                     tmp.locationObject.position.copy(locationPose.position)
-                    tmp.locationObject.quaternion.copy(locationPose.orientation)
                 }
                 prev = n
                 console.log(prev)
@@ -217,8 +216,8 @@ export function renderArgon(state: Object): Function {
             renderer.setViewport(x, y, width, height)
             renderer.render(scene, camera)
 
-            // renderer.setScissor(x, y, width, height)
-            // renderer.setScissorTest(true)
+            renderer.setScissor(x, y, width, height)
+            renderer.setScissorTest(true)
         }
     }
 
