@@ -143,11 +143,13 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
             if (prev === 0) {
                 tmp.locationObject.position.copy(locationPose.position)
+                tmp.locationObject.quaternion.copy(locationPose.orientation)
                 location.geoObject.position.copy(locationPose.position)
                 location.geoObject.quaternion.copy(locationPose.orientation)
                 prev = getDistanceFromUser(userLocation, tmp)
             } else {
-                tmp.locationObject.position.copy(locationPose.position)
+                // tmp.locationObject.position.copy(locationPose.position)
+                // tmp.locationObject.quaternion.copy(locationPose.orientation)
                 let n: number = getDistanceFromUser(userLocation, tmp)
 
                 if (n > (prev + 4) || n < (prev - 4)) {
@@ -157,8 +159,10 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
                 } else {
                     console.log('not less then, continue')
                     tmp.locationObject.position.copy(locationPose.position)
-                    prev = n
+                    tmp.locationObject.quaternion.copy(locationPose.orientation)
                 }
+                prev = n
+                console.log(prev)
             }
         }
 
