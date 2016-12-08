@@ -15,6 +15,16 @@
         <div id="argon"></div>
         <div id="indicators"></div>
         <!-- Scripts -->
+        <script>
+            var prevE = Element.prototype.addEventListener;
+            Element.prototype.addEventListener = function(t, h) {
+                if (t == 'gesturestart' || t == 'gesturechange' || t == 'gestureend') {
+                    console.log('interuppted');
+                    return false;
+                }
+                return prevE.apply(this, arguments);
+            };
+        </script>
         <script src="/static/js/bundle.js"></script>
         <script>
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
