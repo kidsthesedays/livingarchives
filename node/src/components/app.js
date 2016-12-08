@@ -31,7 +31,17 @@ class App extends Component {
         }
 
         // Error handler
-        const error: Function = e => console.error(e)
+        // TODO remove?
+        const error: Function = e => {
+            console.log('Unable to get position', e.message)
+            const userPosition = {
+                lat: 55.5941971,
+                lng: 13.0167396
+            }
+
+            state.userPosition = userPosition
+            this.setState({ userPosition })
+        }
 
         if ('geolocation' in navigator) {
             this.watchID = navigator.geolocation.watchPosition(

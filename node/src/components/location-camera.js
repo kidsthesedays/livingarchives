@@ -23,7 +23,7 @@ class LocationCamera extends Component {
         this.updateFunc = updateUserAndLocationPosition(
                 state,
                 location.meta.id,
-                throttle((f, d) => console.log(f ? 'found' : 'lost', d), 600)
+                throttle((f, d) => console.log(f ? 'found' : 'lost', d), 6000)
         )
 
         // Throttle whole update func (800ms)

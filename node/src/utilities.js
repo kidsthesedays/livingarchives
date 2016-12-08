@@ -123,6 +123,20 @@ export function calculateDistance(p1: Object, p2: Object): number {
     return d
 }
 
+function toDegrees (angle) {
+    return angle * (180 / Math.PI);
+}
+
+export function calculateAngle(p1: Object, p2: Object): number {
+    const dLon = p2.lng - p1.lng
+    const y = Math.sin(dLon) * Math.cos(p2.lat)
+    const x = Math.cos(p1.lat) * Math.sin(p2.lat) - Math.sin(p1.lat) * Math.cos(p2.lat) * Math.cos(dLon)
+    let brng = Math.atan2(y, x)
+    brng = toDegrees(brng)
+    brng = (brng + 360) % 360
+    return brng
+}
+
 export function prepare(method: string, body: Object): Object {
     return {
         method,
