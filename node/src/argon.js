@@ -55,7 +55,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // state.locationIndicatorNode.appendChild(label)
 
     let labelObject: Object = new CSS3DObject(label)
-    labelObject.scale.set(0.02, 0.02, 0.02)
+    labelObject.scale.set(0.04, 0.04, 0.04)
     labelObject.position.set(0, 1.25, 0)
     //
     // labelObject.position.x = 0.0
@@ -126,6 +126,15 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
         // Initialize location for Argon as a reference frame
         if (!location.initialized) {
+
+            const defaultFrame = app.context.getDefaultReferenceFrame()
+
+            const lPos = userPose.position.clone()
+            lPos.x += 10
+
+            location.geoEntity.position.setValue(lPos, defaultFrame)
+            location.geoEntity.orientation.setValue(Argon.Cesium.Quaternion.IDENTITY)
+
             if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
                 location.initialized = true
                 scene.add(location.geoObject) 
