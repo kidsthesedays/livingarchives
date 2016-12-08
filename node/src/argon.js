@@ -155,7 +155,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
         mesh.position.x = d
         mesh.rotation.y = (a / 100)
-    })
+    }, 500)
 
     return () => {
         // Update user position
