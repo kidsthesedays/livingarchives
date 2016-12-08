@@ -102,12 +102,12 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
     const location: Object = locations.filter(l => l.meta.id == id).reduce((_, l) => l, {})
 
-    let prev: number = 0
-    let tmp: Object = {
-        locationObject: new THREE.Object3D()
-    }
+    // let prev: number = 0
+    // let tmp: Object = {
+    //     locationObject: new THREE.Object3D()
+    // }
 
-    scene.add(tmp.locationObject)
+    // scene.add(tmp.locationObject)
 
     return (frame: Object) => {
         // Update user position
@@ -149,35 +149,35 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         // location.geoObject.quaternion.copy(locationPose.orientation)
 
         // NOTE does this improve?
-        if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-            // Always update orientation?
-            location.geoObject.quaternion.copy(locationPose.orientation)
-
-            if (prev === 0) {
-                tmp.locationObject.position.copy(locationPose.position)
-                location.geoObject.position.copy(locationPose.position)
-                prev = getDistanceFromUser(userLocation, tmp)
-            } else {
-                // tmp.locationObject.position.copy(locationPose.position)
-                // tmp.locationObject.quaternion.copy(locationPose.orientation)
-                let n: number = getDistanceFromUser(userLocation, tmp)
-
-                if (n > (prev + 4) || n < (prev - 4)) {
-                    console.log('is less then 4+-')
-                    location.geoObject.position.copy(locationPose.position)
-                } else {
-                    console.log('not less then, continue')
-                    tmp.locationObject.position.copy(locationPose.position)
-                }
-                prev = n
-                console.log(prev)
-            }
-        }
-
         // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
-        //     location.geoObject.position.copy(locationPose.position)
+        //     // Always update orientation?
         //     location.geoObject.quaternion.copy(locationPose.orientation)
+
+        //     if (prev === 0) {
+        //         tmp.locationObject.position.copy(locationPose.position)
+        //         location.geoObject.position.copy(locationPose.position)
+        //         prev = getDistanceFromUser(userLocation, tmp)
+        //     } else {
+        //         // tmp.locationObject.position.copy(locationPose.position)
+        //         // tmp.locationObject.quaternion.copy(locationPose.orientation)
+        //         let n: number = getDistanceFromUser(userLocation, tmp)
+
+        //         if (n > (prev + 4) || n < (prev - 4)) {
+        //             console.log('is less then 4+-')
+        //             location.geoObject.position.copy(locationPose.position)
+        //         } else {
+        //             console.log('not less then, continue')
+        //             tmp.locationObject.position.copy(locationPose.position)
+        //         }
+        //         prev = n
+        //         console.log(prev)
+        //     }
         // }
+
+        if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            location.geoObject.position.copy(locationPose.position)
+            location.geoObject.quaternion.copy(locationPose.orientation)
+        }
 
         if (locationPose.poseStatus & Argon.PoseStatus.FOUND) {
             cb(true, getDistanceFromUser(userLocation, location))
