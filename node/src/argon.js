@@ -11,10 +11,10 @@ export function setupArgon(state: Object) {
     state.scene.add(state.userLocation)
         
     // set pixel ratio (ex "2" for retina screens etc)
-    state.renderer.setPixelRatio(window.devicePixelRatio)
+    // state.renderer.setPixelRatio(window.devicePixelRatio)
 
     // append renderers to our app view
-    state.app.view.element.appendChild(state.renderer.domElement)
+    // state.app.view.element.appendChild(state.renderer.domElement)
     state.app.view.element.appendChild(state.cssRenderer.domElement)
     // state.app.view.element.appendChild(state.hud.domElement)
 }
@@ -52,7 +52,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     p.textContent = meta.position
     label.appendChild(p)
 
-    // state.locationIndicatorNode.appendChild(label)
+    state.locationIndicatorNode.appendChild(label)
 
     let labelObject: Object = new CSS3DObject(label)
     labelObject.scale.set(0.04, 0.04, 0.04)
@@ -63,8 +63,8 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // labelObject.position.z = 200.0
     // labelObject.rotation.y = Math.PI
 
-    let v = new THREE.Vector3(0, 0, 0)
-    labelObject.lookAt(v)
+    // let v = new THREE.Vector3(0, 0, 0)
+    // labelObject.lookAt(v)
 
     geoObject.add(labelObject)
 
@@ -194,7 +194,7 @@ export function renderArgon(state: Object): Function {
         app,
         camera,
         scene,
-        renderer,
+        // renderer,
         cssRenderer
     } = state
 
@@ -206,7 +206,7 @@ export function renderArgon(state: Object): Function {
         const viewport = app.view.getViewport()
         const subviews = app.view.getSubviews()
 
-        renderer.setSize(viewport.width, viewport.height)
+        // renderer.setSize(viewport.width, viewport.height)
         cssRenderer.setSize(viewport.width, viewport.height)
 
         for (let subview of subviews) {
@@ -222,11 +222,11 @@ export function renderArgon(state: Object): Function {
             cssRenderer.setViewport(x, y, width, height, subview.index)
             cssRenderer.render(scene, camera, subview.index)
 
-            renderer.setViewport(x, y, width, height)
-            renderer.render(scene, camera)
+            // renderer.setViewport(x, y, width, height)
+            // renderer.render(scene, camera)
 
-            renderer.setScissor(x, y, width, height)
-            renderer.setScissorTest(true)
+            // renderer.setScissor(x, y, width, height)
+            // renderer.setScissorTest(true)
         }
     }
 

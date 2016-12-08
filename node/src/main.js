@@ -24,7 +24,7 @@ function main() {
     console.log(Argon)
 
     // Used by the Navigo router library
-    const BASE_URL: string = 'https://alberta.livingarchives.org'
+    const BASE_URL: string = 'http://alberta.livingarchives.org'
     // Application Router
     const Router: Object = new Navigo(BASE_URL)
 
