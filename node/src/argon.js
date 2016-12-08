@@ -63,8 +63,8 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // labelObject.position.z = 200.0
     // labelObject.rotation.y = Math.PI
 
-    // let v = new THREE.Vector4(0, 0, 0)
-    // labelObject.lookAt(v)
+    let v = new THREE.Vector3(0, 0, 0)
+    labelObject.lookAt(v)
 
     geoObject.add(labelObject)
 

@@ -5,11 +5,6 @@ import * as THREE from 'three'
 import Navigo from 'navigo'
 import { routes } from './routes/index'
 
-Argon.RealityService.zoom = () => {
-    console.log('trying to zoom')
-    return false
-}
-
 import {
     // CSS3DArgonHUD,
     CSS3DArgonRenderer
@@ -29,7 +24,7 @@ function main() {
     console.log(Argon)
 
     // Used by the Navigo router library
-    const BASE_URL: string = 'http://alberta.livingarchives.org'
+    const BASE_URL: string = 'https://alberta.livingarchives.org'
     // Application Router
     const Router: Object = new Navigo(BASE_URL)
 
