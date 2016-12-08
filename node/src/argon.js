@@ -147,6 +147,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
                 location.geoObject.quaternion.copy(locationPose.orientation)
                 prev = getDistanceFromUser(userLocation, tmp)
             } else {
+                tmp.locationObject.position.copy(locationPose.position)
                 let n: number = getDistanceFromUser(userLocation, tmp)
 
                 if (n > (prev + 4) || n < (prev - 4)) {
