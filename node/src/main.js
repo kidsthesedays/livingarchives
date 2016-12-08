@@ -5,6 +5,8 @@ import * as THREE from 'three'
 import Navigo from 'navigo'
 import { routes } from './routes/index'
 
+Argon.RealityService.zoom = () => false
+
 import {
     // CSS3DArgonHUD,
     CSS3DArgonRenderer

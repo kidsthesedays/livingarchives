@@ -14,7 +14,6 @@ function before(state: Object): Function {
     return (done: Function) => {
         unmountComponentAtNode(state.reactMountNode)
         state.argonMountNode.style.display = 'none'
-        state.argonMountNode.style.touchAction = 'none'
         state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.8)'
         done()
     }
