@@ -3,10 +3,10 @@ import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
 // import { CSS3DObject } from './CSS3DArgon'
 import {
-    toFixed,
-    calculateDistance,
-    calculateAngle,
-    throttle
+    toFixed
+    // calculateDistance,
+    // calculateAngle,
+    // throttle
 } from './utilities'
 
 // Initialize stuff for argon
@@ -27,21 +27,20 @@ export function setupArgon(state: Object) {
 // Setup a new location
 export function setupLocation(meta: Object, content: string, state: Object): Object {
     // THREE.js 3D objects and a Cesium entity - these represents the location/pose
-    console.log(meta.longitude, meta.latitude)
     let locationObject: Object = new THREE.Object3D()
     let geoObject: Object = new THREE.Object3D()
     let geoEntity: Object = new Argon.Cesium.Entity({
         name: meta.name,
         orientation: Argon.Cesium.Quaternion.IDENTITY,
-        position: Argon.Cesium.Quaternion.ZERO
-        // position: Argon.Cesium.Cartesian3.fromDegrees(
-        //     meta.longitude,
-        //     meta.latitude
-        // )
+        // position: Argon.Cesium.Quaternion.ZERO
+        position: Argon.Cesium.Cartesian3.fromDegrees(
+            meta.longitude,
+            meta.latitude
+        )
     })
 
     let mesh: Object = new THREE.Mesh(
-        new THREE.PlaneGeometry(15, 15),
+        new THREE.PlaneGeometry(15, 15, 5),
         new THREE.MeshBasicMaterial({
             color: 0xffff00,
             side: THREE.DoubleSide
@@ -52,7 +51,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
     // mesh.rotation.x = -Math.PI / 2
     // locationObject.position.z = 100
     // locationObject.position.y = Math.PI
-    // locationObject.add(mesh)
+    locationObject.add(mesh)
     
     console.log(state.length)
 
@@ -82,7 +81,7 @@ export function setupLocation(meta: Object, content: string, state: Object): Obj
 
     // We need to add a location object to the geo object
     // to be able to calculate the distance between two objects
-    // geoObject.add(locationObject)
+    geoObject.add(locationObject)
 
     return {
         initialized: false,
@@ -124,7 +123,7 @@ export function getDistanceFromUser(user: Object, location: Object): number {
 export function updateUserAndLocationPosition(state: Object, id: number, cb: Function): Function {
     const {
         app,
-        // scene,
+        scene,
         userLocation,
         locations
     } = state
@@ -138,26 +137,19 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
     // scene.add(tmp.locationObject)
 
-    const calc = throttle((user, meta, mesh) => {
-        const d = calculateDistance(
-            user,
-            { lat: meta.latitude, lng: meta.longitude }
-        )
+    // const calc = throttle((user, meta, mesh) => {
+    //     const p = { lat: meta.latitude, lng: meta.longitude }
+    //     const d = calculateDistance(user, p)
+    //     const a = calculateAngle(user, p)
 
-        console.log('distance', d)
-        const a = calculateAngle(
-            user,
-            { lat: meta.latitude, lng: meta.longitude }
-        )
+    //     mesh.position.x = d
+    //     mesh.rotation.y = (a / 100)
 
-        console.log('angle', a)
+    //     console.log('distance', d)
+    //     console.log('angle', a)
+    // }, 1000)
 
-
-        mesh.position.x = d
-        mesh.rotation.y = (a / 100)
-    }, 500)
-
-    return () => {
+    return (frame: Object) => {
         // Update user position
         const userPose: Object = app.context.getEntityPose(app.context.user)
 
@@ -183,14 +175,14 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
 
             // location.geoEntity.position.setValue(lPos, defaultFrame)
             // location.geoEntity.orientation.setValue(Argon.Cesium.Quaternion.IDENTITY)
-            location.initialized = true
+            // location.initialized = true
 
             // scene.add(location.geoObject) 
-            userLocation.add(location.mesh)
+            // userLocation.add(location.mesh)
 
-            // if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
-            //     location.initialized = true
-            //     // scene.add(location.geoObject) 
+            if (Argon.convertEntityReferenceFrame(location.geoEntity, frame.time, Argon.Cesium.ReferenceFrame.FIXED)) {
+                location.initialized = true
+                scene.add(location.geoObject) 
             //     userLocation.add(location.mesh)
             //     // userLocation.add(location.labelObject)
             //     // cb(1)
@@ -200,10 +192,15 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
                 // // console.log(locationPose.position.x, locationPose.position.y, locationPose.position.z)
                 // location.mesh.position.x = L.x
                 // location.mesh.position.y = L.y
-            // }
+                const locationPose: Object = app.context.getEntityPose(location.geoEntity)
+                if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
+                    location.geoObject.position.copy(locationPose.position)
+                    location.geoObject.quaternion.copy(locationPose.orientation)
+                }
+            }
         }
 
-        calc(state.userPosition, location.meta, location.mesh)
+        // calc(state.userPosition, location.meta, location.mesh)
         
         // Update geo position
         // const locationPose: Object = app.context.getEntityPose(location.geoEntity)
@@ -240,6 +237,7 @@ export function updateUserAndLocationPosition(state: Object, id: number, cb: Fun
         // }
 
         cb(1)
+        // const locationPose: Object = app.context.getEntityPose(location.geoEntity)
         // if (locationPose.poseStatus & Argon.PoseStatus.KNOWN) {
         //     location.geoObject.position.copy(locationPose.position)
         //     location.geoObject.quaternion.copy(locationPose.orientation)

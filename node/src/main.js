@@ -11,10 +11,10 @@ import {
 } from './CSS3DArgon'
 
 import { setupArgon } from './argon'
-import {
-    setupLocationData,
-    setupUserData
-} from './utilities'
+// import {
+//     setupLocationData,
+//     setupUserData
+// } from './utilities'
 
 function main() {
     // TODO remove
@@ -55,8 +55,8 @@ function main() {
     // Initialize basic argon setup
     setupArgon(state)
     // Fetch location + user data and store it in the cache
-    setupLocationData(state)
-    setupUserData(state)
+    // setupLocationData(state)
+    // setupUserData(state)
 
     // Iterate through all routes and their urls,
     // add a new route for each of these urls

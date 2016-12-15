@@ -47,13 +47,18 @@ export function fetchLocationData(callback: Function) {
     const cached: Object = cache('locationData')
 
     if (!cached.hasOwnProperty('locations')) {
-        fetch('https://api.livingarchives.org/locations')
+        fetch('https://api.livingarchives.org/locations',
+            { credentials: 'include' }
+        )
             .then(res => res.json())
             .then(json => {
                 cache('locationData', json)
                 callback(json)
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                console.log(err)
+                callback({ locations: [], content: [] })
+            })
     } else {
         callback(cached)
     }

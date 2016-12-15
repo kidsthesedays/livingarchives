@@ -52,6 +52,8 @@ function route(state: Object): Function {
         )
 
         if (!location.hasOwnProperty('meta')) {
+            // White transparent background 
+            state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.9)'
             return render(
                 <App state={state}>
                     <Navigation
@@ -67,12 +69,12 @@ function route(state: Object): Function {
         const visited: bool = userHasVisitedLocation(state, location.meta.id)
 
         if (!visited) {
+            // White transparent background 
+            state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.9)'
             return render(
                 <App state={state}>
                     <Navigation
                         backUrl={`/locations/${id}/map`}
-                        distance={true}
-                        location={location}
                         title={`Location ${location.meta.position}`} />
                     <ErrorView msg='You need to visit the location first!' />
                 </App>,

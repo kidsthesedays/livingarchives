@@ -4,6 +4,9 @@ const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs'))
 const path = require('path')
 const json2csv = require('json2csv')
+const auth = require('http-auth')
+const jwt = require('express-jwt')
+const cookieParser = require('cookie-parser')
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -17,16 +20,35 @@ const DB_PASS = process.env.POSTGRES_PASSWORD
 const DB_NAME = process.env.POSTGRES_DB
 const db = pgp(`postgres://${DB_USER}:${DB_PASS}@postgres:5432/${DB_NAME}`)
 
+// ENV variables
+const DEBUG = process.env.NODE_DEBUG
+const HTTP_AUTH_USER = process.env.NODE_HTTP_AUTH_USER
+const HTTP_AUTH_PASS = process.env.NODE_HTTP_AUTH_PASS
+const JWT_SECRET = process.env.NODE_JWT_SECRET
+
 // Logger and request body parser
 app.use(morgan('combined'))
-// TODO add this later on
-// app.use(cors({ origin: 'https://alberta.livingarchives.org' }))
-app.use(cors())
+app.use(cookieParser())
+// TODO add origins to a ENV var perhaps? they are needed due to credentials = true
+// app.use(DEBUG ? cors({ credentials: true }) : cors({ origin: 'https://alberta.livingarchives.org', credentials: true }))
+app.use(cors({ origin: 'https://alberta.livingarchives.org', credentials: true }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+// HTTP basic auth handler
+const basicAuth = auth.basic(
+    { realm: 'Living Archives.' },
+    (user, pass, cb) => cb(user == HTTP_AUTH_USER && pass == HTTP_AUTH_PASS)
+)
+// Cookie + JWT auth handler
+const cookieJWT = jwt({
+    secret: JWT_SECRET,
+    getToken: req => req.cookies.access_token ? req.cookies.access_token : null 
+})
+
+
 // Fetches all statistics from the database
-app.get('/statistics', (req, res, next) => {
+app.get('/statistics', auth.connect(basicAuth), (req, res, next) => {
     // CSV header fields
     const fields = ['id', 'guid', 'location', 'type', 'created']
     // Success (json and csv) & Error handlers
@@ -43,12 +65,11 @@ app.get('/statistics', (req, res, next) => {
     }
 })
 
+app.options('/statistics', cors())
 // Inserts one statistic into the database
-app.post('/statistics', (req, res, next) => {
+app.post('/statistics', cookieJWT, (req, res, next) => {
     // Request doesnt contain enough data
-    if (!req.body.hasOwnProperty('guid')
-        || !req.body.hasOwnProperty('location')
-        || !req.body.hasOwnProperty('type')) {
+    if (!'guid' in req.body || !'location' in req.body || !'type' in req.body) {
         return res.status(400).json({ message: 'Bad request' })
     }
 
@@ -70,9 +91,9 @@ app.post('/statistics', (req, res, next) => {
 
 // Method of getting the ID from a filename (ex location_1.md)
 const getID = f => Number(f.match(/\d+/)[0])
-
+app.options('/locations', cors())
 // Shouldnt be requested to often if client stores the data in localStorage (possible bottleneck)
-app.get('/locations', (req, res, next) => {
+app.get('/locations', cookieJWT, (req, res, next) => {
     // Directory of content for each location
     const dir = `${__dirname}/locations`
     // Fetch meta data for each location
@@ -81,6 +102,7 @@ app.get('/locations', (req, res, next) => {
         // Fetch content for each location
         .then(json => (
             fs.readdirAsync(dir)
+                // Filter out markdown files
                 .filter(filename => path.extname(filename) === '.md')
                 .map(filename => (
                     fs.readFileAsync(`${dir}/${filename}`, 'utf8')
@@ -105,12 +127,13 @@ app.get('/locations', (req, res, next) => {
 
 // Error handler
 app.use((err, req, res, next) => {
-    res.status(err.status || 500).json({ status: 'error', message: err.message })
+    const msg = err.message ? err.message : 'Internal server error'
+    res.status(err.status || 500).json({ message: msg })
 })
 
 // 404
 app.use((req, res, next) => {
-    res.status(404).json({ status: 'error', message: 'not found' })    
+    res.status(404).json({ message: 'Page not found' })    
 })
 
 // Start listening for requests

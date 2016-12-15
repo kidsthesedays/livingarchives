@@ -140,6 +140,7 @@ export function calculateAngle(p1: Object, p2: Object): number {
 export function prepare(method: string, body: Object): Object {
     return {
         method,
+        credentials: 'include',
         headers: new Headers({ 'Content-type': 'application/json' }),
         body: JSON.stringify(body)
     }
