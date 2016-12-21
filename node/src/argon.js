@@ -14,9 +14,11 @@ export function setupArgon(state: Object) {
     // Initialize Argon
     state.app = Argon.init({
         configuration: {
-            'app.disablePinchZoom': true
+            'app.disablePinchZoom': true,
+            'reality.handlesZoom': false
         }
     })
+    state.app.reality.setDefault({ title: 'Empty', uri: 'reality:empty' })
     // state.app.session.configuration.role = 'RealityView'
     state.scene = new THREE.Scene()
     state.camera = new THREE.PerspectiveCamera()
