@@ -68,7 +68,8 @@ function route(state: Object): Function {
 
         const visited: bool = userHasVisitedLocation(state, location.meta.id)
 
-        if (!visited) {
+        // TODO fix
+        if (visited == 'abc') {
             // White transparent background 
             state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.9)'
             return render(

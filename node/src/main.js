@@ -1,27 +1,12 @@
 // @flow
-
-import * as Argon from '@argonjs/argon'
-import * as THREE from 'three'
 import Navigo from 'navigo'
 import { routes } from './routes/index'
-
-import {
-    // CSS3DArgonHUD,
-    CSS3DArgonRenderer
-} from './CSS3DArgon'
-
 import { setupArgon } from './argon'
-// import {
-//     setupLocationData,
-//     setupUserData
-// } from './utilities'
 
 function main() {
     // TODO remove
     console.log('clearing local storage')
     localStorage.clear()
-
-    console.log(Argon)
 
     // Used by the Navigo router library
     const BASE_URL: string = 'http://alberta.livingarchives.org'
@@ -36,16 +21,14 @@ function main() {
         reactMountNode: document.getElementById('mount'),
         argonMountNode: document.getElementById('argon'),
         locationIndicatorNode: document.getElementById('indicators'),
-        app: Argon.init(),
-        scene: new THREE.Scene(),
-        camera: new THREE.PerspectiveCamera(),
-        userLocation: new THREE.Object3D(),
-        renderer: new THREE.WebGLRenderer({
-            alpha: true,
-            logarithmicDepthBuffer: true
-        }),
-        cssRenderer: new CSS3DArgonRenderer(),
-        // hud: new CSS3DArgonHUD(), // TODO unused?
+        app: null,
+        scene: null,
+        camera: null,
+        userLocation: null,
+        renderer: null,
+        loader: null,
+        eyeEntity: null,
+        scratchQuaternion: null,
         locations: [],
         prevRoute: '',
         userPosition: {},
@@ -54,9 +37,6 @@ function main() {
 
     // Initialize basic argon setup
     setupArgon(state)
-    // Fetch location + user data and store it in the cache
-    // setupLocationData(state)
-    // setupUserData(state)
 
     // Iterate through all routes and their urls,
     // add a new route for each of these urls

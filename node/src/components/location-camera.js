@@ -3,9 +3,12 @@
 import React, { Component } from 'react'
 import { locationUnlocked } from '../cache'
 import Distance from '../components/distance'
-import { throttle } from '../utilities'
+// import { throttle } from '../utilities'
 import {
-    updateUserAndLocationPosition,
+    // updateUserAndLocationPosition,
+    // setupFrameFunc,
+    loadPanorama,
+    updateUserPose,
     renderArgon
 } from '../argon'
 
@@ -16,15 +19,15 @@ class LocationCamera extends Component {
     constructor(props: Object) {
         super(props)
 
-        const { state, location } = this.props
+        const { state } = this.props
 
 
         // Only throttle callback
-        this.updateFunc = updateUserAndLocationPosition(
-                state,
-                location.meta.id,
-                throttle((f, d) => console.log(f ? 'found' : 'lost', d), 6000)
-        )
+        // this.updateFunc = updateUserAndLocationPosition(
+        //         state,
+        //         location.meta.id,
+        //         throttle((f, d) => console.log(f ? 'found' : 'lost', d), 6000)
+        // )
 
         // Throttle whole update func (800ms)
         // this.updateFunc = throttle(
@@ -38,13 +41,24 @@ class LocationCamera extends Component {
 
         // NOTE callback could edit state so button is active
 
+        this.updateFunc = updateUserPose(state)
         this.renderFunc = renderArgon(state)
     }
 
     componentDidMount() {
-        const { state } = this.props
+        const { state, location } = this.props
         state.app.updateEvent.addEventListener(this.updateFunc)
         state.app.renderEvent.addEventListener(this.renderFunc)
+        // TODO bottleneck?
+        // setupFrameFunc(state)
+
+        const panorama = {
+            src: '/static/images/aqui.jpg',
+            longitude: location.meta.longitude,
+            latitude: location.meta.latitude
+        }
+
+        loadPanorama(state, panorama)
     }
 
     componentWillUnmount() {
