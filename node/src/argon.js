@@ -12,42 +12,49 @@ import {
 // Setup argon
 export function setupArgon(state: Object) {
     // Initialize Argon
-    state.app = Argon.init({
-        configuration: {
-            'app.disablePinchZoom': true,
-            'reality.handlesZoom': false
-        }
+    
+    state.app = Argon.init()
+    state.app.reality.setDesired({
+        title: 'Panorama',
+        uri: Argon.resolveURL('/static/reality/panorama.html')
     })
-    state.app.reality.setDefault({ title: 'Empty', uri: 'reality:empty' })
-    // state.app.session.configuration.role = 'RealityView'
-    state.scene = new THREE.Scene()
-    state.camera = new THREE.PerspectiveCamera()
-    state.userLocation = new THREE.Object3D()
-    state.renderer = new THREE.WebGLRenderer({
-        alpha: true,
-        logarithmicDepthBuffer: true
-    })
-    // Initialize the texture loader
-    state.loader = new THREE.TextureLoader()
-    state.loader.setCrossOrigin('anonymous')
-    // Eye entity that represents the eye for our custom reality
-    state.eyeEntity = new Argon.Cesium.Entity({
-        orientation: new Argon.Cesium.ConstantProperty(Argon.Cesium.Quaternion.IDENTITY)
-    })
-    // Recylable object
-    state.scratchQuaternion = new Argon.Cesium.Quaternion
-    // Set default reference frame and add the camera and user location to the scene
-    state.app.context.setDefaultReferenceFrame(state.app.context.localOriginEastUpSouth)
-    state.scene.add(state.camera)
-    state.scene.add(state.userLocation)
-    // set pixel ratio (ex "2" for retina screens etc)
-    state.renderer.setPixelRatio(window.devicePixelRatio)
-    // append renderers to our app view
-    state.app.view.element.appendChild(state.renderer.domElement)
-    // Disable location updates
-    state.app.device.loactionUpdatesEnabled = false
 
-    console.log(state.app)
+    // state.app = Argon.init({
+    //     configuration: {
+    //         'app.disablePinchZoom': true,
+    //         'reality.handlesZoom': false
+    //     }
+    // })
+    // state.app.reality.setDefault({ title: 'Empty', uri: 'reality:empty' })
+    // state.app.session.configuration.role = 'RealityView'
+    // state.scene = new THREE.Scene()
+    // state.camera = new THREE.PerspectiveCamera()
+    // state.userLocation = new THREE.Object3D()
+    // state.renderer = new THREE.WebGLRenderer({
+    //     alpha: true,
+    //     logarithmicDepthBuffer: true
+    // })
+    // // Initialize the texture loader
+    // state.loader = new THREE.TextureLoader()
+    // state.loader.setCrossOrigin('anonymous')
+    // // Eye entity that represents the eye for our custom reality
+    // state.eyeEntity = new Argon.Cesium.Entity({
+    //     orientation: new Argon.Cesium.ConstantProperty(Argon.Cesium.Quaternion.IDENTITY)
+    // })
+    // // Recylable object
+    // state.scratchQuaternion = new Argon.Cesium.Quaternion
+    // // Set default reference frame and add the camera and user location to the scene
+    // state.app.context.setDefaultReferenceFrame(state.app.context.localOriginEastUpSouth)
+    // state.scene.add(state.camera)
+    // state.scene.add(state.userLocation)
+    // // set pixel ratio (ex "2" for retina screens etc)
+    // state.renderer.setPixelRatio(window.devicePixelRatio)
+    // // append renderers to our app view
+    // state.app.view.element.appendChild(state.renderer.domElement)
+    // // Disable location updates
+    // state.app.device.loactionUpdatesEnabled = false
+
+    // console.log(state.app)
     // setupFrameFunc(state)
     // state.app2 = Argon.init()
     // state.app2.reality.setDefault({

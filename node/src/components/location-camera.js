@@ -4,23 +4,27 @@ import React, { Component } from 'react'
 import { locationUnlocked } from '../cache'
 import Distance from '../components/distance'
 // import { throttle } from '../utilities'
-import {
-    // updateUserAndLocationPosition,
-    // setupFrameFunc,
-    loadPanorama,
-    updateUserPose,
-    renderArgon
-} from '../argon'
+// import {
+//     // updateUserAndLocationPosition,
+//     // setupFrameFunc,
+//     loadPanorama,
+//     updateUserPose,
+//     renderArgon
+// } from '../argon'
 
 class LocationCamera extends Component {
+    state: Object
     renderFunc: Function
     updateFunc: Function
 
     constructor(props: Object) {
         super(props)
 
-        const { state } = this.props
+        const { location } = this.props
 
+        this.state = {
+            showOverlay: false
+        }
 
         // Only throttle callback
         // this.updateFunc = updateUserAndLocationPosition(
@@ -41,14 +45,25 @@ class LocationCamera extends Component {
 
         // NOTE callback could edit state so button is active
 
-        this.updateFunc = updateUserPose(state)
-        this.renderFunc = renderArgon(state)
+        // this.updateFunc = updateUserPose(state)
+        // this.renderFunc = renderArgon(state)
+        const panorama = {
+            url: '/static/images/aqui.jpg',
+            longitude: location.meta.longitude,
+            latitude: location.meta.latitude
+        }
+        const connectFunc = session => {
+            if (session.supportsProtocol('single.panorama')) {
+                session.request('single.panorama.showPanorama', panorama)
+            }
+        }
+        this.connectFunc = connectFunc
     }
 
     componentDidMount() {
-        const { state, location } = this.props
-        state.app.updateEvent.addEventListener(this.updateFunc)
-        state.app.renderEvent.addEventListener(this.renderFunc)
+        const { state } = this.props
+        // state.app.updateEvent.addEventListener(this.updateFunc)
+        // state.app.renderEvent.addEventListener(this.renderFunc)
         // TODO bottleneck?
         // setupFrameFunc(state)
 
@@ -59,19 +74,53 @@ class LocationCamera extends Component {
         //     providedReferenceFrames: ['FIXED']
         // })
 
-        const panorama = {
-            src: '/static/images/aqui.jpg',
-            longitude: location.meta.longitude,
-            latitude: location.meta.latitude
-        }
+        state.app.reality.connectEvent.addEventListener(this.connectFunc)
 
-        loadPanorama(state, panorama)
+        // loadPanorama(state, panorama)
     }
 
     componentWillUnmount() {
         const { state } = this.props
-        state.app.updateEvent.removeEventListener(this.updateFunc)
-        state.app.renderEvent.removeEventListener(this.renderFunc)
+        // state.app.updateEvent.removeEventListener(this.updateFunc)
+        // state.app.renderEvent.removeEventListener(this.renderFunc)
+        state.app.reality.connectEvent.removeEventListener(this.connectFunc)
+    }
+
+    toggleOverlay() {
+        this.setState({ showOverlay: !this.state.showOverlay })
+    }
+
+    closeOverlay() {
+        this.setState({ showOverlay: false })
+    }
+
+    renderOverlay() {
+
+        const cancel = e => {
+            e.stopPropagation()
+            e.nativeEvent.stopImmediatePropagation()
+        }
+
+        return (
+            <div
+                onClick={this.closeOverlay.bind(this)}
+                className='info-overlay'>
+                <div
+                    onClick={cancel}
+                    className='info-container'>
+                    <div
+                        onClick={this.closeOverlay.bind(this)}
+                        className='close-info-container'>
+                        <i className='icon ion-ios-close-empty'></i>
+                    </div>
+                    <div className='content'>
+                        <h2>Test</h2>
+                        <p>hehehe</p>
+                    
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     render() {
@@ -82,14 +131,16 @@ class LocationCamera extends Component {
         } = this.props
 
         const handleClick = () => {
-            locationUnlocked(location.meta.id)
-            state.navigate(`/locations/${location.meta.id}/story`)
+            // locationUnlocked(location.meta.id)
+            // state.navigate(`/locations/${location.meta.id}/story`)
+            this.toggleOverlay()
         }
 
         // TODO fix later
         // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
         const hasUnlockedLocation: bool = true
 
+        console.log(locationUnlocked, state)
 
         const activeButton = (
             <button 
@@ -119,6 +170,7 @@ class LocationCamera extends Component {
                         render={renderDistance} />
                 </div>
                 {hasUnlockedLocation ? activeButton : disabledButton}
+                {this.state.showOverlay ? this.renderOverlay() : null}
             </div>
         )
     }
