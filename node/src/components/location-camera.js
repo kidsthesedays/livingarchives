@@ -128,7 +128,7 @@ class LocationCamera extends Component {
 
     render() {
         const {
-            state,
+            // state,
             userPosition,
             location
         } = this.props
@@ -137,13 +137,15 @@ class LocationCamera extends Component {
             // locationUnlocked(location.meta.id)
             // state.navigate(`/locations/${location.meta.id}/story`)
             this.toggleOverlay()
+            // TODO Fix
+            if (22 == location.meta.id) locationUnlocked()
         }
 
         // TODO fix later
         // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
         const hasUnlockedLocation: bool = true
 
-        console.log(locationUnlocked == 1, state == 1)
+        // console.log(locationUnlocked == 1, state == 1)
 
         const activeButton = (
             <button 

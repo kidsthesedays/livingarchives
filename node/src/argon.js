@@ -25,21 +25,24 @@ export function setupArgon(state: Object) {
         }
     })
 
-    const showPanorama = panorama => {
+    const showPanorama = () => {
         let ready = false
 
-        return () => {
+        const loadPanorama = panorama => {
             if (ready || 'realitySession' in state) {
+                console.log('trying')
                 ready = true
                 state.realitySession.request('single.panorama.showPanorama', panorama)
             } else {
                 console.log('trying')
-                setTimeout(() => showPanorama(panorama), 200)
+                setTimeout(() => loadPanorama(panorama), 200)
             }
         }
+
+        return loadPanorama
     }
 
-    state.showPanorama = showPanorama
+    state.showPanorama = showPanorama()
 
     // state.app = Argon.init({
     //     configuration: {
