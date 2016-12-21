@@ -96,7 +96,7 @@ export function loadPanorama(state: Object, panorama: Object) {
             panorama.height || 0
         )
 
-       positionProperty.setValue(positionValue, Argon.Cesium.ReferenceFrame.FIXED)
+        positionProperty.setValue(positionValue, Argon.Cesium.ReferenceFrame.FIXED)
 
         const orientationProperty = new Argon.Cesium.ConstantProperty()
         const orientationValue = Argon.Cesium.Transforms.headingPitchRollQuaternion(
