@@ -62,7 +62,7 @@ class LocationCamera extends Component {
         // TODO bottleneck?
         // setupFrameFunc(state)
         const panorama = {
-            url: '/static/images/aqui.jpg',
+            url: location.meta.id == 2 ? '/static/images/cent.jpg' : '/static/images/aqui.jpg',
             longitude: location.meta.longitude,
             latitude: location.meta.latitude
         }
