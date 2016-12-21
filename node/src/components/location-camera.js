@@ -20,7 +20,7 @@ class LocationCamera extends Component {
     constructor(props: Object) {
         super(props)
 
-        const { location } = this.props
+        // const { location } = this.props
 
         this.state = {
             showOverlay: false
@@ -47,25 +47,28 @@ class LocationCamera extends Component {
 
         // this.updateFunc = updateUserPose(state)
         // this.renderFunc = renderArgon(state)
+        // const connectFunc = session => {
+        //     if (session.supportsProtocol('single.panorama')) {
+        //         session.request('single.panorama.showPanorama', panorama)
+        //     }
+        // }
+        // this.connectFunc = connectFunc
+    }
+
+    componentDidMount() {
+        const { state, location } = this.props
+        // state.app.updateEvent.addEventListener(this.updateFunc)
+        // state.app.renderEvent.addEventListener(this.renderFunc)
+        // TODO bottleneck?
+        // setupFrameFunc(state)
         const panorama = {
             url: '/static/images/aqui.jpg',
             longitude: location.meta.longitude,
             latitude: location.meta.latitude
         }
-        const connectFunc = session => {
-            if (session.supportsProtocol('single.panorama')) {
-                session.request('single.panorama.showPanorama', panorama)
-            }
-        }
-        this.connectFunc = connectFunc
-    }
 
-    componentDidMount() {
-        const { state } = this.props
-        // state.app.updateEvent.addEventListener(this.updateFunc)
-        // state.app.renderEvent.addEventListener(this.renderFunc)
-        // TODO bottleneck?
-        // setupFrameFunc(state)
+        state.showPanorama(panorama)
+        // setTimeout(() => state.realitySession.request('single.panorama.showPanorama', panorama), 2000)
 
         // const app  = Argon.init()
         // app.reality.setDefault({
@@ -74,16 +77,16 @@ class LocationCamera extends Component {
         //     providedReferenceFrames: ['FIXED']
         // })
 
-        state.app.reality.connectEvent.addEventListener(this.connectFunc)
+        // state.app.reality.connectEvent.addEventListener(this.connectFunc)
 
         // loadPanorama(state, panorama)
     }
 
     componentWillUnmount() {
-        const { state } = this.props
+        // const { state } = this.props
         // state.app.updateEvent.removeEventListener(this.updateFunc)
         // state.app.renderEvent.removeEventListener(this.renderFunc)
-        state.app.reality.connectEvent.removeEventListener(this.connectFunc)
+        // state.app.reality.connectEvent.removeEventListener(this.connectFunc)
     }
 
     toggleOverlay() {
@@ -140,7 +143,7 @@ class LocationCamera extends Component {
         // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
         const hasUnlockedLocation: bool = true
 
-        console.log(locationUnlocked, state)
+        console.log(locationUnlocked == 1, state == 1)
 
         const activeButton = (
             <button 

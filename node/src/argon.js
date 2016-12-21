@@ -19,6 +19,28 @@ export function setupArgon(state: Object) {
         uri: Argon.resolveURL('/static/reality/panorama.html')
     })
 
+    state.app.reality.connectEvent.addEventListener(session => {
+        if (session.supportsProtocol('single.panorama')) {
+            state.realitySession = session
+        }
+    })
+
+    const showPanorama = panorama => {
+        let ready = false
+
+        return () => {
+            if (ready || 'realitySession' in state) {
+                ready = true
+                state.realitySession.request('single.panorama.showPanorama', panorama)
+            } else {
+                console.log('trying')
+                setTimeout(() => showPanorama(panorama), 200)
+            }
+        }
+    }
+
+    state.showPanorama = showPanorama
+
     // state.app = Argon.init({
     //     configuration: {
     //         'app.disablePinchZoom': true,
