@@ -6,7 +6,7 @@ import Distance from '../components/distance'
 // import { throttle } from '../utilities'
 import {
     // updateUserAndLocationPosition,
-    // setupFrameFunc,
+    setupFrameFunc,
     loadPanorama,
     updateUserPose,
     renderArgon
@@ -50,7 +50,14 @@ class LocationCamera extends Component {
         state.app.updateEvent.addEventListener(this.updateFunc)
         state.app.renderEvent.addEventListener(this.renderFunc)
         // TODO bottleneck?
-        // setupFrameFunc(state)
+        setupFrameFunc(state)
+
+        // const app  = Argon.init()
+        // app.reality.setDefault({
+        //     title: 'test',
+        //     uri: 'test',
+        //     providedReferenceFrames: ['FIXED']
+        // })
 
         const panorama = {
             src: '/static/images/aqui.jpg',

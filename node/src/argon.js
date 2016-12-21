@@ -12,7 +12,10 @@ import {
 // Setup argon
 export function setupArgon(state: Object) {
     // Initialize Argon
-    state.app = Argon.init()
+    state.app = Argon.init({
+        'app.disablePinchZoom': true
+    })
+    // state.app.session.configuration.role = 'RealityView'
     state.scene = new THREE.Scene()
     state.camera = new THREE.PerspectiveCamera()
     state.userLocation = new THREE.Object3D()
@@ -40,7 +43,14 @@ export function setupArgon(state: Object) {
     // Disable location updates
     state.app.device.loactionUpdatesEnabled = false
 
+    console.log(state.app)
     // setupFrameFunc(state)
+    // state.app2 = Argon.init()
+    // state.app2.reality.setDefault({
+    //     title: 'test',
+    //     uri: 'reality:empty',
+    //     providedReferenceFrames: ['FIXED']
+    // })
 }
 
 export function setupFrameFunc(state: Object): Function {
