@@ -1,6 +1,6 @@
 // @flow
 import 'whatwg-fetch'
-import { setupLocation } from './argon'
+// import { setupLocation } from './argon'
 import { fetchLocationData, fetchUserData } from './cache'
 
 // Format seconds to 0:00:00 format
@@ -87,7 +87,9 @@ export function setupLocationData(state: Object, cb: ?Function) {
                     .filter(c => c.id === location.id)
                     .reduce((_, c) => c.html, '')
 
-                return setupLocation(location, content, state)
+                // OLD
+                // return setupLocation(location, content, state)
+                return { initialized: false, meta: location, content: content }
             })
         }
 
