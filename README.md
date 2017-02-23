@@ -97,6 +97,12 @@ Upgrade from self-signed SSL certificate to letsencrypt (CA). **This has to be d
 $ sudo sh request-letsencrypt.sh
 ```
 
+Switch from HTTP-configuration (used locally) to HTTPS.
+
+```
+$ docker-compose exec nginx switch-to-https-only
+```
+
 Truncate the table `statistics`.
 
 ```

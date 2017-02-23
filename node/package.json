@@ -8,7 +8,7 @@
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "watch": "webpack --watch",
     "compile": "webpack",
-    "build": "webpack --optimize-minimize"
+    "build": "webpack --config webpack.config.prod.js"
   },
   "dependencies": {
     "@argonjs/argon": "^1.0.0",
