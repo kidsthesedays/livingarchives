@@ -1,12 +1,11 @@
 // @flow
-
 import React, { Component } from 'react'
-
 import Distance from '../components/distance'
+
+const renderDistance = d => <div className='distance'>{d}</div>
 
 class Navigation extends Component {
     state: Object
-    setState: Function
 
     constructor(props: Object) {
         super(props)
@@ -24,7 +23,6 @@ class Navigation extends Component {
     }
 
     render() {
-
         const {
             state,
             title,
@@ -42,8 +40,6 @@ class Navigation extends Component {
             state.prevRoute = ''
             state.navigate(backUrl || '')
         }
-
-        const renderDistance = d => <div className='distance'>{d}</div>
 
         let left: Object = <div></div>
         let right: Object = <div></div>
@@ -89,9 +85,11 @@ class Navigation extends Component {
 
         if (renderInfo) {
             infoComponent = (
-                <div
-                    onClick={this.closeOverlay.bind(this)}
-                    className='info-overlay'>
+                <div className='info-box'>
+                    <div
+                        onClick={this.closeOverlay.bind(this)}
+                        className='info-overlay'>
+                    </div>
                     <div
                         onClick={cancel}
                         className='info-container'>

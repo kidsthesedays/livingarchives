@@ -1,11 +1,6 @@
 // @flow
-
 import React from 'react'
-import {
-    render,
-    unmountComponentAtNode
-} from 'react-dom'
-
+import { render, unmountComponentAtNode } from 'react-dom'
 import App from '../components/app'
 import Guide from '../components/guide'
 
@@ -16,12 +11,6 @@ function before(state: Object): Function {
         state.argonMountNode.style.display = 'none'
         state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.8)'
         done()
-    }
-}
-
-// After
-function after(): Function {
-    return () => {
     }
 }
 
@@ -43,5 +32,5 @@ function route(state: Object): Function {
 export const guide: Object = {
     urls: ['/*'],
     route,
-    hooks: (state: Object) => ({ before: before(state), after: after(state) })
+    hooks: (state: Object) => ({ before: before(state) })
 }

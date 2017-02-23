@@ -14,7 +14,6 @@
 * } from './path/to/CSS3DArgon'
 *
 **/
-
 import * as THREE from 'three'
 
 export class CSS3DArgonHUD {

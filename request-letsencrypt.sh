@@ -3,13 +3,6 @@
 echo "Download certbot-auto into /usr/local/bin"
 curl https://dl.eff.org/certbot-auto > ./certbot-auto
 
-# Return value of commands are 0 or 1, 0 = success
-# if [ $? -eq 0 ]; then
-#     echo OK
-# else
-#     echo FAIL
-# fi
-
 echo "Make ./certbot-auto executable..."
 chmod a+x ./certbot-auto
 
@@ -37,8 +30,18 @@ docker-compose restart
 echo "Switch to HTTPS-only nginx configuration..."
 docker-compose exec nginx switch-to-https-only
 
-echo "Cleanup..."
-rm ./certbot-auto
-rm ./certbot.log
+# echo "Cleanup..."
+# rm ./certbot-auto
+# rm ./certbot.log
 
 echo "Done."
+
+#
+# TODO add saftey checks on commands
+# 
+# Return value of commands are 0 or 1, 0 = success
+# if [ $? -eq 0 ]; then
+#     echo OK
+# else
+#     echo FAIL
+# fi

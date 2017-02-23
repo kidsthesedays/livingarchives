@@ -46,7 +46,6 @@ const cookieJWT = jwt({
     getToken: req => req.cookies.access_token ? req.cookies.access_token : null 
 })
 
-
 // Fetches all statistics from the database
 app.get('/statistics', auth.connect(basicAuth), (req, res, next) => {
     // CSV header fields
@@ -58,6 +57,7 @@ app.get('/statistics', auth.connect(basicAuth), (req, res, next) => {
     // If the user request CSV or not
     const isCSV = req.query.format && req.query.format == 'csv' ? true : false
 
+    // TODO error handling
     if (req.query.type) {
         db.any('SELECT * FROM statistics WHERE type=${type}', req.query).then(isCSV ? csv : json).catch(e)
     } else {
@@ -91,7 +91,9 @@ app.post('/statistics', cookieJWT, (req, res, next) => {
 
 // Method of getting the ID from a filename (ex location_1.md)
 const getID = f => Number(f.match(/\d+/)[0])
+
 app.options('/locations', cors())
+
 // Shouldnt be requested to often if client stores the data in localStorage (possible bottleneck)
 app.get('/locations', cookieJWT, (req, res, next) => {
     // Directory of content for each location

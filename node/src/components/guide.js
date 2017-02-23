@@ -1,11 +1,8 @@
 // @flow
-
 import React from 'react'
-
 import { userStartedTour } from '../cache'
 
 const Guide = ({ state }: Object): Object => {
-
     const navigate: Function = () => {
         userStartedTour()
         state.navigate('/locations')
@@ -14,7 +11,12 @@ const Guide = ({ state }: Object): Object => {
     return (
         <div className='guide location-content'>
             <h1 className='title'>Finding Alberta</h1>
-            <p className='instructions'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <p className='instructions'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+            </p>
             <ol className='instructions-list'>
                 <li>Choose a spot</li>
                 <li>Find the house</li>

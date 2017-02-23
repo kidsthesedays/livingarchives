@@ -47,7 +47,6 @@ var scratchQuaternion = new Quaternion;
 
 // Our custom reality view must raise frame evetns at regular intervals
 function onFrame(time, index) {
-
     // Get the current display-aligned device orientation relative to the device geolocation
     app.device.update();
     var deviceOrientation = Argon.getEntityOrientation(app.device.displayEntity, time, app.device.geolocationEntity, scratchQuaternion);

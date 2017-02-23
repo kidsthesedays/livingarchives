@@ -2,18 +2,10 @@
 declare var google: Object
 
 import React, { Component } from 'react'
-import { mapStyles } from './map-style'
-import {
-    withGoogleMap,
-    GoogleMap,
-    Circle,
-    Marker
-} from 'react-google-maps'
+import { mapStyles } from '../map-style'
+import { withGoogleMap, GoogleMap, Circle, Marker } from 'react-google-maps'
 import { locationVisited } from '../cache'
-import {
-    calculateDistance,
-    userHasVisitedLocation
-} from '../utilities'
+import { calculateDistance, userHasVisitedLocation } from '../utilities'
 import Distance from '../components/distance'
 
 const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
@@ -22,7 +14,32 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
         lng: location.meta.longitude
     }
 
-    const userMarkerOpts = {
+    const googleMapOpts: Object = {
+        defaultZoom: 15,
+        defaultCenter: center,
+        defaultOptions: {
+            styles: mapStyles,
+            mapTypeControl: false,
+            streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false,
+            scaleControl: false
+        }
+    }
+
+    const circleOpts: Object = {
+        center: center,
+        radius: 80,
+        options: {
+            fillColor: 'red',
+            fillOpacity: 0.2,
+            strokeColor: 'red',
+            strokeOpacity: 0.5,
+            strokeWidth: 1
+        }
+    }
+
+    const userMarkerOpts: Object = {
         clickable: false,
         cursor: 'pointer',
         draggable: false,
@@ -46,75 +63,62 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
         key: 'User location'
     }
 
+    const markerOpts: Object = {
+        position: center,
+        label: String(location.meta.id),
+        key: location.meta.name
+    }
+
     return (
-        <GoogleMap
-            defaultZoom={15}
-            defaultCenter={center}
-            defaultOptions={{
-                styles: mapStyles,
-                mapTypeControl: false,
-                streetViewControl: false,
-                rotateControl: false,
-                fullscreenControl: false,
-                scaleControl: false
-            }}>
-
+        <GoogleMap {...googleMapOpts}>
             <Marker {...userMarkerOpts} />
-
-            <Circle
-                center={center}
-                radius={80}
-                options={{
-                    fillColor: 'red',
-                    fillOpacity: 0.2,
-                    strokeColor: 'red',
-                    strokeOpacity: 0.5,
-                    strokeWidth: 1
-                }} />
-            <Marker
-                position={center}
-                label={String(location.meta.id)}
-                key={location.meta.name} />
+            <Circle {...circleOpts} />
+            <Marker {...markerOpts}  />
         </GoogleMap>
     )
 })
 
-
 class LocationMap extends Component {
-    render() {
-        const {
-            state,
-            location,
-            userPosition
-        } = this.props
+    constructor(props: Object) {
+        super(props)
+    }
 
-        const handleClick: Function = () => {
-            locationVisited(location.meta.id)
-            state.navigate(`/locations/${location.meta.id}/camera`)
-        }
+    handleClick() {
+        const { state, location } = this.props
+        locationVisited(location.meta.id)
+        state.navigate(`/locations/${location.meta.id}/camera`)
+    }
 
-        const div: Object = <div style={{ height: '100%' }} />
-
-        const visited: bool = userHasVisitedLocation(state, location.meta.id)
-
-        const activeButton: Object = (
+    renderActiveButton() {
+        return (
             <button 
                 className='location-map-button'
-                onClick={handleClick}
+                onClick={this.handleClick.bind(this)}
                 type='button'>
                 <i className='icon ion-ios-checkmark-empty'></i>
             </button>
         )
+    }
 
-        const disabledButton: Object = (
+    renderDisabledButton() {
+        return (
             <button 
                 className='location-map-button disabled'
                 type='button'>
                 <i className='icon ion-ios-close-empty'></i>
             </button>
         )
+    }
 
-        const renderDistance: Function = d => <div className='distance'>{d}</div>
+    renderDistance(d: string) {
+        return <div className='distance'>{d}</div>
+    }
+
+    render() {
+        const { state, location, userPosition } = this.props
+
+        const div: Object = <div style={{ height: '100%' }} />
+        const visited: bool = userHasVisitedLocation(state, location.meta.id)
 
         if (userPosition === null) {
             return (
@@ -128,10 +132,10 @@ class LocationMap extends Component {
                         <Distance
                             userPosition={userPosition}
                             location={location}
-                            render={renderDistance} />
+                            render={this.renderDistance.bind(this)} />
                     </div>
 
-                    {disabledButton}
+                    {this.renderDisabledButton()}
                 </div>
             )
         }
@@ -146,9 +150,13 @@ class LocationMap extends Component {
             locationPosition
         )
 
+        const cls: string = state.audio.active
+            ? 'location-map audio-bar'
+            : 'location-map'
+
         // TODO fix distance-limit
         return (
-            <div className='location-map'>
+            <div className={cls}>
                 <Map
                     location={location}
                     userPosition={userPosition}
@@ -159,12 +167,14 @@ class LocationMap extends Component {
                     <Distance
                         userPosition={userPosition}
                         location={location}
-                        render={renderDistance} />
+                        render={this.renderDistance.bind(this)} />
                 </div>
 
                 {visited
-                    ? activeButton
-                    : distance < 1000000000 ? activeButton : disabledButton }
+                    ? this.renderActiveButton()
+                    : distance < 1000000000
+                        ? this.renderActiveButton()
+                        : this.renderDisabledButton()}
             </div>
         )
     }

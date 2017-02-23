@@ -1,18 +1,10 @@
 // @flow
-
 import React from 'react'
-import {
-    render,
-    unmountComponentAtNode
-} from 'react-dom'
-
+import { render, unmountComponentAtNode } from 'react-dom'
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationsMap from '../components/locations-map'
-import {
-    setupLocationData,
-    setupUserData
-} from '../utilities'
+import { setupLocationData, setupUserData } from '../utilities'
 
 // Before
 function before(state: Object): Function {
@@ -22,12 +14,6 @@ function before(state: Object): Function {
         state.documentRootNode.style.background = 'white'
         // Setup location data then the user data
         setupLocationData(state, () => setupUserData(state, done))
-    }
-}
-
-// After
-function after(): Function {
-    return () => {
     }
 }
 
@@ -60,5 +46,5 @@ function route(state: Object): Function {
 export const locationsMap = {
     urls: ['/map'],
     route,
-    hooks: (state: Object) => ({ before: before(state), after: after(state) })
+    hooks: (state: Object) => ({ before: before(state) })
 }

@@ -1,17 +1,10 @@
 // @flow
-
 import React from 'react'
-
-import {
-    calculateDistance,
-    humanReadableDistance
-} from '../utilities'
+import { calculateDistance, humanReadableDistance } from '../utilities'
 
 const Distance: Function = ({ location, userPosition, render }: Object) => {
-    // Render a distance of 0 meters if no user position is available
+    // Show a loading icon
     if (userPosition === null) {
-        // const temp: Object = render(humanReadableDistance(0))
-        // return <div>{temp}</div>
         return (
             <div className='spinner'>
                 <div className='bounce1'></div>

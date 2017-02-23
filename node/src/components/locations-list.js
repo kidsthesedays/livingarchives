@@ -1,18 +1,12 @@
 // @flow
-
 import React from 'react'
 import Distance from './distance'
-
-import {
-    userHasVisitedLocation,
-    userHasUnlockedLocation
-} from '../utilities'
+import { userHasVisitedLocation, userHasUnlockedLocation } from '../utilities'
 
 const sortByPosition: Function = (a, b): number => a.meta.position - b.meta.position
 const renderDistance: Object = d => <p className='distance'>{d}</p>
 
 const Location: Function = ({ location, navigate, state, userPosition, renderDistance }: Object): Object => {
-
     const backgroundStyle = {
         backgroundImage: `url(/static/images/location_${location.meta.id}.png)`,
         backgroundPosition: 'center',
@@ -23,7 +17,9 @@ const Location: Function = ({ location, navigate, state, userPosition, renderDis
     const visited = userHasVisitedLocation(state, location.meta.id)
     const unlocked = userHasUnlockedLocation(state, location.meta.id)
 
-    const title = visited && unlocked ? location.meta.name : `Location ${location.meta.position}`
+    const title = visited && unlocked
+        ? location.meta.name
+        : `Location ${location.meta.position}`
 
     return (
         <div
@@ -54,22 +50,25 @@ const Location: Function = ({ location, navigate, state, userPosition, renderDis
 }
 
 const LocationsList: Function = ({ state, userPosition }: Object): Object => {
-
     const navigate: Function = id => () => state.navigate(`/locations/${id}/map`)
 
-    const locationComponents = state.locations.sort(sortByPosition).map((location, i) => (
-        <Location
-            key={i}
-            location={location}
-            navigate={navigate}
-            state={state}
-            userPosition={userPosition}
-            renderDistance={renderDistance} />
-    ))
+    const locationComponents = state.locations
+        .sort(sortByPosition)
+        .map((location, i) => (
+            <Location
+                key={i}
+                location={location}
+                navigate={navigate}
+                state={state}
+                userPosition={userPosition}
+                renderDistance={renderDistance} />
+        ))
 
-    return (
-        <div className='locations-list'>{locationComponents}</div>
-    )
+    const cls: string = state.audio.active
+        ? 'locations-list audio-bar'
+        : 'locations-list'
+
+    return <div className={cls}>{locationComponents}</div>
 }
 
 export default LocationsList

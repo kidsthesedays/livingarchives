@@ -19,9 +19,9 @@
             "address": "Vesterbrogade 3, 1630 København V",
             "latitude": 55.67368,
             "longitude": 12.56814,
-            "audio": {
-                "title": "Voice recording: Victor",
-                "src": "example.mp3"
+            "video": {
+                "title": "Example video",
+                "src": "example.mp4"
             }
         },
         {
@@ -43,9 +43,13 @@
             "address": "Vodroffsvej 25, 1900 Frederiksberg C",
             "latitude": 55.67684,
             "longitude": 12.55357,
-            "audio": {
-                "title": "Voice recording: Victor",
-                "src": "example.mp3"
+            "gallery": {
+                "photos": [
+                    { "src": "example.jpg" },
+                    { "src": "example.jpg" },
+                    { "src": "example.jpg" },
+                    { "src": "example.jpg" }
+                ]
             }
         },
         {
@@ -55,9 +59,9 @@
             "address": "Griffenfeldsgade",
             "latitude": 55.68678,
             "longitude": 12.55287,
-            "audio": {
-                "title": "Voice recording: Victor",
-                "src": "example.mp3"
+            "video": {
+                "title": "Example video",
+                "src": "example.mp4"
             }
         },
         {

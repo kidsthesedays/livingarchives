@@ -1,11 +1,7 @@
 // @flow
-
 import 'whatwg-fetch'
 import { setupLocation } from './argon'
-import {
-    fetchLocationData,
-    fetchUserData
-} from './cache'
+import { fetchLocationData, fetchUserData } from './cache'
 
 // Format seconds to 0:00:00 format
 export function formatSeconds(seconds: number) {
@@ -99,6 +95,7 @@ export function setupLocationData(state: Object, cb: ?Function) {
     })
 }
 
+// Fetch and assign user data to the app state object
 export function setupUserData(state: Object, cb: ?Function) {
     fetchUserData(userData => {
         state.userData = userData
@@ -123,10 +120,12 @@ export function calculateDistance(p1: Object, p2: Object): number {
     return d
 }
 
+// Convert angle to degrees
 function toDegrees (angle) {
     return angle * (180 / Math.PI);
 }
 
+// Calculate angle between two points (lat, lng)
 export function calculateAngle(p1: Object, p2: Object): number {
     const dLon = p2.lng - p1.lng
     const y = Math.sin(dLon) * Math.cos(p2.lat)
@@ -137,6 +136,7 @@ export function calculateAngle(p1: Object, p2: Object): number {
     return brng
 }
 
+// Init options for fetching
 export function prepare(method: string, body: Object): Object {
     return {
         method,
@@ -146,6 +146,7 @@ export function prepare(method: string, body: Object): Object {
     }
 }
 
+// Send some statistics to the server
 export function sendStatistic(guid: number, location: number, type: string) {
     const url: string = 'https://api.livingarchives.org/statistics'
     const data: Object = { guid, type, location }
@@ -158,6 +159,7 @@ export function sendStatistic(guid: number, location: number, type: string) {
         .catch(e => console.log(e))
 }
 
+// Check if user has a certain prop
 export function checkUserDataProp(prop: string, state: Object, id: number): bool {
     if (!state.hasOwnProperty('userData')
         || !state.userData.locations.hasOwnProperty(`location_${id}`)
@@ -168,10 +170,12 @@ export function checkUserDataProp(prop: string, state: Object, id: number): bool
     return true
 }
 
+// Check if a user has visited a location or not
 export function userHasVisitedLocation(state: Object, id: number): bool {
     return checkUserDataProp('visited', state, id)
 }
 
+// Check if a user has unlocked a location or not
 export function userHasUnlockedLocation(state: Object, id: number): bool {
     return checkUserDataProp('unlocked', state, id)
 }

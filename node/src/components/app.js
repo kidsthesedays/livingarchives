@@ -1,9 +1,7 @@
 // @flow
-
 import React, { Children, cloneElement, Component } from 'react'
 
 class App extends Component {
-
     watchID: number
     state: Object
 
@@ -11,9 +9,7 @@ class App extends Component {
         super(props)
 
         this.watchID = 0
-        this.state = {
-            userPosition: null
-        }
+        this.state = { userPosition: null }
     }
 
     componentWillMount() {
@@ -34,6 +30,7 @@ class App extends Component {
         // TODO remove?
         const error: Function = e => {
             console.log('Unable to get position', e.message)
+
             const userPosition = {
                 lat: 55.5941971,
                 lng: 13.0167396
@@ -49,6 +46,7 @@ class App extends Component {
                 error
             )
 
+            // TODO also check for lng?
             if (state.userPosition.hasOwnProperty('lat')) {
                 this.setState({ userPosition: state.userPosition })
             }

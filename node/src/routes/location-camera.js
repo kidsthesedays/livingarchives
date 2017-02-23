@@ -1,16 +1,10 @@
 // @flow
-
 import React from 'react'
-import {
-    render,
-    unmountComponentAtNode
-} from 'react-dom'
-
+import { render, unmountComponentAtNode } from 'react-dom'
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationCamera from '../components/location-camera'
 import ErrorView from '../components/error-view'
-
 import {
     setupLocationData,
     setupUserData,
@@ -28,12 +22,6 @@ function before(state: Object): Function {
     }
 }
 
-// After
-function after(): Function {
-    return () => {
-    }
-}
-
 // Location camera route
 function route(state: Object): Function {
     return (params: Object) => {
@@ -42,7 +30,9 @@ function route(state: Object): Function {
         const { id } = params
         
         // NOTE: weak equality check due to strings
-        const location = state.locations.filter(loc => loc.meta.id == id).reduce((_, l) => l, {})
+        const location = state.locations
+            .filter(loc => loc.meta.id == id)
+            .reduce((_, l) => l, {})
 
         const goHome = () => state.navigate('/locations')
         const goHomeIcon = () => (
@@ -68,7 +58,7 @@ function route(state: Object): Function {
 
         const visited: bool = userHasVisitedLocation(state, location.meta.id)
 
-        // TODO fix
+        // TODO fix  (set to !visited)
         if (visited == 'abc') {
             // White transparent background 
             state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.9)'
@@ -86,7 +76,7 @@ function route(state: Object): Function {
         const info = () => (
             <div>
                 <h2>Info</h2>
-                <p>Här får vi fylla på med lite vettig info osv sen.</p>
+                <p>Informationsbeskrivning.</p>
             </div>
         )
 
@@ -111,5 +101,5 @@ function route(state: Object): Function {
 export const locationCamera = {
     urls: ['/locations/:id/camera'],
     route,
-    hooks: (state: Object) => ({ before: before(state), after: after(state) })
+    hooks: (state: Object) => ({ before: before(state) })
 }

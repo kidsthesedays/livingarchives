@@ -8,18 +8,14 @@ module.exports = {
         filename: 'bundle.js'
     },
     module: {
-        preLoaders: [
+        rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'eslint-loader'
-            }
-        ],
-        loaders: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader'
+                use: [
+                    // { loader: 'eslint-loader' }
+                    { loader: 'babel-loader' }
+                ]
             }
         ]
     }

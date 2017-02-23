@@ -1,10 +1,6 @@
 // @flow
-
 import 'whatwg-fetch'
-import {
-    guid,
-    sendStatistic
-} from './utilities'
+import { guid, sendStatistic } from './utilities'
 
 // Parse json more safely
 function parseJSON(json) {
@@ -45,11 +41,10 @@ function cache(key: string, value: ?Object): Object {
 // Fetch the location data from our API
 export function fetchLocationData(callback: Function) {
     const cached: Object = cache('locationData')
+    const url: string = 'https://api.livingarchives.org/locations'
 
     if (!cached.hasOwnProperty('locations')) {
-        fetch('https://api.livingarchives.org/locations',
-            { credentials: 'include' }
-        )
+        fetch(url, { credentials: 'include' })
             .then(res => res.json())
             .then(json => {
                 cache('locationData', json)
@@ -68,32 +63,33 @@ export function fetchLocationData(callback: Function) {
 export function fetchUserData(callback: Function) {
     const cached: Object = cache('userData')
 
-    if (!cached.hasOwnProperty('id')) {
-        fetchLocationData(json => {
-            const userData: Object = {
-                id: guid(window),
-                hasStarted: false,
-                currentSound: {
-                    id: 0,
-                    position: null
-                },
-                locations: json.locations.reduce((a, n) => {
-                    a[`location_${n.id}`] = {
-                        id: n.id,
-                        unlocked: false,
-                        visited: false,
-                        listened: false
-                    }
-                    return a
-                }, {})
+    if (cached.hasOwnProperty('id')) {
+        return callback(cached)
+    }
+
+    return fetchLocationData(json => {
+        const locations: Array<Object> = json.locations.reduce((a, n) => {
+            a[`location_${n.id}`] = {
+                id: n.id,
+                unlocked: false,
+                visited: false,
+                listened: false,
+                viewed: false
             }
 
-            cache('userData', userData)
-            callback(userData)
-        })
-    } else {
-        callback(cached)
-    }
+            return a
+        }, {})
+
+        const userData: Object = {
+            id: guid(window),
+            hasStarted: false,
+            currentSound: { id: 0, position: null },
+            locations: locations
+        }
+
+        cache('userData', userData)
+        callback(userData)
+    })
 }
 
 // TODO should we create a new object (copy) instead of mutating the current one?
@@ -118,6 +114,7 @@ export function locationVisited(id: number) {
     }
 }
 
+// Set current sound ID + elapsed time
 export function setCurrentSound(id: number, position: number) {
     const userData: Object = cache('userData')
 
@@ -147,6 +144,7 @@ export function setCurrentSound(id: number, position: number) {
     }
 }
 
+// Assign the location as unlocked for the current user
 export function locationUnlocked(id: number) {
     const userData: Object = cache('userData')
 
@@ -168,8 +166,29 @@ export function locationUnlocked(id: number) {
     }
 }
 
+// Assign the video as being seen by the user
+export function videoViewed(id: number) {
+    const userData: Object = cache('userData')
 
+    if (!userData.hasOwnProperty('id')) {
+        return false
+    }
 
+    if (userData.hasOwnProperty('locations')
+        && userData.locations.hasOwnProperty(`location_${id}`)
+        && !userData.locations[`location_${id}`].viewed) {
+        // Only update cache and send statistics if the video hasnt been viewed
+        userData.locations[`location_${id}`].viewed = true
+        cache('userData', userData)
+        sendStatistic(
+            userData.id,
+            id,
+            'viewed'
+        )
+    }
+}
+
+// User has started the tour (i.e using the web app)
 export function userStartedTour() {
     const userData: Object = cache('userData')
 

@@ -19,9 +19,16 @@ function main() {
         navigate: path => Router.navigate(`${window.location.origin}${path}`, true),
         documentRootNode: document.documentElement,
         reactMountNode: document.getElementById('mount'),
+        audioMountNode: document.getElementById('audio-mount'),
         argonMountNode: document.getElementById('argon'),
         locationIndicatorNode: document.getElementById('indicators'),
         app: null,
+        audio: {
+            active: false,
+            src: '',
+            name: '',
+            locationID: null
+        },
         scene: null,
         camera: null,
         userLocation: null,
