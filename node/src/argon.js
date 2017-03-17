@@ -1,5 +1,5 @@
 // @flow
-// declare var Argon
+declare var Argon
 // import * as Argon from '@argonjs/argon'
 import * as THREE from 'three'
 

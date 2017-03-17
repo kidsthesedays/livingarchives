@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { locationUnlocked } from '../cache'
 import Distance from './distance'
+import { calculateDistance } from '../utilities'
 import LocationOverlay from './location-overlay'
 
 const renderDistance: Object = d => <p className='distance'>{d}</p>
@@ -75,14 +76,23 @@ class LocationCamera extends Component {
         const { visibleOverlay } = this.state
 
         // TODO fix later
-        // const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
-        const hasUnlockedLocation: bool = true
+        const hasUnlockedLocation: bool = state.userData.locations[`location_${location.meta.id}`].unlocked
+        // const hasUnlockedLocation: bool = true
 
         const cls: string = state.audio.active
             ? 'location-camera audio-bar'
             : 'location-camera'
 
         // TODO add distance check to be able to unlock
+        const locationPosition: Object = {
+            lat: location.meta.latitude,
+            lng: location.meta.longitude
+        }
+
+        const distance: number = calculateDistance(
+            userPosition,
+            locationPosition
+        )
 
         return (
             <div className={cls}>
@@ -95,7 +105,9 @@ class LocationCamera extends Component {
 
                 {hasUnlockedLocation
                     ? this.renderActiveButton()
-                    : this.renderDisabledButton()}
+                    : distance < 30
+                        ? this.renderActiveButton()
+                        : this.renderDisabledButton()}
 
                 <LocationOverlay
                     state={state}
