@@ -29,7 +29,7 @@ const Map: Function = withGoogleMap(({ location, userPosition }: Object) => {
 
     const circleOpts: Object = {
         center: center,
-        radius: 50,
+        radius: 100,
         options: {
             fillColor: 'red',
             fillOpacity: 0.2,
