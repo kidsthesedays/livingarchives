@@ -94,6 +94,8 @@ class LocationCamera extends Component {
             locationPosition
         )
 
+        // TODO fix distance limit
+
         return (
             <div className={cls}>
                 <div className='distance-container'>
@@ -105,7 +107,7 @@ class LocationCamera extends Component {
 
                 {hasUnlockedLocation
                     ? this.renderActiveButton()
-                    : distance < 30
+                    : distance < 30000000
                         ? this.renderActiveButton()
                         : this.renderDisabledButton()}
 

@@ -172,7 +172,7 @@ class LocationMap extends Component {
 
                 {visited
                     ? this.renderActiveButton()
-                    : distance < 100
+                    : distance < 10000000
                         ? this.renderActiveButton()
                         : this.renderDisabledButton()}
             </div>
