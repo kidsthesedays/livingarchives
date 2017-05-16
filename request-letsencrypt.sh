@@ -20,6 +20,8 @@ echo "Requesting certificate via letsencrypt (certbot)..."
         -d www.livingarchives.org \
     -w ./sites/skybox \
         -d skybox.livingarchives.org \
+    -w ./sites/affexity \
+        -d affexity.livingarchives.org \
     -w ./node \
         -d alberta.livingarchives.org \
         -d api.livingarchives.org

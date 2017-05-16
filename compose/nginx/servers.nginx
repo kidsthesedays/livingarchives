@@ -110,7 +110,7 @@ server {
     }
 }
 
-# Aurasma (allow HTTP & HTTPS)
+# AffeXity (allow HTTP & HTTPS)
 # =================================
 server {
     listen 80;
@@ -122,10 +122,10 @@ server {
 
     charset utf-8;
 
-    root /opt/sites/aurasma;
+    root /opt/sites/affexity;
     index index.html;
     
-    server_name aurasma.livingarchives.org;
+    server_name affexity.livingarchives.org;
 
     ssl_certificate /etc/nginx/ssl/cert.pem;
     ssl_certificate_key /etc/nginx/ssl/key.pem;
@@ -133,7 +133,7 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/aurasma;
+        root /opt/sites/affexity;
         allow all;
     }
 
