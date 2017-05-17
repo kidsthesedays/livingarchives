@@ -58,12 +58,12 @@ var videoTexture = new THREE.Texture(videoCanvas);
 videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 
-var videoGeometry = new THREE.PlaneGeometry(300, 300);
+var videoGeometry = new THREE.PlaneGeometry(400, 400);
 var videoMaterial = new THREE.MeshBasicMaterial({
     map: videoTexture,
     overdraw: true,
     transparent: true,
-    opacity: 0.7
+    opacity: 0.4
 });
 
 
