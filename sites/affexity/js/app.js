@@ -47,8 +47,8 @@ enableInlineVideo(videoElement);
 
 // The canvas in which we render the video
 var videoCanvas = document.createElement('canvas');
-videoCanvas.width = 640;
-videoCanvas.height = 360;
+// videoCanvas.width = 640;
+// videoCanvas.height = 360;
 
 var videoCanvasContext = videoCanvas.getContext('2d');
 videoCanvasContext.fillStyle = '#000000';
@@ -58,7 +58,7 @@ var videoTexture = new THREE.Texture(videoCanvas);
 videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 
-var videoGeometry = new THREE.PlaneGeometry(250, 200, 1, 1);
+var videoGeometry = new THREE.PlaneGeometry(300, 300);
 var videoMaterial = new THREE.MeshBasicMaterial({
     map: videoTexture,
     overdraw: true,
