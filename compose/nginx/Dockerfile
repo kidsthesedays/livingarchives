@@ -1,4 +1,4 @@
-FROM nginx:1.10
+FROM nginx:1.13
 
 # Add nginx configuration
 COPY ./compose/nginx/nginx.conf /etc/nginx/nginx.conf
@@ -14,9 +14,7 @@ RUN chmod +x /usr/local/bin/switch-to-https-only
 
 # Install curl for downloading the certbot
 # Download certbot-auto and make it executable
-# RUN apt-get -qq update \
-#     && apt-get -qq -y install openssl
-RUN apt-get -qq -y install openssl --fix-missing
+RUN apt-get -qq update && apt-get -qq -y install openssl --fix-missing
 
 RUN openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 

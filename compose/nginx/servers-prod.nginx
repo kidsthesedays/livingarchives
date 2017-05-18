@@ -1,13 +1,11 @@
 # Finding Alberta
-# ===============
-# Redirect to HTTPS for the client side server
 server {
     listen 80;
     listen [::]:80;
     server_name alberta.livingarchives.org;
 
     location ~ /.well-known {
-        root /opt/node;
+        root /opt/node/finding-alberta;
         allow all;
     }
 
@@ -17,8 +15,6 @@ server {
 }
 
 # Finding Alberta
-# ===============
-# Serves the client side server for Finding Alberta
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
@@ -33,7 +29,7 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/node;
+        root /opt/node/finding-alberta;
         allow all;
     }
 
@@ -43,27 +39,25 @@ server {
     }
 
     location /static {
-        alias /opt/node/static;
+        alias /opt/node/finding-alberta/static;
     }
 
     location / {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://node:3000;
+        proxy_pass http://node:3001;
     }
 }
 
-# API for Finding Alberta
-# =======================
-# Redirect to HTTPS for the database side server
+# Statistics database
 server {
     listen 80;
     listen [::]:80;
     server_name api.livingarchives.org;
 
     location ~ /.well-known {
-        root /opt/node;
+        root /opt/node/statistics-database;
         allow all;
     }
 
@@ -72,9 +66,7 @@ server {
     }
 }
 
-# API for Finding Alberta
-# =======================
-# Serves the database server for Finding Alberta
+# Statistics database
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
@@ -90,7 +82,7 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/node;
+        root /opt/node/statistics-datbase;
         allow all;
     }
 
@@ -103,20 +95,122 @@ server {
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://node:3001;
+        proxy_pass http://node:3000;
+    }
+}
+
+# Bitter and sweet
+server {
+    listen 80;
+    listen [::]:80;
+    server_name bitterandsweet.livingarchives.org;
+
+    location ~ /.well-known {
+        root /opt/node/bitter-and-sweet;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# Bitter and Sweet
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+    
+    server_name bitterandsweet.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/node/bitter-and-sweet;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location /static {
+        alias /opt/node/bitter-and-sweet/static;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://node:3002;
+    }
+}
+
+# Somatic Archiving
+server {
+    listen 80;
+    listen [::]:80;
+    server_name somatic.livingarchives.org;
+
+    location ~ /.well-known {
+        root /opt/node/somatic-archiving;
+        allow all;
+    }
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+}
+
+# Somatic Archiving
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    charset utf-8;
+    
+    server_name somatic.livingarchives.org;
+
+    ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/node/somatic-archiving;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location /static {
+        alias /opt/node/somatic-archiving/static;
+    }
+
+    location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_pass http://node:3003;
     }
 }
 
 # Skybox
-# ======
-# Redirect to HTTPS for the skybox project
 server {
     listen 80;
     listen [::]:80;
     server_name skybox.livingarchives.org;
 
     location ~ /.well-known {
-        root /opt/sites/skybox;
+        root /opt/sites/skybox.livingarchives.org;
         allow all;
     }
 
@@ -126,15 +220,13 @@ server {
 }
 
 # Skybox
-# ======
-# Serves the skybox project for Living Archives
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
     charset utf-8;
 
-    root /opt/sites/skybox;
+    root /opt/sites/skybox.livingarchives.org;
     index index.html;
     
     server_name skybox.livingarchives.org;
@@ -145,7 +237,7 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/skybox;
+        root /opt/sites/skybox.livingarchives.org;
         allow all;
     }
 
@@ -160,15 +252,13 @@ server {
 }
 
 # AffeXity
-# ======
-# Redirect to HTTPS for the skybox project
 server {
     listen 80;
     listen [::]:80;
-    server_name affexity;
+    server_name affexity.livingarchives.org;
 
     location ~ /.well-known {
-        root /opt/sites/affexity;
+        root /opt/sites/affexity.livingarchives.org;
         allow all;
     }
 
@@ -178,15 +268,13 @@ server {
 }
 
 # AffeXity
-# ======
-# Serves the skybox project for Living Archives
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
     charset utf-8;
 
-    root /opt/sites/affexity;
+    root /opt/sites/affexity.livingarchives.org;
     index index.html;
     
     server_name affexity.livingarchives.org;
@@ -197,7 +285,7 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/affexity;
+        root /opt/sites/affexity.livingarchives.org;
         allow all;
     }
 
@@ -212,15 +300,13 @@ server {
 }
 
 # Front page
-# ==========
-# Redirect to HTTPS for the root site
 server {
     listen 80;
     listen [::]:80;
     server_name livingarchives.org www.livingarchives.org;
 
     location ~ /.well-known {
-        root /opt/sites/livingarchives;
+        root /opt/sites/livingarchives.org;
         allow all;
     }
 
@@ -230,15 +316,13 @@ server {
 }
 
 # Front page
-# ==========
-# Serves the root site for Living Archives
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
     charset utf-8;
 
-    root /opt/sites/livingarchives;
+    root /opt/sites/livingarchives.org;
     index index.html;
     
     server_name livingarchives.org www.livingarchives.org;
@@ -249,7 +333,7 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/livingarchives;
+        root /opt/sites/livingarchives.org;
         allow all;
     }
 

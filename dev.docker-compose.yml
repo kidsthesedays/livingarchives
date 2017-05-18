@@ -36,8 +36,12 @@ services:
         ports:
             - "80:80"
             - "443:443"
-            - "8001:8001" # skybox (testing)
-            - "8002:8002" # landing page (testing)
-            - "8003:8003" # AffeXity (testing)
+            - "3000:3000" # api.livingarchives.org
+            - "3001:3001" # alberta.livingarchives.org
+            - "3002:3002" # bitterandsweet.livingarchives.org
+            - "3003:3003" # somatic.livingarchives.org
+            - "8000:8000" # livingarchives.org
+            - "8001:8001" # skybox.livingarchives.org
+            - "8002:8002" # affexity.livingarchives.org
         volumes:
             - ./sites:/opt/sites:rw

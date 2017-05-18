@@ -12,6 +12,14 @@ fi
 echo "Truncating table: statistics"
 echo "---------------"
 
-psql -U $POSTGRES_USER -c 'TRUNCATE statistics'
+# Finding alberta
+psql -U $POSTGRES_USER -c 'TRUNCATE statistics-fa'
+echo "Successfully truncated the table: statistics-fa"
 
-echo "Successfully truncated the table: statistics"
+# Bitter and sweet
+psql -U $POSTGRES_USER -c 'TRUNCATE statistics-bs'
+echo "Successfully truncated the table: statistics-bs"
+
+# Somatic archiving
+psql -U $POSTGRES_USER -c 'TRUNCATE statistics-sa'
+echo "Successfully truncated the table: statistics-sa"

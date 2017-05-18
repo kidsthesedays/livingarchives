@@ -1,0 +1,92 @@
+{
+    "locations": [
+        {
+            "id": 1,
+            "position": 1,
+            "name": "First home",
+            "address": "Vestergade 12, 1456 København K",
+            "latitude": 55.67781,
+            "longitude": 12.57032,
+            "audio": {
+                "title": "Voice recording: Victor",
+                "src": "example.mp3"
+            }
+        },
+        {
+            "id": 2,
+            "position": 2,
+            "name": "The Exhibition Space: Tivoli Gardens",
+            "address": "Vesterbrogade 3, 1630 København V",
+            "latitude": 55.67368,
+            "longitude": 12.56814,
+            "video": {
+                "title": "Example video",
+                "src": "example.mp4"
+            }
+        },
+        {
+            "id": 3,
+            "position": 3,
+            "name": "The School",
+            "address": "Nørre Farimagsgade 51, 1364 København K",
+            "latitude": 55.68396,
+            "longitude": 12.56684,
+            "audio": {
+                "title": "Voice recording: Victor",
+                "src": "example.mp3"
+            }
+        },
+        {
+            "id": 4,
+            "position": 4,
+            "name": "The Vanished final address of residence",
+            "address": "Vodroffsvej 25, 1900 Frederiksberg C",
+            "latitude": 55.67684,
+            "longitude": 12.55357,
+            "gallery": {
+                "photos": [
+                    { "src": "example.jpg" },
+                    { "src": "example.jpg" },
+                    { "src": "example.jpg" },
+                    { "src": "example.jpg" }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "position": 5,
+            "name": "Old St Josephs Hospital",
+            "address": "Griffenfeldsgade",
+            "latitude": 55.68678,
+            "longitude": 12.55287,
+            "video": {
+                "title": "Example video",
+                "src": "example.mp4"
+            }
+        },
+        {
+            "id": 6,
+            "position": 6,
+            "name": "Hellig Kors Kirke",
+            "address": "Kapelvej 38, 2200 København N",
+            "latitude": 55.68766,
+            "longitude": 12.55151,
+            "audio": {
+                "title": "Voice recording: Victor",
+                "src": "example.mp3"
+            }
+        },
+        {
+            "id": 7,
+            "position": 7,
+            "name": "Folkets park",
+            "address": "Amiralsgatan 35, 214 37 Malmö",
+            "latitude": 55.594748,
+            "longitude": 13.016520,
+            "audio": {
+                "title": "Voice recording: Victor",
+                "src": "example.mp3"
+            }
+        }
+    ]
+}

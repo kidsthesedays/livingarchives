@@ -1,0 +1,38 @@
+{
+  "name": "finding-alberta",
+  "version": "0.2.0",
+  "main": "server.js",
+  "repository": {
+    "url": "livingarchives/livingarchives",
+    "type": "git"
+  },
+  "author": "Sebastian Bengtegard",
+  "license": "MIT",
+  "scripts": {
+    "watch": "webpack --watch",
+    "compile": "webpack",
+    "build": "webpack -p"
+  },
+  "dependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
+    "marked": "^0.3.6",
+    "morgan": "^1.8.1",
+    "navigo": "^4.7.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-google-maps": "^6.3.0",
+    "react-image-gallery": "^0.8.0",
+    "react-player": "^0.18.0",
+    "react-rangeslider": "^2.0.1",
+    "three": "^0.85.2",
+    "webpack": "^2.5.1",
+    "whatwg-fetch": "^2.0.3"
+  }
+}

@@ -1,26 +1,29 @@
-FROM node:6.8
+FROM node:7.10
 
-# RUN groupadd -r node && useradd -r -g node node
+# Global install yarn package manager
+RUN apt-get update && apt-get install -y curl apt-transport-https && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install -y yarn
 
-RUN npm install -g pm2@2.0.18 yarn
+RUN yarn global add pm2@2.4.6
 
-# TODO only copy files that are needed
-COPY node /opt/node/
+COPY ./node /opt/node/
+
 COPY ./compose/node/entrypoint.sh /entrypoint.sh
-
-# RUN chown -R node /opt/node \
-#     && chmod +x /entrypoint.sh \
-#     && chown node /entrypoint.sh
-
 RUN chmod +x /entrypoint.sh
+
+WORKDIR /opt/node/finding-alberta
+RUN yarn install
+WORKDIR /opt/node/bitter-and-sweet
+RUN yarn install
+WORKDIR /opt/node/somatic-archiving
+RUN yarn install
 
 WORKDIR /opt/node
 
-# TODO does this work? or does it rely on node_modules being copied already?
-RUN yarn install
-
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 3000 3001
+EXPOSE 3000-3003
 
-CMD ["pm2-docker", "process.yml"]
+CMD ["pm2-docker", "ecosystem.config.js"]
