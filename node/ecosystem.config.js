@@ -2,28 +2,28 @@
 module.exports = {
     apps: [
         {
-            name: 'statistics-database',
+            name: 'DB',
             script: './statistics-database/server.js',
             exec_mode: 'cluster',
             instances: 0,
             watch: true
         },
         {
-            name: 'finding-alberta',
+            name: 'FA',
             script: './finding-alberta/server.js',
             exec_mode: 'cluster',
             instances: 0,
             watch: true
         },
         {
-            name: 'bitter-and-sweet',
+            name: 'BS',
             script: './bitter-and-sweet/server.js',
             exec_mode: 'cluster',
             instances: 0,
             watch: true
         },
         {
-            name: 'somatic-archiving',
+            name: 'SA',
             script: './somatic-archiving/server.js',
             exec_mode: 'cluster',
             instances: 0,
