@@ -254,7 +254,7 @@ server {
     server_name somatic.livingarchives.org;
 
     location ~ /.well-known {
-        root /opt/sites/somatic.livingarchives.org
+        root /opt/sites/somatic.livingarchives.org;
         allow all;
     }
 
