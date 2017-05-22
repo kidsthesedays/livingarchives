@@ -1,14 +1,20 @@
 #!/bin/bash
-echo "Download certbot-auto into /usr/local/bin"
-curl https://dl.eff.org/certbot-auto > ./certbot-auto
 
-echo "Make ./certbot-auto executable..."
-chmod a+x ./certbot-auto
+if ! [ -x "$(command -v certbot)" ]; then
+    echo 'Error: Certbot is not installed.' >&2
+    exit 1
+fi
 
-echo "Requesting certificate via letsencrypt (certbot)..."
+# Install CERTBOT via:
+#   $ sudo apt-get install software-properties-common
+#   $ sudo add-apt-repository ppa:certbot/certbot
+#   $ sudo apt-get update
+#   $ sudo apt-get install certbot 
+
+echo "Running Certbot..."
 
 # Create a letsencrypt certificate
-./certbot-auto certonly \
+certbot certonly \
     --non-interactive \
     --email sebastianbengtegard@gmail.com \
     --agree-tos \
@@ -24,25 +30,30 @@ echo "Requesting certificate via letsencrypt (certbot)..."
     -w ./node/statistics-database \
         -d api.livingarchives.org
     -w ./node/finding-alberta \
-        -d alberta.livingarchives.org \
+        -d alberta.livingarchives.org
+
+
+#    -w ./sites/somatic.livingarchives.org \
+#        -d somatic.livingarchives.org \
 #     -w ./node/bitter-and-sweet \
 #         -d bitterandsweet.livingarchives.org \
-#     -w ./node/somatic-archiving \
-#         -d somatic.livingarchives.org \
 
-echo "Restarting docker-compose..."
-docker-compose restart
+while true; do
+    read -p "Restart docker-compose?" yn
+    case $yn in
+        [Yy]* ) docker-compose restart; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
-echo "Switching to HTTPS-only nginx configuration..."
-docker-compose exec nginx switch-to-https-only
+while true; do
+    read -p "Switch to HTTPS-only nginx configuration?" yn
+    case $yn in
+        [Yy]* ) docker-compose exec nginx switch-to-https-only; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
 
 echo "Done."
-
-# TODO add saftey checks on commands
-# 
-# Return value of commands are 0 or 1, 0 = success
-# if [ $? -eq 0 ]; then
-#     echo OK
-# else
-#     echo FAIL
-# fi

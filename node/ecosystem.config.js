@@ -21,13 +21,6 @@ module.exports = {
             exec_mode: 'cluster',
             instances: 0,
             watch: true
-        },
-        {
-            name: 'SA',
-            script: './somatic-archiving/server.js',
-            exec_mode: 'cluster',
-            instances: 0,
-            watch: true
-        },
+        }
     ]
 }

@@ -17,13 +17,11 @@ WORKDIR /opt/node/finding-alberta
 RUN yarn install
 WORKDIR /opt/node/bitter-and-sweet
 RUN yarn install
-WORKDIR /opt/node/somatic-archiving
-RUN yarn install
 
 WORKDIR /opt/node
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-EXPOSE 3000-3003
+EXPOSE 3000-3002
 
 CMD ["pm2-docker", "ecosystem.config.js"]

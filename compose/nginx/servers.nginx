@@ -112,45 +112,6 @@ server {
     }
 }
 
-# Somatic Archiving
-server {
-    listen 80;
-    listen [::]:80;
-    listen 443 ssl;
-    listen [::]:443 ssl;
-    listen 3003;
-
-    server_name somatic.livingarchives.org;
-
-    charset utf-8;
-
-    ssl_certificate /etc/nginx/ssl/cert.pem;
-    ssl_certificate_key /etc/nginx/ssl/key.pem;
-
-    include ssl-params.nginx;
-
-    location ~ /.well-known {
-        root /opt/node/somatic-archiving;
-        allow all;
-    }
-
-    location /favicon.ico {
-        access_log off;
-        log_not_found off;
-    }
-
-    location /static {
-        alias /opt/node/somatic-archiving/static;
-    }
-
-    location / {
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_pass http://node:3003;
-    }
-}
-
 # Skybox
 server {
     listen 80;
@@ -208,6 +169,41 @@ server {
 
     location ~ /.well-known {
         root /opt/sites/affexity.livingarchives.org;
+        allow all;
+    }
+
+    location /favicon.ico {
+        access_log off;
+        log_not_found off;
+    }
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+# Somatic Archiving
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    listen 8003;
+
+    charset utf-8;
+
+    root /opt/sites/somatic.livingarchives.org;
+    index index.html;
+
+    server_name somatic.livingarchives.org;
+
+    ssl_certificate /etc/nginx/ssl/cert.pem;
+    ssl_certificate_key /etc/nginx/ssl/key.pem;
+
+    include ssl-params.nginx;
+
+    location ~ /.well-known {
+        root /opt/sites/somatic.livingarchives.org;
         allow all;
     }
 

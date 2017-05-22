@@ -39,3 +39,11 @@ services:
         volumes:
             - /etc/letsencrypt/:/etc/letsencrypt
             - ./sites:/opt/sites:rw
+    sftp:
+        image: atmoz/sftp
+        container_name: larmgrand-sftp
+        volumes:
+            - ./sftp-users.conf:/etc/sftp-users.conf:ro
+            - ./sites/affexity.livingarchives.org:/home/livingarchives/affexity.livingarchives.org
+        ports:
+            - "2222:22"

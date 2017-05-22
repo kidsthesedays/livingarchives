@@ -1,8 +1,7 @@
-DROP TABLE IF EXISTS statisticsFA;
-DROP TABLE IF EXISTS statisticsBS;
-DROP TABLE IF EXISTS statisticsSA;
+DROP TABLE IF EXISTS statisticsFindingAlberta;
+DROP TABLE IF EXISTS statisticsBitterAndSweet;
 
-CREATE TABLE statisticsFA (
+CREATE TABLE statisticsFindingAlberta (
     id SERIAL PRIMARY KEY,
     guid INTEGER,
     location INTEGER,
@@ -11,16 +10,7 @@ CREATE TABLE statisticsFA (
     UNIQUE (guid, location, type)
 );
 
-CREATE TABLE statisticsBS (
-    id SERIAL PRIMARY KEY,
-    guid INTEGER,
-    location INTEGER,
-    type VARCHAR,
-    created DATE,
-    UNIQUE (guid, location, type)
-);
-
-CREATE TABLE statisticsSA (
+CREATE TABLE statisticsBitterAndSweet (
     id SERIAL PRIMARY KEY,
     guid INTEGER,
     location INTEGER,

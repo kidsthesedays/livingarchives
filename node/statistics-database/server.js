@@ -99,17 +99,14 @@ const postStats = t => (req, res, next) => {
 // Enable OPTIONS for each project
 app.options('/statistics-fa', cors())
 app.options('/statistics-bs', cors())
-app.options('/statistics-sa', cors())
 
 // Fetches all statistics from the database
-app.get('/statistics-fa', auth.connect(basicAuth), getStats('statisticsFA'))
-app.get('/statistics-bs', auth.connect(basicAuth), getStats('statisticsBS'))
-app.get('/statistics-sa', auth.connect(basicAuth), getStats('statisticsSA'))
+app.get('/statistics-fa', auth.connect(basicAuth), getStats('statisticsFindingAlberta'))
+app.get('/statistics-bs', auth.connect(basicAuth), getStats('statisticsBitterAndSweet'))
 
 // Inserts one statistic into the database
-app.post('/statistics-fa', cors(corsOptions), cookieJWT, postStats('statisticsFA'))
-app.post('/statistics-bs', cors(corsOptions), cookieJWT, postStats('statisticsBS'))
-app.post('/statistics-sa', cors(corsOptions), cookieJWT, postStats('statisticsSA'))
+app.post('/statistics-fa', cors(corsOptions), cookieJWT, postStats('statisticsFindingAlberta'))
+app.post('/statistics-bs', cors(corsOptions), cookieJWT, postStats('statisticsBitterAndSweet'))
 
 // Error handler
 app.use((err, req, res, next) => {

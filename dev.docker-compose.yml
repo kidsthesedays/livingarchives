@@ -39,9 +39,17 @@ services:
             - "3000:3000" # api.livingarchives.org
             - "3001:3001" # alberta.livingarchives.org
             - "3002:3002" # bitterandsweet.livingarchives.org
-            - "3003:3003" # somatic.livingarchives.org
             - "8000:8000" # livingarchives.org
             - "8001:8001" # skybox.livingarchives.org
             - "8002:8002" # affexity.livingarchives.org
+            - "8003:8003" # somatic.livingarchives.org
         volumes:
             - ./sites:/opt/sites:rw
+    sftp:
+        image: atmoz/sftp
+        container_name: larmgrand-sftp
+        volumes:
+            - ./sftp-users.conf:/etc/sftp-users.conf:ro
+            - ./sites/affexity.livingarchives.org:/home/livingarchives/affexity.livingarchives.org
+        ports:
+            - "2222:22"

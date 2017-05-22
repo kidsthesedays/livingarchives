@@ -48,3 +48,5 @@ node/somatic-archiving/static/js/bundle.js
 # Misc
 certbot-auto
 .DS_Store
+
+sftp-users.conf
