@@ -131,6 +131,7 @@ class AudioPlayerBar extends Component {
                     <div className='audio-player-bar-expanded-content'>
                         <p className='audio-name'>{state.audio.name}</p>
                         <Slider 
+                            tooltip={false}
                             value={this.state.elapsedTime}
                             max={this.audio.duration}
                             onChange={this.updateElapsedTime.bind(this)}
