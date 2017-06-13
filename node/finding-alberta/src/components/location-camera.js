@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { locationUnlocked } from '../cache'
 import Distance from './distance'
-import { calculateDistance } from '../utilities'
+import { calculateDistance } from '../utils'
 import LocationOverlay from './location-overlay'
 
 const renderDistance = d => <p className='distance'>{d}</p>
@@ -19,9 +19,10 @@ class LocationCamera extends Component {
         const { state, location } = this.props
 
         const panorama = {
-            url: `/static/panoramas/location_${location.meta.id}.jpg`,
+            url: `/static/media/panoramas/location_${location.meta.id}.jpg`,
             longitude: location.meta.longitude,
-            latitude: location.meta.latitude
+            latitude: location.meta.latitude,
+            height: 0 // TODO ta reda på höjden för alla?
         }
 
         state.showPanorama(panorama)

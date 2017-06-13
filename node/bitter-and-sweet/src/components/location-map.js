@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { mapStyles } from '../map-style'
+import { style } from '../map-style'
 import { withGoogleMap, GoogleMap, Circle, Marker } from 'react-google-maps'
 import { locationVisited } from '../cache'
-import { calculateDistance, userHasVisitedLocation } from '../utilities'
+import { calculateDistance, userHasVisitedLocation } from '../utils'
 import Distance from '../components/distance'
 
 const Map = withGoogleMap(({ location, userPosition }) => {
@@ -15,7 +15,7 @@ const Map = withGoogleMap(({ location, userPosition }) => {
         defaultZoom: 15,
         defaultCenter: center,
         defaultOptions: {
-            styles: mapStyles,
+            styles: style,
             mapTypeControl: false,
             streetViewControl: false,
             rotateControl: false,
@@ -51,7 +51,7 @@ const Map = withGoogleMap(({ location, userPosition }) => {
         title: 'Current location',
         zIndex: 2,
         icon: {
-            url: '/static/images/gpsloc.png',
+            url: '/static/media/images/gpsloc.png',
             size: new google.maps.Size(42, 42),
             scaledSize: new google.maps.Size(21, 21),
             origin: new google.maps.Point(0, 0),

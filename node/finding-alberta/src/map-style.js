@@ -1,4 +1,4 @@
-export const mapStyles = [
+export const style = [
     {
         'featureType': 'administrative',
         'elementType': 'all',

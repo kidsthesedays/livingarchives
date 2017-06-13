@@ -1,21 +1,20 @@
 const path = require('path')
-const webpack = require('webpack')
 
-module.exports = {
-    entry: __dirname + '/src/main.js',
+const config = {
+    entry: './finding-alberta/src/main.js',
     output: {
         filename: 'bundle.js',
-        path: __dirname + '/static/js'
+        path: path.resolve(__dirname, 'finding-alberta/static/js/')
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use: [
-                    { loader: 'babel-loader' }
-                ]
+                use: 'babel-loader'
             }
         ]
     }
 }
+
+module.exports = config

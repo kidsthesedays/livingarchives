@@ -4,14 +4,13 @@ import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationMap from '../components/location-map'
 import ErrorView from '../components/error-view'
-import { setupLocationData, setupUserData } from '../utilities'
+import { setupLocationData, setupUserData } from '../utils'
 
 // Before
 function before(state) {
     return done => {
         unmountComponentAtNode(state.reactMountNode)
-        state.argonMountNode.style.display = 'none'
-        state.documentRootNode.style.background = 'white'
+        state.reactMountNode.style.background = 'white'
         // Setup location data then the user data
         setupLocationData(state, () => setupUserData(state, done))
     }
@@ -19,15 +18,16 @@ function before(state) {
 
 // Location map route
 function route(state) {
-    return params => {
-        console.log('Location map:', state)
+    return ({ id }) => {
+        // DEBUG
+        // console.log('Location map:', state)
 
-        const { id } = params
+        // const { id } = params
 
         // NOTE: weak equality check due to strings
         const location = state.locations
             .filter(loc => loc.meta.id == id)
-            .reduce((_, l) => l, {})
+            .reduce((_, n) => n, {})
 
         const goHome = () => state.navigate('/locations')
         const goHomeIcon = () => (

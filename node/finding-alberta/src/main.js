@@ -1,16 +1,14 @@
 import Navigo from 'navigo'
 import { routes } from './routes/index'
-import { setupArgon } from './argon'
+import { setupArgon } from './utils'
 
 function main() {
     // TODO remove
     console.log('clearing local storage')
     localStorage.clear()
 
-    // Used by the Navigo router library
-    const BASE_URL = 'http://alberta.livingarchives.org'
     // Application Router
-    const Router = new Navigo(BASE_URL)
+    const Router = new Navigo(null)
 
     // Main state of our application (mutable)
     let state = {
@@ -22,23 +20,16 @@ function main() {
         argonMountNode: document.getElementById('argon'),
         locationIndicatorNode: document.getElementById('indicators'),
         app: null,
+        locations: [],
+        prevRoute: '',
+        userPosition: {},
+        userData: {},
         audio: {
             active: false,
             src: '',
             name: '',
             locationID: null
-        },
-        scene: null,
-        camera: null,
-        userLocation: null,
-        renderer: null,
-        loader: null,
-        eyeEntity: null,
-        scratchQuaternion: null,
-        locations: [],
-        prevRoute: '',
-        userPosition: {},
-        userData: {}
+        }
     }
 
     // Initialize basic argon setup
@@ -47,11 +38,13 @@ function main() {
     // Iterate through all routes and their urls,
     // add a new route for each of these urls
     routes.forEach(r => {
-        r.urls.forEach(url => Router.on(
-            url,
-            r.route(state),
-            r.hooks(state)
-        ))
+        r.urls.forEach(url => {
+            Router.on(
+                url,
+                r.route(state),
+                r.hooks(state)
+            )
+        })
     })
 
     // Resolve the current url

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { unmountComponentAtNode } from 'react-dom'
-import { formatSeconds } from '../utilities'
+import { formatSeconds } from '../utils'
 import { setCurrentSound } from '../cache'
 import Slider from 'react-rangeslider'
 

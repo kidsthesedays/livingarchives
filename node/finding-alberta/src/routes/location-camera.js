@@ -8,14 +8,13 @@ import {
     setupLocationData,
     setupUserData,
     userHasVisitedLocation
-} from '../utilities'
+} from '../utils'
 
 // Before
 function before(state) {
     return done => {
         unmountComponentAtNode(state.reactMountNode)
-        state.argonMountNode.style.display = 'block'
-        state.documentRootNode.style.background = 'transparent'
+        state.reactMountNode.style.background = 'transparent'
         // Setup location data then the user data
         setupLocationData(state, () => setupUserData(state, done))
     }
@@ -23,15 +22,16 @@ function before(state) {
 
 // Location camera route
 function route(state) {
-    return params => {
-        console.log('Location camera', state, params)
+    return ({ id }) => {
+        // DEBUG
+        // console.log('Location camera', state, params)
 
-        const { id } = params
+        // const { id } = params
         
         // NOTE: weak equality check due to strings
         const location = state.locations
             .filter(loc => loc.meta.id == id)
-            .reduce((_, l) => l, {})
+            .reduce((_, n) => n, {})
 
         const goHome = () => state.navigate('/locations')
         const goHomeIcon = () => (

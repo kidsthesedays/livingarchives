@@ -1,5 +1,5 @@
 import 'whatwg-fetch'
-import { guid, sendStatistic } from './utilities'
+import { guid, sendStatistic } from './utils'
 
 // Parse json more safely
 function parseJSON(json) {
@@ -18,7 +18,7 @@ function cache(key, value) {
 
     if (typeof value === 'undefined') {
         if (data) {
-            const json: Object = parseJSON(data)
+            const json = parseJSON(data)
             return json.hasOwnProperty(key) ? json[key] : {}
         }
 
@@ -41,22 +41,22 @@ function cache(key, value) {
 export function fetchLocationData(callback) {
     const cached = cache('locationData')
     // OLD: const url = 'https://api.livingarchives.org/locations'
-    const url = '/locations'
+    const url = '/api/locations'
 
-    if (!cached.hasOwnProperty('locations')) {
-        fetch(url, { credentials: 'include' })
-            .then(res => res.json())
-            .then(json => {
-                cache('locationData', json)
-                callback(json)
-            })
-            .catch(err => {
-                console.log(err)
-                callback({ locations: [], content: [] })
-            })
-    } else {
-        callback(cached)
+    if (cached.hasOwnProperty('locations')) {
+        return callback(cached)
     }
+
+    fetch(url, { credentials: 'include' }) // TODO are credentials needed?
+        .then(res => res.json())
+        .then(json => {
+            cache('locationData', json)
+            callback(json)
+        })
+        .catch(err => {
+            console.log(err)
+            callback({ locations: [], content: [] })
+        })
 }
 
 // Fetch user data from the cache, create a new one otherwise

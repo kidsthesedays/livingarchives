@@ -1,5 +1,5 @@
 import React from 'react'
-import { mapStyles } from '../map-style'
+import { style } from '../map-style'
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
 
 const renderMarker = navigateToLocation => location => {
@@ -28,7 +28,7 @@ const Map = withGoogleMap(({ navigateToLocation, locations, userPosition }) => {
         defaultZoom: 14,
         defaultCenter: center,
         defaultOptions: {
-            styles: mapStyles,
+            styles: style,
             mapTypeControl: false,
             streetViewControl: false,
             rotateControl: false,
@@ -52,7 +52,7 @@ const Map = withGoogleMap(({ navigateToLocation, locations, userPosition }) => {
         title: 'Current location',
         zIndex: 2,
         icon: {
-            url: '/static/images/gpsloc.png',
+            url: '/static/media/images/gpsloc.png',
             size: new google.maps.Size(34, 34),
             scaledSize: new google.maps.Size(17, 17),
             origin: new google.maps.Point(0, 0),

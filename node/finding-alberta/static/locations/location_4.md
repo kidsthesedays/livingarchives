@@ -1,0 +1,3 @@
+## Vodroffsvej
+
+Copenhagen has experienced many changes since the turn of the century. The city has grown; new roads added, some have disappeared. At this spot there used to be a small street called Emiliegade. Number 3 was a finishing school for girls becoming maids for people with money. Nutrition, hygiene, botany, and even accountancy was on the curriculum. Behind the building stood a masonic lodge. Alberta had been enrolled at Kronprinsesse Louises praktiske Husgerningsskole in preparation for a life in service. Here she was a teenager. Probably she was fluent in Danish, and had made new friends, we do not know. Did she, could she, fall in love? Like this street, those memories have gone. Certainly she drew her last healthy breaths here, before tuberculosis set in.

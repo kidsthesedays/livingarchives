@@ -53,7 +53,7 @@ export function guid(window) {
 export function throttle(fn, ms) {
     let lastCall = 0
     return function() {
-        const now: number = Date.now()
+        const now = Date.now()
 
         if (lastCall + ms < now) {
             lastCall = now
@@ -66,7 +66,7 @@ export function throttle(fn, ms) {
 export function humanReadableDistance(d) {
     // Kilometer
     if (d > 1000) {
-        const km: number = d / 1000
+        const km = d / 1000
         return `${km.toFixed(1)}km`
     }
 
@@ -81,12 +81,10 @@ export function setupLocationData(state, cb) {
         if (!state.locations.length) {
             state.locations = json.locations.map(location => {
                 //  filter out content based on location id
-                const content: string = json.content
+                const content = json.content
                     .filter(c => c.id === location.id)
                     .reduce((_, c) => c.html, '')
 
-                // OLD
-                // return setupLocation(location, content, state)
                 return { initialized: false, meta: location, content: content }
             })
         }
@@ -110,13 +108,17 @@ export function rad(n) {
 
 // Returns the distance between to lat/lng points
 export function calculateDistance(p1, p2) {
+    if (p1 === null || p2 === null) {
+        return 0
+    }
+
     // Earth’s mean radius in meter
-    const R: number = 6378137
-    const dLat: number = rad(p2.lat - p1.lat)
-    const dLong: number = rad(p2.lng - p1.lng)
-    const a: number = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2)
-    const c: number = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-    const d: number = R * c
+    const R = 6378137
+    const dLat = rad(p2.lat - p1.lat)
+    const dLong = rad(p2.lng - p1.lng)
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(rad(p1.lat)) * Math.cos(rad(p2.lat)) * Math.sin(dLong / 2) * Math.sin(dLong / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    const d = R * c
     return d
 }
 
@@ -148,7 +150,7 @@ export function prepare(method, body) {
 
 // Send some statistics to the server
 export function sendStatistic(guid, location, type) {
-    const url = 'https://api.livingarchives.org/statistics-bs'
+    const url = 'https://api.livingarchives.org/statistics-fa'
     const data = { guid, type, location }
     const payload = prepare('POST', data)
 
@@ -178,4 +180,44 @@ export function userHasVisitedLocation(state, id) {
 // Check if a user has unlocked a location or not
 export function userHasUnlockedLocation(state, id) {
     return checkUserDataProp('unlocked', state, id)
+}
+
+// Setup argon (included via a <script> tag)
+export function setupArgon(state) {
+    state.app = Argon.init()
+
+    state.app.reality.request(Argon.resolveURL('/static/reality/panorama.html'))
+
+    state.app.reality.connectEvent.addEventListener(session => {
+        if (session.supportsProtocol('single.panorama')) {
+            state.realitySession = session
+        }
+    })
+
+    const showPanorama = () => {
+        let ready = false
+        let timeout = null
+
+        const loadPanorama = panorama => {
+            if (ready || 'realitySession' in state) {
+                ready = true
+                clearTimeout(timeout)
+                state.realitySession.request('single.panorama.showPanorama', panorama)
+            } else {
+                console.log('Retrying to fetch panorama')
+                timeout = setTimeout(() => loadPanorama(panorama), 500)
+            }
+        }
+
+        return loadPanorama
+    }
+
+    const pausePanorama = () => {
+        if ('realitySession' in state) {
+            state.realitySession.request('single.panorama.pausePanorama')
+        }
+    }
+
+    state.showPanorama = showPanorama()
+    state.pausePanorama = pausePanorama
 }

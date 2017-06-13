@@ -7,8 +7,7 @@ import Guide from '../components/guide'
 function before(state) {
     return done => {
         unmountComponentAtNode(state.reactMountNode)
-        state.argonMountNode.style.display = 'none'
-        state.documentRootNode.style.background = 'rgba(255, 255, 255, 0.8)'
+        state.reactMountNode.style.background = 'rgba(255, 255, 255, 0.8)'
         done()
     }
 }
@@ -16,7 +15,11 @@ function before(state) {
 // Guide route
 function route(state) {
     return () => {
-        console.log('Guide:', state)
+        // DEBUG
+        // console.log('Guide:', state)
+        
+        // Pause panorama rendering
+        // state.pausePanorama()
 
         render(
             <App state={state}>

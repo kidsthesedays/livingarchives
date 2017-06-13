@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { unmountComponentAtNode } from 'react-dom'
-import { formatSeconds } from '../utilities'
+import { formatSeconds } from '../utils'
 import { setCurrentSound } from '../cache'
 import Slider from 'react-rangeslider'
 
@@ -131,6 +131,7 @@ class AudioPlayerBar extends Component {
                     <div className='audio-player-bar-expanded-content'>
                         <p className='audio-name'>{state.audio.name}</p>
                         <Slider 
+                            tooltip={false}
                             value={this.state.elapsedTime}
                             max={this.audio.duration}
                             onChange={this.updateElapsedTime.bind(this)}

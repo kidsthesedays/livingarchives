@@ -11,44 +11,30 @@ const fs = Promise.promisifyAll(require('fs'))
 const path = require('path')
 
 const JWT_SECRET = process.env.NODE_JWT_SECRET
+const DIR = `${__dirname}/static/locations`
 
 // Logger
 app.use(morgan('combined'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-// Send index.html on all requests
-app.get('/', (req, res) => {
-    const token = jwt.sign({ s: crypt.randomBytes(64).toString('hex') }, JWT_SECRET)
-
-    const cookieOptions = {
-        domain: '.livingarchives.org',
-        httpOnly: true,
-        secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7 
-    }
-
-    res.cookie('access_token', token, cookieOptions).sendFile(__dirname + '/index.html')
-})
-
 // Method of getting the ID from a filename (ex location_1.md)
 const getID = f => Number(f.match(/\d+/)[0])
 
 // Shouldnt be requested to often if client stores the
 // data in localStorage (possible bottleneck)
-app.get('/locations', (req, res, next) => {
+app.get('/api/locations', (req, res, next) => {
     // Directory of content for each location
-    const dir = `${__dirname}/locations`
     // Fetch meta data for each location
-    fs.readFileAsync(`${dir}/locations.json`, 'utf8')
+    fs.readFileAsync(`${DIR}/locations.json`, 'utf8')
         .then(JSON.parse)
         // Fetch content for each location
         .then(json => (
-            fs.readdirAsync(dir)
+            fs.readdirAsync(DIR)
                 // Filter out markdown files
                 .filter(filename => path.extname(filename) === '.md')
                 .map(filename => (
-                    fs.readFileAsync(`${dir}/${filename}`, 'utf8')
+                    fs.readFileAsync(`${DIR}/${filename}`, 'utf8')
                         // Convert markdown to HTML and extract location ID from the filename
                         .then(fileContent => ({
                             id: getID(filename),
@@ -66,6 +52,20 @@ app.get('/locations', (req, res, next) => {
                 .catch(err => next(err))
         ))
         .catch(err => next(err))
+})
+
+// Send index.html on all requests
+app.get('*', (req, res) => {
+    const token = jwt.sign({ s: crypt.randomBytes(64).toString('hex') }, JWT_SECRET)
+
+    const cookieOptions = {
+        domain: '.livingarchives.org',
+        httpOnly: true,
+        secure: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7 
+    }
+
+    res.cookie('access_token', token, cookieOptions).sendFile(__dirname + '/index.html')
 })
 
 // Error handler

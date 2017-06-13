@@ -1,22 +1,23 @@
 <!doctype html>
 <html>
     <head>
+        <title>Finding Alberta</title> 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <title>Finding Alberta</title> 
         <link href="/static/css/ionicons.min.css" rel="stylesheet">
         <link href="/static/css/styles.css" rel="stylesheet">
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDv86wgUx9pv2GByIlA7u962ewACsZGDSc"></script>
-        <!-- TODO include in the JS build when a proper version is out -->
-        <script src="/static/js/argon.min.js"></script>
+        <script src="/static/js/argon.js"></script>
     </head>
     <body>
-        <!-- Used for mounting React Components -->
-        <div id="mount"></div>
-        <div id="audio-mount"></div>
         <!-- Used by Argon -->
-        <div id="argon"></div>
-        <div id="indicators"></div>
+        <div id="argon">
+            <!-- Used for mounting React Components -->
+            <div id="mount"></div>
+            <div id="audio-mount"></div>
+            <div id="indicators"></div>
+        </div>
+
         <!-- Scripts -->
         <script src="/static/js/bundle.js"></script>
         <script>

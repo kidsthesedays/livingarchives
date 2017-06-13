@@ -1,0 +1,3 @@
+## Vestergade
+
+Two children are taken unexpectedly from their families. They are from a small Caribbean island called St Croix, at the time under Danish rule. One child is a boy aged 7, called Victor Cornelius. The other is Alberta Roberts, a girl of 4 years old, and the subject of our story. They arrived together in Copenhagen on a ship. Their destination: a colonial exhibition in Tivoli gardens, which is nearby. It was July, 1905. They were brought to Denmark as exotic imperial subjects. Here at Vestergade 12 they were given a temporary home, from where they walked every day to their unusual work at Tivoli. Listen to the words of Victor Cornelius reflecting on the experience, in a memoir he wrote later in his 70’s.

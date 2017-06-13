@@ -775,8 +775,9 @@ html, body, #mount {
     height: 100%;
 }
 
-html {
-    background: white;
+#mount {
+    height: 100%;
+    overflow: auto;
 }
 
 html {
@@ -791,12 +792,23 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+#argon {
+    pointer-events: auto !important;
+    overflow: auto;
+}
+
 .app {
     height: 100%;
     max-width: 800px;
     margin: 0 auto;
     position: relative;
+    z-index: 1000;
 }
+
+.argon-ui {
+    display: none !important;
+}
+
 /*}}}*/
 
 /* Navigation *//*{{{*/
@@ -956,7 +968,7 @@ body {
 }
 
 .location-camera .info-container {
-    margin: 60px 20px 60px 20px;
+    margin: 60px 10px 60px 10px;
 }
 
 .location-camera .close-info-container,
@@ -1001,7 +1013,7 @@ body {
 .location-camera .info-container .content p,
 .navigation .info-container .content p {
     font-family: Georgia, Cambria, "Times New Roman", Times, serif;
-    line-height: 1.58;
+    line-height: 1.6;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: -.003em;
@@ -1025,6 +1037,16 @@ body {
 .navigation .info-container .content blockquote {
     font-style: italic;
 }
+
+.location-camera .info-container .content .title {
+    font-size: 1.5em;
+    margin: 1em 0;
+}
+
+.location-camera .info-container .content .text {
+    margin-bottom: 25px;
+}
+
 /*}}}*/
 
 /* Locations list *//*{{{*/

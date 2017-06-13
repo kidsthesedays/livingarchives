@@ -3,14 +3,13 @@ import { render, unmountComponentAtNode } from 'react-dom'
 import App from '../components/app'
 import Navigation from '../components/navigation'
 import LocationsList from '../components/locations-list'
-import { setupLocationData, setupUserData } from '../utilities'
+import { setupLocationData, setupUserData } from '../utils'
 
 // Before
 function before(state) {
     return done => {
         unmountComponentAtNode(state.reactMountNode)
-        state.argonMountNode.style.display = 'none'
-        state.documentRootNode.style.background = 'white'
+        state.reactMountNode.style.background = 'white'
         // Setup location data then the user data
         setupLocationData(state, () => setupUserData(state, done))
     }
@@ -19,7 +18,8 @@ function before(state) {
 // Locations list route
 function route(state) {
     return () => {
-        console.log('Locations list:', state)
+        // DEBUG
+        // console.log('Locations list:', state)
 
         const goToMap = () => state.navigate('/map')
         const mapIcon = () => (

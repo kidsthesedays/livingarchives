@@ -1,13 +1,13 @@
 import React from 'react'
 import Distance from './distance'
-import { userHasVisitedLocation, userHasUnlockedLocation } from '../utilities'
+import { userHasVisitedLocation, userHasUnlockedLocation } from '../utils'
 
 const sortByPosition = (a, b) => a.meta.position - b.meta.position
 const renderDistance = d => <p className='distance'>{d}</p>
 
 const Location = ({ location, navigate, state, userPosition, renderDistance }) => {
     const backgroundStyle = {
-        backgroundImage: `url(/static/images/location_${location.meta.id}.png)`,
+        backgroundImage: `url(/static/media/images/location_${location.meta.id}.png)`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover'

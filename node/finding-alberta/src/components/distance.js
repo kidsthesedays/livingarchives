@@ -1,5 +1,5 @@
 import React from 'react'
-import { calculateDistance, humanReadableDistance } from '../utilities'
+import { calculateDistance, humanReadableDistance } from '../utils'
 
 const Distance = ({ location, userPosition, render }) => {
     // Show a loading icon

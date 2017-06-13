@@ -1,0 +1,3 @@
+## Hellig Kors Kirke
+
+On 31st March 1917, the ceremonial bells rang at this church in honour of Alberta Roberts. It seems the headmistress of her school paid for the occasion, and also provided the plot a few miles away where Alberta would be buried, at 12.30pm. At the end Alberta was cared for but she died without family. Victor, with whom she had shared so much, was away in the countryside. Her relatives in St Croix faced another fate. Later, that very same day, Denmark was given a check for 25 million dollars by the United States as payment for their Caribbean islands. This was the moment of transfer. The islands now belonged to America. Alberta belonged to no one.

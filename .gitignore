@@ -36,8 +36,6 @@ node/finding-alberta/node_modules
 node/finding-alberta/static/js/bundle.js
 node/bitter-and-sweet/node_modules
 node/bitter-and-sweet/static/js/bundle.js
-node/somatic-archiving/node_modules
-node/somatic-archiving/static/js/bundle.js
 
 # Optional npm cache directory
 .npm

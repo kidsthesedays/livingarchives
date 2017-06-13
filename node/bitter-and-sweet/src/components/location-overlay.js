@@ -23,7 +23,18 @@ class LocationOverlay extends Component {
             return this.renderVideo(location)
         } else if (location.meta.hasOwnProperty('gallery')) {
             return this.renderGallery(location)
+        } else if (location.meta.hasOwnProperty('image')) {
+            return this.renderImage(location)
         }
+
+        return null
+    }
+
+    renderImage(location) {
+        const src = `/static/media/photos/${location.meta.image.src}`
+        return (
+            <img className='content-image' src={src} />
+        )
     }
 
     renderAudio(state, location) {
@@ -52,8 +63,8 @@ class LocationOverlay extends Component {
     renderGallery(location) {
         const photos = location.meta.gallery.photos.map(p => {
             return {
-                original: `/static/gallery/${p.src}`,
-                thumbnail: `/static/gallery/thumb_${p.src}`
+                original: `/static/media/gallery/${p.src}`,
+                thumbnail: `/static/media/gallery/thumb_${p.src}`
             }
         })
 

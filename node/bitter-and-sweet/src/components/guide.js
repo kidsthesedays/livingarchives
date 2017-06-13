@@ -11,18 +11,22 @@ const Guide = ({ state }) => {
         <div className='guide location-content'>
             <h1 className='title'>Finding Alberta</h1>
             <p className='instructions'>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut 
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.
+                Here is a memory hidden in the city of Copenhagen. Several
+                memories actually. You are invited to walk in the footsteps of
+                a black child, Alberta Viola Roberts, who was taken from the
+                Caribbean to be displayed as a human exhibit at Tivoli Gardens.
+                The year was 1905, but we will get to the specifics later. This
+                is an unusual story, a Danish and a colonial one. For now, pick
+                a spot where you would like to begin. We recommend Vestergade
+                as a natural beginning. Here are a few instructions:
             </p>
             <ol className='instructions-list'>
-                <li>Choose a spot</li>
+                <li>Choose a location from the list or map</li>
                 <li>Find the house</li>
-                <li>Push the AR-button</li>
-                <li>Do something</li>
+                <li>Push the unlock key</li>
                 <li>Enjoy the story</li>
-                <li>Share with friends</li>
+                <li>Go to the next place</li>
+                <li>Share your experience</li>
             </ol>
             <button
                 className='start'
