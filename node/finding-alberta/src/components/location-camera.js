@@ -11,6 +11,7 @@ class LocationCamera extends Component {
         super(props)
 
         this.state = {
+            loading: true,
             visibleOverlay: false
         }
     }
@@ -25,7 +26,11 @@ class LocationCamera extends Component {
             height: 0 // TODO ta reda på höjden för alla?
         }
 
-        state.showPanorama(panorama)
+        const done = () => {
+            this.setState({ loading: false })
+        }
+
+        state.showPanorama(panorama, done)
     }
 
     toggleOverlay() {
@@ -64,8 +69,20 @@ class LocationCamera extends Component {
         )
     }
 
+    renderLoader() {
+        return (
+            <div className='panorama-loader'>
+                <div className='spinner'>
+                    <div className='bounce1'></div>
+                    <div className='bounce2'></div>
+                    <div className='bounce3'></div>
+                </div>
+            </div>
+        )
+    }
+
     render() {
-        const { visibleOverlay } = this.state
+        const { loading, visibleOverlay } = this.state
         const { state, userPosition, location } = this.props
 
         // TODO fix later
@@ -91,6 +108,9 @@ class LocationCamera extends Component {
 
         return (
             <div className={cls}>
+
+                {loading ? this.renderLoader() : null}
+
                 <div className='distance-container'>
                     <Distance
                         userPosition={userPosition}

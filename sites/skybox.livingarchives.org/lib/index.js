@@ -1,12 +1,6 @@
-// Initialize argon, the scene, camera, a 3D object representing
-// the user location and the webGL renderer
 var app = Argon.init();
 
-// Set our desired reality to the panorama (skybox)
-app.reality.setDesired({
-    title: 'Skybox Panorama',
-    uri: Argon.resolveURL('/panorama.html')
-});
+app.reality.request(Argon.resolveURL('/panorama.html'));
 
 // Start listening for connections to a reality
 app.reality.connectEvent.addEventListener(function (session) {

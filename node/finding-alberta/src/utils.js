@@ -198,14 +198,15 @@ export function setupArgon(state) {
         let ready = false
         let timeout = null
 
-        const loadPanorama = panorama => {
+        const loadPanorama = (panorama, done) => {
             if (ready || 'realitySession' in state) {
                 ready = true
                 clearTimeout(timeout)
                 state.realitySession.request('single.panorama.showPanorama', panorama)
+                done()
             } else {
                 console.log('Retrying to fetch panorama')
-                timeout = setTimeout(() => loadPanorama(panorama), 500)
+                timeout = setTimeout(() => loadPanorama(panorama, done), 500)
             }
         }
 
