@@ -1,36 +1,28 @@
 "use strict";
 
-var DATASET = '/dataset/Affexity.xml';
+var DATASET_URL = '/dataset/Affexity.xml';
 
-// Array of all entities used
-var videoEntities = [
-    { key: 'delicatepassage2', src: 'del-pass-red-wall-no-music.3gp', entity: null, object: null },
-    { key: 'Corpus2', src: 'corpus-riverbed.3gp', entity: null, object: null }
-];
+// Control variables
+var animationPending = false;
 
 // Initialize Argon, the scene and the camera (THREE.js)
 var app = Argon.init();
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera();
-
-// Represents the user in 3d-space
 var userLocation = new THREE.Object3D();
+var renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    logarithmicDepthBuffer: true,
+    antialias: Argon.suggestedWebGLContextAntialiasAttribute
+});
 
 // Add the camera and user to the scene
 scene.add(camera);
 scene.add(userLocation);
 
-// Use WebGL for rendering
-var renderer = new THREE.WebGLRenderer({
-    alpha: true,
-    logarithmicDepthBuffer: true
-});
-
 renderer.setPixelRatio(window.devicePixelRatio);
-app.view.element.appendChild(renderer.domElement);
 
-// 'deprecated'
-app.context.setDefaultReferenceFrame(app.context.localOriginEastUpSouth);
+app.view.setLayers([{ source: renderer.domElement }]);
 
 // Object that will contain our video in 3d-space
 var argonVideoObject = new THREE.Object3D();
@@ -66,150 +58,135 @@ var videoMaterial = new THREE.MeshBasicMaterial({
     opacity: 0.5
 });
 
-
 var videoScreen = new THREE.Mesh(videoGeometry, videoMaterial);
-
-// Add our video canvas to the argon video object
 argonVideoObject.add(videoScreen);
 
 function handleTouchStart(e) {
-    if (e.touches.length === 1) {
-        e.preventDefault();
+    if (e.touches.length !== 1) {
+        return
+    }
 
-        if (videoElement.paused) {
-            videoElement.play();
-        } else {
+    e.preventDefault();
+
+    if (videoElement.paused) {
+        videoElement.play();
+    } else {
+        videoElement.pause();
+    }
+}
+
+function imageTrackingFn(v) {
+    return function() {
+        var videoPose = app.context.getEntityPose(v.entity);
+
+        // KNOWN
+        if (videoPose.poseStatus & Argon.PoseStatus.KNOWN) {
+            v.object.position.copy(videoPose.position);
+            v.object.quaternion.copy(videoPose.orientation);
+        }
+
+        // FOUND
+        if (videoPose.poseStatus & Argon.PoseStatus.FOUND) {
+            v.object.add(argonVideoObject);
+            argonVideoObject.position.z = 0;
+            videoElement.src = '/videos/' + v.src;
+            videoElement.load();
+
+            // TODO might have to fix 'touchstart' within the Argon source?
+            document.addEventListener('touchstart', handleTouchStart, false);
+        // LOST
+        } else if (videoPose.poseStatus & Argon.PoseStatus.LOST) {
+            argonVideoObject.position.z = -0.5;
+            userLocation.add(argonVideoObject);
             videoElement.pause();
+
+            // TODO might have to fix 'touchstart' within the Argon source?
+            document.removeEventListener('touchstart', handleTouchStart, false);
         }
     }
 }
 
-// func unableToLoadDataset
-// func unableToInitialize
-// func setupDataset
+function setupTrackables(trackables) {
+    // Videos from the global scope
+    VIDEOS.map(function(v) {
+        app.context
+            .subscribe(trackables[v.key].id)
+            .then(function(entity) {
 
-app.vuforia.isAvailable().then(function(available) {
+                var e = Object.assign({}, v, {
+                    entity: entity,
+                    object: new THREE.Object3D()
+                });
+
+                scene.add(e.object);
+
+                var trackingFn = imageTrackingFn(v);
+                app.context.updateEvent.addEventListener(trackingFn);
+            });
+    });
+}
+
+// Initialize and setup vuforia
+function setupVuforia(available) {
     if (!available) {
         console.log('Vuforia is not available on this platform');
         return;
     }
 
     app.vuforia
-        .init({ encryptedLicenseData: license })
+        .init({ encryptedLicenseData: LICENSE }) // License from the global scope
         .then(function(api) {
 
+            // Create the dataset from our URL
             api.objectTracker
-                .createDataSet(DATASET)
+                .createDataSetFromURL(DATASET_URL)
                 .then(function(dataset) {
-                    dataset.load().then(function() {
-                        var trackables = dataset.getTrackables();
+                    // Load the dataset
+                    api.objectTracker
+                        .loadDataSet(dataset)
+                        .then(setupTrackables);
 
-                        // DEBUG
-                        console.log('Vuforia dataset successfully loaded');
-
-                        videoEntities = videoEntities.map(function(t) {
-                            var entity = app.context.subscribeToEntityById(trackables[t.key].id);
-                            var object = new THREE.Object3D();
-                            scene.add(object);
-
-                            return {
-                                key: t.key,
-                                src: t.src,
-                                entity: entity,
-                                object: object
-                            };
-                        });
-
-                        app.context.updateEvent.addEventListener(function() {
-                            videoEntities.forEach(function(v) {
-                                var videoPose = app.context.getEntityPose(v.entity);
-
-                                if (videoPose.poseStatus & Argon.PoseStatus.KNOWN) {
-                                    v.object.position.copy(videoPose.position);
-                                    v.object.quaternion.copy(videoPose.orientation);
-                                }
-
-                                if (videoPose.poseStatus & Argon.PoseStatus.FOUND) {
-                                    v.object.add(argonVideoObject);
-                                    argonVideoObject.position.z = 0;
-
-                                    videoElement.src = '/videos/' + v.src;
-                                    videoElement.load();
-
-                                    document.addEventListener('touchstart', handleTouchStart, false);
-                                } else if (videoPose.poseStatus & Argon.PoseStatus.LOST) {
-                                    argonVideoObject.position.z = -0.5;
-                                    userLocation.add(argonVideoObject);
-
-                                    videoElement.pause();
-
-                                    document.removeEventListener('touchstart', handleTouchStart, false);
-                                }
-                            }); // .forEach
-
-                        }); // updateEvent.addEventListener
-
-                    })
-                    .catch(function(e) {
-                        console.log('Vuforia is unable to load the dataset:', e.message);
-                    }); // .dataset.load
-
-                    api.objectTracker.activateDataSet(dataset);
-
-                }); // .createDataSet
+                    // Activate our dataset
+                    api.objectTracker
+                        .activateDataSet(dataset);
+                });
         })
-        .catch(function(e) {
-            console.log('Vuforia failed to initialize:', e.message);
-        }); // vuforia.init.
-});
+        .catch(function(e) { console.log('Vuforia was unable to initialize') });
+}
 
-app.context.updateEvent.addEventListener(function() {
+function updateEventFn() {
     var userPose = app.context.getEntityPose(app.context.user);
 
     if (userPose.poseStatus & Argon.PoseStatus.KNOWN) {
         userLocation.position.copy(userPose.position);
     }
-});
+}
 
-// Control variables
-var viewport = null;
-var subviews = null;
-var animationPending = false;
-
-// Manage display updates for the application
-app.renderEvent.addEventListener(function() {
-    if (!animationPending) {
-        animationPending = true;
-        // 'deprecated'
-        viewport = app.view.getViewport();
-        // viewport = app.viewport.current;
-        subviews = app.view.getSubviews();
-        window.requestAnimationFrame(renderFunc);
-    }
-});
-
-// Render updates
 function renderFunc() {
     animationPending = false;
 
-    renderer.setSize(viewport.width, viewport.height);
+    renderer.setSize(app.view.renderWidth, app.view.renderHeight, false);
+    renderer.setPixelRatio(app.suggestedPixelRatio);
 
-    for (var i = 0; i < subviews.length; i++) {
-        var subview = subviews[i];
+    for (var i = 0, sv = app.view.subviews; i < sv.length; i++) {
+        var subview = sv[i];
 
         camera.position.copy(subview.pose.position);
         camera.quaternion.copy(subview.pose.orientation);
-
         camera.projectionMatrix.fromArray(subview.projectionMatrix);
 
-        var x = subview.viewport.x,
-            y = subview.viewport.y,
-            width = subview.viewport.width,
-            height = subview.viewport.height;
+        var x = subview.viewport.x;
+        var y = subview.viewport.y;
+        var width = subview.viewport.width;
+        var height = subview.viewport.height;
 
         if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
             videoCanvasContext.drawImage(
-                videoElement, 0, 0, videoCanvas.width, videoCanvas.height
+                videoElement,
+                0,
+                0,
+                videoCanvas.width,
+                videoCanvas.height
             );
 
             if (videoTexture) {
@@ -217,10 +194,21 @@ function renderFunc() {
             }
         }
 
-
         renderer.setViewport(x, y, width, height);
         renderer.setScissor(x, y, width, height);
         renderer.setScissorTest(true);
         renderer.render(scene, camera, subview.index);
     }
 }
+
+function renderEventFn() {
+    if (!animationPending) {
+        animationPending = true;
+        window.requestAnimationFrame(renderFunc);
+    }
+}
+
+// Lets go!
+app.vuforia.isAvailable().then(setupVuforia);
+app.context.updateEvent.addEventListener(updateEventFn);
+app.context.renderEvent.addEventListener(renderEventFn);
