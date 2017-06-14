@@ -15,7 +15,7 @@ class Navigation extends Component {
         this.setState({ showOverlay: !this.state.showOverlay })
     }
 
-    closeOverlay() {
+    closeOverlay(e) {
         this.setState({ showOverlay: false })
     }
 
@@ -77,25 +77,22 @@ class Navigation extends Component {
         // Cancel further propagation of events
         const cancel = e => {
             e.stopPropagation()
-            e.nativeEvent.stopImmediatePropagation()
+            // e.nativeEvent.stopImmediatePropagation()
         }
 
         if (renderInfo) {
             infoComponent = (
                 <div className='info-box'>
-                    <div
-                        onClick={this.closeOverlay.bind(this)}
-                        className='info-overlay'>
-                    </div>
-                    <div
-                        onClick={cancel}
-                        className='info-container'>
-                        <div
-                            onClick={this.closeOverlay.bind(this)}
-                            className='close-info-container'>
-                            <i className='icon ion-ios-close-empty'></i>
+                    <div onClick={this.closeOverlay.bind(this)} className='info-overlay'>
+
+                        <div className='info-container' onClick={cancel}>
+                            <div className='close-info-container'>
+                                <i onClick={this.closeOverlay.bind(this)} className='icon ion-ios-close-empty'></i>
+                            </div>
+
+                            <div onClick={cancel} className='content'>{renderInfo()}</div>
                         </div>
-                        <div className='content'>{renderInfo()}</div>
+                        
                     </div>
                 </div>
             )

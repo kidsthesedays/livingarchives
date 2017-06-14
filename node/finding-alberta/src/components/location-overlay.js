@@ -83,17 +83,17 @@ class LocationOverlay extends Component {
         // TODO check if audio is available
         return (
             <div className='info-box'>
-            <div onClick={close} className='info-overlay'>
-            </div>
-                <div onClick={this.cancel} className='info-container'>
-                    <button onClick={close} className='close-info-container'>
-                        <i className='icon ion-ios-close-empty'></i>
-                    </button>
+                <div onClick={close} className='info-overlay'>
+                    <div onClick={this.cancel.bind(this)} className='info-container'>
+                        <div className='close-info-container'>
+                            <i onClick={close} className='icon ion-ios-close-empty'></i>
+                        </div>
 
-                    <div className='content'>
-                        <h1 className='title'>{location.meta.name}</h1>
-                        <div className='text' dangerouslySetInnerHTML={{ __html: location.content }} />
-                        {this.renderMedia(state, location)}
+                        <div className='content'>
+                            <h1 className='title'>{location.meta.name}</h1>
+                            <div className='text' dangerouslySetInnerHTML={{ __html: location.content }} />
+                            {this.renderMedia(state, location)}
+                        </div>
                     </div>
                 </div>
             </div>

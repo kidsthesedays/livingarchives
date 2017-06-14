@@ -65,13 +65,8 @@ class LocationCamera extends Component {
     }
 
     render() {
-        const {
-            state,
-            userPosition,
-            location
-        } = this.props
-
         const { visibleOverlay } = this.state
+        const { state, userPosition, location } = this.props
 
         // TODO fix later
         const hasUnlockedLocation = state.userData.locations[`location_${location.meta.id}`].unlocked
