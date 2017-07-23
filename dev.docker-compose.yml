@@ -45,6 +45,7 @@ services:
             - "8003:8003" # somatic.livingarchives.org
         volumes:
             - ./sites:/opt/sites:rw
+
   #     sftp:
   #         image: atmoz/sftp
   #         container_name: livingarchives-sftp

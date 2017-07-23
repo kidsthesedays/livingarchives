@@ -39,7 +39,7 @@ certbot certonly \
 #         -d bitterandsweet.livingarchives.org \
 
 while true; do
-    read -p "Restart docker-compose?" yn
+    read -p "Restart docker-compose? [y/n] " yn
     case $yn in
         [Yy]* ) docker-compose restart; break;;
         [Nn]* ) exit;;
@@ -48,7 +48,7 @@ while true; do
 done
 
 while true; do
-    read -p "Switch to HTTPS-only nginx configuration?" yn
+    read -p "Switch to HTTPS-only nginx configuration? [y/n] " yn
     case $yn in
         [Yy]* ) docker-compose exec nginx switch-to-https-only; break;;
         [Nn]* ) exit;;
