@@ -2,10 +2,11 @@
 server {
     listen 80;
     listen [::]:80;
+
     server_name alberta.livingarchives.org;
+    root /opt/node/finding-alberta/;
 
     location ~ /.well-known {
-        root /opt/node/finding-alberta;
         allow all;
     }
 
@@ -22,6 +23,7 @@ server {
     charset utf-8;
     
     server_name alberta.livingarchives.org;
+    root /opt/node/finding-alberta/;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -29,7 +31,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/node/finding-alberta;
         allow all;
     }
 
@@ -54,10 +55,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+
     server_name api.livingarchives.org;
+    root /opt/node/statistics-database/;
 
     location ~ /.well-known {
-        root /opt/node/statistics-database;
         allow all;
     }
 
@@ -75,6 +77,7 @@ server {
     client_max_body_size 75M;
     
     server_name api.livingarchives.org;
+    root /opt/node/statistics-datbase/;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -82,7 +85,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/node/statistics-datbase;
         allow all;
     }
 
@@ -103,10 +105,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+
     server_name bitterandsweet.livingarchives.org;
+    root /opt/node/bitter-and-sweet/;
 
     location ~ /.well-known {
-        root /opt/node/bitter-and-sweet;
         allow all;
     }
 
@@ -123,6 +126,7 @@ server {
     charset utf-8;
     
     server_name bitterandsweet.livingarchives.org;
+    root /opt/node/bitter-and-sweet/;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -130,7 +134,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/node/bitter-and-sweet;
         allow all;
     }
 
@@ -155,10 +158,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+
     server_name skybox.livingarchives.org;
+    root /opt/sites/skybox.livingarchives.org/;
 
     location ~ /.well-known {
-        root /opt/sites/skybox.livingarchives.org;
         allow all;
     }
 
@@ -174,10 +178,9 @@ server {
 
     charset utf-8;
 
-    root /opt/sites/skybox.livingarchives.org;
-    index index.html;
-    
     server_name skybox.livingarchives.org;
+    root /opt/sites/skybox.livingarchives.org/;
+    index index.html;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -185,7 +188,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/skybox.livingarchives.org;
         allow all;
     }
 
@@ -203,10 +205,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+
     server_name affexity.livingarchives.org;
+    root /opt/sites/affexity.livingarchives.org/;
 
     location ~ /.well-known {
-        root /opt/sites/affexity.livingarchives.org;
         allow all;
     }
 
@@ -222,10 +225,9 @@ server {
 
     charset utf-8;
 
-    root /opt/sites/affexity.livingarchives.org;
-    index index.html;
-    
     server_name affexity.livingarchives.org;
+    root /opt/sites/affexity.livingarchives.org/;
+    index index.html;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -233,7 +235,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/affexity.livingarchives.org;
         allow all;
     }
 
@@ -251,10 +252,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+
     server_name somatic.livingarchives.org;
+    root /opt/sites/somatic.livingarchives.org/;
 
     location ~ /.well-known {
-        root /opt/sites/somatic.livingarchives.org;
         allow all;
     }
 
@@ -270,10 +272,9 @@ server {
 
     charset utf-8;
 
-    root /opt/sites/somatic.livingarchives.org;
-    index index.html;
-    
     server_name somatic.livingarchives.org;
+    root /opt/sites/somatic.livingarchives.org/;
+    index index.html;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -281,7 +282,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/somatic.livingarchives.org;
         allow all;
     }
 
@@ -299,10 +299,11 @@ server {
 server {
     listen 80;
     listen [::]:80;
+
     server_name livingarchives.org www.livingarchives.org;
+    root /opt/sites/livingarchives.org/;
 
     location ~ /.well-known {
-        root /opt/sites/livingarchives.org;
         allow all;
     }
 
@@ -318,10 +319,9 @@ server {
 
     charset utf-8;
 
-    root /opt/sites/livingarchives.org;
-    index index.html;
-    
     server_name livingarchives.org www.livingarchives.org;
+    root /opt/sites/livingarchives.org/;
+    index index.html;
 
     ssl_certificate /etc/letsencrypt/live/livingarchives.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/livingarchives.org/privkey.pem;
@@ -329,7 +329,6 @@ server {
     include ssl-params.nginx;
 
     location ~ /.well-known {
-        root /opt/sites/livingarchives.org;
         allow all;
     }
 
