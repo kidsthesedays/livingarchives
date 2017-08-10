@@ -28,7 +28,7 @@ certbot certonly \
     -w ./sites/affexity.livingarchives.org \
         -d affexity.livingarchives.org \
     -w ./node/statistics-database \
-        -d api.livingarchives.org
+        -d api.livingarchives.org \
     -w ./node/finding-alberta \
         -d alberta.livingarchives.org
 
