@@ -16,7 +16,7 @@ echo "Running Certbot..."
 # Create a letsencrypt certificate
 certbot certonly \
     --non-interactive \
-    --email sebastianbengtegard@gmail.com \
+    --email sebastian@doris.tech \
     --agree-tos \
     --webroot \
     -t \
