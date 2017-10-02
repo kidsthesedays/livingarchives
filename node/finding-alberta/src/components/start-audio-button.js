@@ -31,7 +31,7 @@ class StartAudioButton extends Component {
                 className='start-audio-button'
                 onClick={this.initializeAudioBar.bind(this)}>
                 <i className='icon ion-ios-volume-high'></i>
-                <p>Listen to {location.meta.audio.title}</p>
+                <p>Listen</p>
             </div>
         )
     }

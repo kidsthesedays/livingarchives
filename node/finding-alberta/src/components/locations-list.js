@@ -7,7 +7,7 @@ const renderDistance = d => <p className='distance'>{d}</p>
 
 const Location = ({ location, navigate, state, userPosition, renderDistance }) => {
     const backgroundStyle = {
-        backgroundImage: `url(/static/media/images/location_${location.meta.id}.png)`,
+        backgroundImage: `url(/static/media/images/location_${location.meta.id}.jpg)`,
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover'

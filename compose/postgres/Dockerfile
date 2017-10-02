@@ -1,7 +1,5 @@
 FROM postgres:9.5
 
-# Dockerfile and shellscrips taken from cookiecutter-django
-
 ENV TZ Europe/Stockholm
 
 COPY backup.sh /usr/local/bin/backup

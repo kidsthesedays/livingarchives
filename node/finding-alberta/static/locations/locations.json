@@ -7,15 +7,15 @@
             "address": "Vestergade 12, 1456 København K",
             "latitude": 55.67781,
             "longitude": 12.57032,
-            "image": {
-                "title": "Alberta turned",
-                "src": "alberta-turned.jpg"
+            "audio": {
+                "title": "Victor Vestergade",
+                "src": "VictorVestergade.mp3"
             }
         },
         {
             "id": 2,
             "position": 2,
-            "name": "The Exhibition Space: Tivoli Gardens",
+            "name": "Tivoli Gardens: The Exhibition",
             "address": "Vesterbrogade 3, 1630 København V",
             "latitude": 55.67368,
             "longitude": 12.56814,
@@ -32,24 +32,24 @@
             "latitude": 55.68396,
             "longitude": 12.56684,
             "audio": {
-                "title": "Voice recording: Victor",
-                "src": "example.mp3"
+                "title": "Amelia",
+                "src": "amelia.mp3"
+            },
+            "image": {
+                "title": "Letter detail",
+                "src": "Letterdetail.jpg"
             }
         },
         {
             "id": 4,
             "position": 4,
-            "name": "The Vanished final address of residence",
+            "name": "The Vanished Emeliegade",
             "address": "Vodroffsvej 25, 1900 Frederiksberg C",
             "latitude": 55.67684,
             "longitude": 12.55357,
-            "gallery": {
-                "photos": [
-                    { "src": "example.jpg" },
-                    { "src": "example.jpg" },
-                    { "src": "example.jpg" },
-                    { "src": "example.jpg" }
-                ]
+            "audio": {
+                "title": "Example",
+                "src": "example.mp3"
             }
         },
         {
@@ -60,25 +60,33 @@
             "latitude": 55.68678,
             "longitude": 12.55287,
             "audio": {
-                "title": "Voice recording: Victor",
-                "src": "example.mp3"
+                "title": "tb",
+                "src": "tb.mp3"
+            },
+            "gallery": {
+                "photos": [
+                    { "src": "hospital.jpg" },
+                    { "src": "nuns1.jpg" },
+                    { "src": "nuns2.jpg" },
+                    { "src": "OperatingRoom.jpg" }
+                ]
             }
         },
         {
             "id": 6,
             "position": 6,
-            "name": "Hellig Kors Kirke",
+            "name": "Beginnings and Ends",
             "address": "Kapelvej 38, 2200 København N",
             "latitude": 55.68766,
-            "longitude": 12.55151
-        },
-        {
-            "id": 7,
-            "position": 7,
-            "name": "Folkets park",
-            "address": "Amiralsgatan 35, 214 37 Malmö",
-            "latitude": 55.594748,
-            "longitude": 13.016520
+            "longitude": 12.55151,
+            "gallery": {
+                "photos": [
+                    { "src": "annons.jpg" },
+                    { "src": "V-A-school.jpg" },
+                    { "src": "Alberta1908.jpg" },
+                    { "src": "alberta-crop.jpg" }
+                ]
+            }
         }
     ]
 }

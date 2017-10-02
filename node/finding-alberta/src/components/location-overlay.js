@@ -17,29 +17,39 @@ class LocationOverlay extends Component {
 
     // NOTE this limits the media to 1 thing (audio/video/gallery)
     renderMedia(state, location) {
+        const media = []
+
         if (location.meta.hasOwnProperty('audio')) {
-            return this.renderAudio(state, location)
-        } else if (location.meta.hasOwnProperty('video')) {
-            return this.renderVideo(location)
-        } else if (location.meta.hasOwnProperty('gallery')) {
-            return this.renderGallery(location)
-        } else if (location.meta.hasOwnProperty('image')) {
-            return this.renderImage(location)
+            media.push(this.renderAudio(state, location))
+        }
+        
+        if (location.meta.hasOwnProperty('video')) {
+            media.push(this.renderVideo(location))
+        }
+        
+        if (location.meta.hasOwnProperty('gallery')) {
+            media.push(this.renderGallery(location))
         }
 
-        return null
+        if (location.meta.hasOwnProperty('image')) {
+            media.push(this.renderImage(location))
+        }
+
+        return media.length > 0 ? media : null
     }
 
     renderImage(location) {
         const src = `/static/media/photos/${location.meta.image.src}`
         return (
-            <img className='content-image' src={src} />
+            <div key={1} className='content-image'>
+                <img src={src} />
+            </div>
         )
     }
 
     renderAudio(state, location) {
         return (
-            <StartAudioButton state={state} location={location} />
+            <StartAudioButton key={2} state={state} location={location} />
         )
     }
 
@@ -51,6 +61,7 @@ class LocationOverlay extends Component {
 
         return (
             <ReactPlayer
+                key={3}
                 url={url}
                 onPlay={onPlay}
                 controls={true}
@@ -69,7 +80,7 @@ class LocationOverlay extends Component {
         })
 
         return (
-            <ImageGallery showPlayButton={false} items={photos} />
+            <ImageGallery key={4} showPlayButton={false} items={photos} />
         )
     }
 
@@ -79,6 +90,8 @@ class LocationOverlay extends Component {
         if (!visible) {
             return null
         }
+
+        const backToStart = () => state.navigate('/locations')
 
         // TODO check if audio is available
         return (
@@ -93,6 +106,11 @@ class LocationOverlay extends Component {
                             <h1 className='title'>{location.meta.name}</h1>
                             <div className='text' dangerouslySetInnerHTML={{ __html: location.content }} />
                             {this.renderMedia(state, location)}
+
+                            <button onClick={backToStart} className='back-to-the-start' type='button'>
+                                <i className='icon ion-ios-arrow-left'></i>
+                                Back to the start
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -1,3 +1,1 @@
-## Griffenfeldsgade
-
 Tuberculosis is an infectious disease that usually affects the lungs. In the 18th and 19th centuries, a tuberculosis epidemic rampaged throughout Europe and North America, before the German microbiologist Robert Koch discovered the microbial causes of tuberculosis in 1882. Consumption, phthisis, scrofula, Pott's disease, and the White Plague are all terms used to refer to tuberculosis throughout history. Alberta suffered from tuberculosis at the end of her life. Despite being treated here at St Joseph’s hospital (a private and renowned institution), she was dying. Her family did not know. Play the audio to hear more about this dreaded disease.
