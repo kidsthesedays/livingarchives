@@ -33,6 +33,8 @@ class Navigation extends Component {
             userPosition
         } = this.props
 
+        const goToLocations = () => state.navigate('/locations')
+
         const goBack = () => {
             state.prevRoute = ''
             state.navigate(backUrl || '')
@@ -66,9 +68,9 @@ class Navigation extends Component {
             right = (
                 <div className='info-and-distance'>
                     <div 
-                        onClick={this.toggleOverlay.bind(this)}
+                        onClick={goToLocations}
                         className='info'>
-                        <i className='icon ion-ios-information'></i>
+                        <i className='icon ion-ios-home'></i>
                     </div>
                 </div>
             )

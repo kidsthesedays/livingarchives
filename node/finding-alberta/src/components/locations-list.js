@@ -50,6 +50,7 @@ const Location = ({ location, navigate, state, userPosition, renderDistance }) =
 
 const LocationsList = ({ state, userPosition }) => {
     const navigate = id => () => state.navigate(`/locations/${id}/map`)
+    const about = () => state.navigate('/about')
 
     const locationComponents = state.locations
         .sort(sortByPosition)
@@ -67,7 +68,14 @@ const LocationsList = ({ state, userPosition }) => {
         ? 'locations-list audio-bar'
         : 'locations-list'
 
-    return <div className={cls}>{locationComponents}</div>
+    return (
+        <div className={cls}>
+            {locationComponents}
+            <div className='about-container'>
+                <button type='button' onClick={about}>About Finding Alberta</button>
+            </div>
+        </div>
+    )
 }
 
 export default LocationsList

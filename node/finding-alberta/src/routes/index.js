@@ -1,5 +1,7 @@
 // Import all route handlers
+import { start } from './start'
 import { guide } from './guide'
+import { about } from './about'
 import { locationsList } from './locations-list'
 import { locationsMap } from './locations-map'
 import { locationMap } from './location-map'
@@ -11,5 +13,7 @@ export const routes = [
     locationCamera,
     locationsMap,
     locationsList,
-    guide
+    about,
+    guide,
+    start
 ]

@@ -13,12 +13,13 @@ const Guide = ({ state }) => {
             <p className='instructions'>
                 Here is a memory hidden in the city of Copenhagen. Several
                 memories actually. You are invited to walk in the footsteps of
-                a black child, Alberta Viola Roberts, who was taken from the
-                Caribbean to be displayed as a human exhibit at Tivoli Gardens.
-                The year was 1905, but we will get to the specifics later. This
-                is an unusual story, a Danish and a colonial one. For now, pick
-                a spot where you would like to begin. We recommend Vestergade
-                as a natural beginning. Here are a few instructions:
+                a black child called Alberta Viola Roberts, who was taken from
+                the Caribbean to be displayed as a human exhibit at Tivoli
+                Gardens. The year was 1905. This is an unusual story, a Danish
+                and a colonial one, about unnecessary orphaning(s). It is
+                sensitive. For now, pick a spot where you would like to begin.
+                We recommend Vestergade as a natural beginning. Here are a few
+                instructions:
             </p>
             <ol className='instructions-list'>
                 <li>Choose a location on the map</li>

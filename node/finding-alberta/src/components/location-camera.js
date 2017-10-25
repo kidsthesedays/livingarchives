@@ -23,12 +23,10 @@ class LocationCamera extends Component {
             url: `/static/media/panoramas/location_${location.meta.id}.jpg`,
             longitude: location.meta.longitude,
             latitude: location.meta.latitude,
-            height: 0 // TODO ta reda på höjden för alla?
+            height: 271 // TODO ta reda på höjden för alla?
         }
 
-        const done = () => {
-            this.setState({ loading: false })
-        }
+        const done = () => this.setState({ loading: false })
 
         state.showPanorama(panorama, done)
     }
@@ -87,7 +85,6 @@ class LocationCamera extends Component {
 
         // TODO fix later
         const hasUnlockedLocation = state.userData.locations[`location_${location.meta.id}`].unlocked
-        // const hasUnlockedLocation: bool = true
 
         const cls = state.audio.active
             ? 'location-camera audio-bar'

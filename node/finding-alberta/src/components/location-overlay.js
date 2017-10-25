@@ -75,7 +75,7 @@ class LocationOverlay extends Component {
         const photos = location.meta.gallery.photos.map(p => {
             return {
                 original: `/static/media/gallery/${p.src}`,
-                thumbnail: `/static/media/gallery/thumb_${p.src}`
+                thumbnail: `/static/media/gallery/thumbnails/${p.src}`
             }
         })
 
@@ -91,7 +91,12 @@ class LocationOverlay extends Component {
             return null
         }
 
-        const backToStart = () => state.navigate('/locations')
+        // old back to start button
+        // const backToStart = () => state.navigate('/locations')
+        // <button onClick={backToStart} className='back-to-the-start' type='button'>
+        //     <i className='icon ion-ios-arrow-left'></i>
+        //     Back to the start
+        // </button>
 
         // TODO check if audio is available
         return (
@@ -103,14 +108,9 @@ class LocationOverlay extends Component {
                         </div>
 
                         <div className='content'>
-                            <h1 className='title'>{location.meta.name}</h1>
+                            <h1 className='title'>{location.meta.title}</h1>
                             <div className='text' dangerouslySetInnerHTML={{ __html: location.content }} />
                             {this.renderMedia(state, location)}
-
-                            <button onClick={backToStart} className='back-to-the-start' type='button'>
-                                <i className='icon ion-ios-arrow-left'></i>
-                                Back to the start
-                            </button>
                         </div>
                     </div>
                 </div>

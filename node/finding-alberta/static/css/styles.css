@@ -1157,9 +1157,58 @@ body div#argon.argon-view {
 .locations-list .locations-list-item-outer:active .locations-list-item {
     background: rgba(0, 0, 0, 0.4);
 }
+
+.about-container {
+    text-align: center;
+    padding: 35px;
+    background: #444;
+    cursor: pointer;
+}
+
+.about-container:active {
+    background: #555;
+}
+
+.about-container button {
+    border: 0;
+    background: transparent;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 0;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
 /*}}}*/
 
-/* Guide *//*{{{*/
+/* Guide & Start *//*{{{*/
+.start {
+    position: relative;
+    text-align: center;
+    height: 100%;
+}
+
+.start img {
+    margin-top: 20px;
+    max-width: 100%;
+}
+
+.go-to-guide {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    right: 0;
+    width: 180px;
+    border: 0;
+    background: transparent;
+    padding: 10px 0;
+    font-family: 'Helvetica Neue', Helvetica;
+    font-size: 19px;
+    letter-spacing: 1px;
+    color: #222;
+    margin: 0 auto;
+}
+
 .guide {
     padding: 20px;
 }
@@ -1167,6 +1216,28 @@ body div#argon.argon-view {
 .guide .title {
     text-align: center;
     font-weight: normal;
+    font-size: 1.6em;
+    margin: 1em;
+}
+
+.guide p {
+    margin-bottom: 2em;
+}
+
+.guide li,
+.guide p {
+    font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+    line-height: 1.6;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: -.003em;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    text-align: justify;
+}
+
+.guide li {
+    font-size: 17px;
 }
 
 .guide .instructions-list {
@@ -1491,6 +1562,41 @@ body div#argon.argon-view {
     height: 95%;
 }
 /*}}}*/
+
+/* About *//*{{{*/
+.about {
+    margin-top: 30px;
+    padding: 20px;
+    color: white;
+}
+
+.about h5 {
+    font-weight: bold;
+    line-height: 1.4;
+    font-size: 14px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    margin: 10px 0;
+}
+
+.about p {
+    line-height: 1.4;
+    font-size: 14px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+.about li {
+    line-height: 1.6;
+    font-size: 13px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+.about ul {
+    padding-left: 15px;
+    margin-top: 0;
+}/*}}}*/
 
 /* Audio Player *//*{{{*/
 .audio-player {
@@ -1846,4 +1952,11 @@ body div#argon.argon-view {
   .audio-player .rangeslider {
       max-width: 80px;
   }
+}/*}}}*/
+
+/* Slider *//*{{{*/
+.image-gallery-thumbnail img {
+    width: auto;
+    max-width: 100%;
+    max-height: 55px;
 }/*}}}*/

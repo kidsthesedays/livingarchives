@@ -10,6 +10,7 @@ class AudioPlayerBar extends Component {
 
         this.timerID = 0
         this.audio = new Audio(this.props.state.audio.src)
+        this.prevAudio = null
         
         this.state = {
             expanded: false,
@@ -19,10 +20,30 @@ class AudioPlayerBar extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        // Check if we have an audio src and its not the same as before
-        if (nextProps.state.audio.src !== ''
-            && this.props.state.audio.src !== nextProps.state.audio.src) {
-            this.audio.src = nextProps.state.audio.src
+        // New audio received
+        if (nextProps.state.audio.locationID !== this.prevAudio.locationID) {
+
+            // Create a new reference to this (prev) audio
+            this.prevAudio = Object.assign({}, nextProps.state.audio)
+
+            this.pause()
+            this.audio = new Audio(nextProps.state.audio.src)
+            clearInterval(this.timerID)
+            this.setState({
+                expanded: false,
+                isPlaying: false,
+                elapsedTime: 0
+            })
+
+            setTimeout(() => this.togglePlay(), 1000)
+        }
+    }
+
+    componentDidMount() {
+        this.prevAudio = Object.assign({}, this.props.state.audio)
+
+        if (!this.state.isPlaying) {
+            this.togglePlay()
         }
     }
 

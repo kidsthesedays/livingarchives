@@ -3,7 +3,8 @@
         {
             "id": 1,
             "position": 1,
-            "name": "First home",
+            "title": "First Home",
+            "name": "Vestergade",
             "address": "Vestergade 12, 1456 København K",
             "latitude": 55.67781,
             "longitude": 12.57032,
@@ -15,7 +16,8 @@
         {
             "id": 2,
             "position": 2,
-            "name": "Tivoli Gardens: The Exhibition",
+            "title": "Tivoli Gardens: The Exhibition",
+            "name": "Tivoli",
             "address": "Vesterbrogade 3, 1630 København V",
             "latitude": 55.67368,
             "longitude": 12.56814,
@@ -27,7 +29,8 @@
         {
             "id": 3,
             "position": 3,
-            "name": "The School",
+            "title": "The School",
+            "name": "Nørre Farimagsgade",
             "address": "Nørre Farimagsgade 51, 1364 København K",
             "latitude": 55.68396,
             "longitude": 12.56684,
@@ -43,19 +46,26 @@
         {
             "id": 4,
             "position": 4,
-            "name": "The Vanished Emeliegade",
+            "title": "The Vanished Emeliegade",
+            "name": "Vodroffsvej",
             "address": "Vodroffsvej 25, 1900 Frederiksberg C",
             "latitude": 55.67684,
             "longitude": 12.55357,
-            "audio": {
-                "title": "Example",
-                "src": "example.mp3"
+            "gallery": {
+                "photos": [
+                    { "src": "hodgeandbauditz.jpg" },
+                    { "src": "HaraldBoyeNana.jpg" },
+                    { "src": "FruJensentivoli.jpg" },
+                    { "src": "EmmaBoyeNana.jpg" },
+                    { "src": "ArannethaJames.jpg" }
+                ]
             }
         },
         {
             "id": 5,
             "position": 5,
-            "name": "Old St Josephs Hospital",
+            "title": "Old St Josephs Hospital",
+            "name": "Griffenfeldsgade",
             "address": "Griffenfeldsgade",
             "latitude": 55.68678,
             "longitude": 12.55287,
@@ -75,16 +85,19 @@
         {
             "id": 6,
             "position": 6,
-            "name": "Beginnings and Ends",
+            "title": "Beginnings and Ends",
+            "name": "HelligKorsKirke",
             "address": "Kapelvej 38, 2200 København N",
             "latitude": 55.68766,
             "longitude": 12.55151,
             "gallery": {
                 "photos": [
+                    { "src": "helligkors.jpg" },
                     { "src": "annons.jpg" },
                     { "src": "V-A-school.jpg" },
-                    { "src": "Alberta1908.jpg" },
-                    { "src": "alberta-crop.jpg" }
+                    { "src": "AlbertaVictor1905.jpg" },
+                    { "src": "TransferDay.jpg" },
+                    { "src": "ChurchStCroix.jpg" }
                 ]
             }
         }

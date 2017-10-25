@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import App from '../components/app'
-import Guide from '../components/guide'
+import Start from '../components/start'
 
 // Before
 function before(state) {
@@ -16,14 +16,14 @@ function before(state) {
 function route(state) {
     return () => {
         // DEBUG
-        // console.log('Guide:', state)
+        // console.log('Start:', state)
         
         // Pause panorama rendering
         // state.pausePanorama()
 
         render(
             <App state={state}>
-                <Guide />
+                <Start />
             </App>,
             state.reactMountNode
         )
@@ -31,8 +31,8 @@ function route(state) {
 }
 
 // Export the route handlers
-export const guide = {
-    urls: ['/guide'],
+export const start = {
+    urls: ['/*'],
     route,
     hooks: state => ({ before: before(state) })
 }

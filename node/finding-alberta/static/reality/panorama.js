@@ -47,7 +47,9 @@ function frameStateEventFn(frameState) {
     Argon.SerializedSubviewList.clone(frameState.subviews, clonedSubviews);
     Argon.decomposePerspectiveProjectionMatrix(clonedSubviews[0].projectionMatrix, frustum);
 
-    frustum.fov = app.view.subviews[0] && app.view.subviews[0].frustum.fov || CesiumMath.PI_OVER_THREE;
+    // frustum.fov = app.view.subviews[0] && app.view.subviews[0].frustum.fov || CesiumMath.PI_OVER_THREE;
+    // CUSTOM FOV
+    frustum.fov = app.view.subviews[0] && app.view.subviews[0].frustum.fov || 1.55;
 
     if (!app.device.strict) {
         // Zoom in/out?
@@ -147,7 +149,7 @@ function renderEventFn() {
         camera.quaternion.copy(subview.pose.orientation);
 
         // The underlying system provide a full projection matrix for the camera. 
-        camera.projectionMatrix.fromArray(subview.projectionMatrix);
+        camera.projectionMatrix.fromArray(subview.frustum.projectionMatrix);
 
         var x = subview.viewport.x;
         var y = subview.viewport.y;
@@ -202,10 +204,8 @@ function showPanorama(p) {
         var mesh = new THREE.Mesh(sphereGeometry, meshBasicMaterial);
 
         stage.add(mesh);
-
         mesh.scale.set(-1, 1, 1);
-
-        panoramaEntity = entity
+        panoramaEntity = entity;
     }
 
     loader.load(p.url, createAndAddMesh);

@@ -1,13 +1,14 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import App from '../components/app'
-import Guide from '../components/guide'
+import Navigation from '../components/navigation'
+import About from '../components/about'
 
 // Before
 function before(state) {
     return done => {
         unmountComponentAtNode(state.reactMountNode)
-        state.reactMountNode.style.background = 'rgba(255, 255, 255, 0.8)'
+        state.reactMountNode.style.background = '#444444'
         done()
     }
 }
@@ -16,14 +17,12 @@ function before(state) {
 function route(state) {
     return () => {
         // DEBUG
-        // console.log('Guide:', state)
+        // console.log('About:', state)
         
-        // Pause panorama rendering
-        // state.pausePanorama()
-
         render(
             <App state={state}>
-                <Guide />
+                <Navigation backUrl='/locations' title='About' />
+                <About />
             </App>,
             state.reactMountNode
         )
@@ -31,8 +30,9 @@ function route(state) {
 }
 
 // Export the route handlers
-export const guide = {
-    urls: ['/guide'],
+export const about = {
+    urls: ['/about'],
     route,
     hooks: state => ({ before: before(state) })
 }
+

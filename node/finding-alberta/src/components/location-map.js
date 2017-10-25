@@ -12,7 +12,7 @@ const Map = withGoogleMap(({ location, userPosition }) => {
     }
 
     const googleMapOpts = {
-        defaultZoom: 15,
+        defaultZoom: 16,
         defaultCenter: center,
         defaultOptions: {
             styles: style,

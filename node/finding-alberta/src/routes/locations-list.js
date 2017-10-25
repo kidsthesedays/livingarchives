@@ -31,7 +31,7 @@ function route(state) {
         render(
             <App state={state}>
                 <Navigation
-                    backUrl={state.prevRoute || '/'}
+                    backUrl={state.prevRoute || '/guide'}
                     renderRight={mapIcon}
                     title='All locations' />
                 <LocationsList />
