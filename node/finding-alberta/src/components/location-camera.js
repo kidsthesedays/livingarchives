@@ -39,7 +39,7 @@ class LocationCamera extends Component {
             if (this.state.visibleOverlay) {
                 const elem = document.getElementById('zoomable')
                 if (elem !== undefined) {
-                    const zm = new Zoom(elem, { pan: true })
+                    const zm = new Zoom(elem, { pan: true, rotate: true })
                 }
             }
         }, 400)
