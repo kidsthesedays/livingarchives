@@ -53,18 +53,18 @@ function frameStateEventFn(frameState) {
 
     if (!app.device.strict) {
         // Zoom in/out?
-        if (aggregator.isMoving(Argon.Cesium.CameraEventType.WHEEL)) {
-            var wheelMovement = aggregator.getMovement(Argon.Cesium.CameraEventType.WHEEL);
-            var diff = wheelMovement.endPosition.y;
-            frustum.fov = Math.min(Math.max(frustum.fov - diff * 0.02, Math.PI / 8), Math.PI - Math.PI / 8);
-        }
+        // if (aggregator.isMoving(Argon.Cesium.CameraEventType.WHEEL)) {
+        //     var wheelMovement = aggregator.getMovement(Argon.Cesium.CameraEventType.WHEEL);
+        //     var diff = wheelMovement.endPosition.y;
+        //     frustum.fov = Math.min(Math.max(frustum.fov - diff * 0.02, Math.PI / 8), Math.PI - Math.PI / 8);
+        // }
 
-        // Zoom in/out?
-        if (aggregator.isMoving(Argon.Cesium.CameraEventType.PINCH)) {
-            var pinchMovement = aggregator.getMovement(Argon.Cesium.CameraEventType.PINCH);
-            var diff = pinchMovement.distance.endPosition.y - pinchMovement.distance.startPosition.y;
-            frustum.fov = Math.min(Math.max(frustum.fov - diff * 0.02, Math.PI / 8), Math.PI - Math.PI / 8);
-        }
+        // // Zoom in/out?
+        // if (aggregator.isMoving(Argon.Cesium.CameraEventType.PINCH)) {
+        //     var pinchMovement = aggregator.getMovement(Argon.Cesium.CameraEventType.PINCH);
+        //     var diff = pinchMovement.distance.endPosition.y - pinchMovement.distance.startPosition.y;
+        //     frustum.fov = Math.min(Math.max(frustum.fov - diff * 0.02, Math.PI / 8), Math.PI - Math.PI / 8);
+        // }
 
         clonedSubviews.forEach(function (s) {
             var aspect = s.viewport.width / s.viewport.height;

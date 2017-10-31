@@ -21,13 +21,13 @@ const Guide = ({ state }) => {
                 We recommend Vestergade as a natural beginning. Here are a few
                 instructions:
             </p>
-            <ol className='instructions-list'>
+            <ul className='instructions-list'>
                 <li>Choose a location on the map</li>
                 <li>Find the house</li>
                 <li>Push the AR key</li>
                 <li>Enjoy the story</li>
                 <li>Go to the next place</li>
-            </ol>
+            </ul>
             <button
                 className='start'
                 type='button'

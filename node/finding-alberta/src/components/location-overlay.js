@@ -42,7 +42,7 @@ class LocationOverlay extends Component {
         const src = `/static/media/photos/${location.meta.image.src}`
         return (
             <div key={1} className='content-image'>
-                <img src={src} />
+                <img src={src} id='zoomable'/>
             </div>
         )
     }

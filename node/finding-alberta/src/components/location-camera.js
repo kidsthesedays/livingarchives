@@ -33,6 +33,16 @@ class LocationCamera extends Component {
 
     toggleOverlay() {
         this.setState({ visibleOverlay: !this.state.visibleOverlay })
+
+        // Zoomable image
+        setTimeout(() => {
+            if (this.state.visibleOverlay) {
+                const elem = document.getElementById('zoomable')
+                if (elem !== undefined) {
+                    const zm = new Zoom(elem, { pan: true })
+                }
+            }
+        }, 400)
     }
 
     closeOverlay() {
