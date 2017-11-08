@@ -75,17 +75,10 @@ function handleTouchStart(e) {
     }
 }
 
-var x = false;
-
 function imageTrackingFn(v) {
     return function() {
 
-        if (x) { return false; }
-
-        x = true;
-
         var videoPose = app.context.getEntityPose(v.entity);
-
 
         // KNOWN
         if (videoPose.poseStatus & Argon.PoseStatus.KNOWN) {
@@ -122,8 +115,6 @@ function setupTrackables(trackables) {
         app.context
             .subscribe(trackables[v.key].id)
             .then(function(entity) {
-
-                console.log('????', trackables[v.key].id, entity);
 
                 var e = Object.assign({}, v, {
                     entity: entity,
