@@ -24625,6 +24625,7 @@ $__System.register('1', ['2', '3', '3b', '4', '9', '10', 'a', '1f', '32', '41', 
 
             // SEBBE
             if (e.type === 'click') return;
+            if (e.type === 'touchstart') return;
 
             // contain our events within the view element
             e.stopPropagation();
