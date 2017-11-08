@@ -48,11 +48,14 @@ videoCanvas.height = 360;
 // videoCanvasContext.fillStyle = '#000000';
 // videoCanvasContext.fillRect(0, 0, videoCanvas.width, videoCanvas.height);
 
-
-
-var videoTexture = new THREE.Texture(videoCanvas);
+var videoTexture = new THREE.VideoTexture(videoCanvas);
 videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
+
+
+// var videoTexture = new THREE.Texture(videoCanvas);
+// videoTexture.minFilter = THREE.LinearFilter;
+// videoTexture.magFilter = THREE.LinearFilter;
 
 var shaderMaterial = new THREE.ShaderMaterial({
     uniforms: {
