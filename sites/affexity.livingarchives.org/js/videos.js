@@ -8,7 +8,7 @@ var VIDEOS = [
     },
     {
         key: 'Corpus2',
-        src: 'corpus-riverbed.3gp',
+        src: 'test.mov',
         entity: null,
         object: null
     }
