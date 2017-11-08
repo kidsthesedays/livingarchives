@@ -79,6 +79,9 @@ function imageTrackingFn(v) {
     return function() {
         var videoPose = app.context.getEntityPose(v.entity);
 
+        console.log(v.key);
+        return false
+
         // KNOWN
         if (videoPose.poseStatus & Argon.PoseStatus.KNOWN) {
             v.object.position.copy(videoPose.position);
@@ -107,7 +110,7 @@ function imageTrackingFn(v) {
 }
 
 function setupTrackables(trackables) {
-    setTimeout(() => console.log('WILL SETUP TRACKABLES: ', VIDEOS.length, trackables.length), 3000);
+    console.log('WILL SETUP TRACKABLES: ', VIDEOS.length, trackables.length);
 
     // Videos from the global scope
     VIDEOS.map(function(v) {
@@ -122,7 +125,7 @@ function setupTrackables(trackables) {
 
                 scene.add(e.object);
 
-                setTimeout(() => console.log('ADDING TRACKING FUNC'), 4000);
+                console.log('ADDING TRACKING FUNC')
 
                 var trackingFn = imageTrackingFn(v);
 
