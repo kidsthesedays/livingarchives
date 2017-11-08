@@ -77,10 +77,11 @@ function handleTouchStart(e) {
 
 function imageTrackingFn(v) {
     return function() {
-        var videoPose = app.context.getEntityPose(v.entity);
 
         console.log(v.key);
-        return false
+        return false;
+
+        var videoPose = app.context.getEntityPose(v.entity);
 
         // KNOWN
         if (videoPose.poseStatus & Argon.PoseStatus.KNOWN) {
@@ -119,7 +120,6 @@ function setupTrackables(trackables) {
             .then(function(entity) {
 
                 console.log('????', trackables[v.key].id);
-                return false;
 
                 var e = Object.assign({}, v, {
                     entity: entity,
@@ -127,8 +127,6 @@ function setupTrackables(trackables) {
                 });
 
                 scene.add(e.object);
-
-                console.log('ADDING TRACKING FUNC')
 
                 var trackingFn = imageTrackingFn(v);
 
