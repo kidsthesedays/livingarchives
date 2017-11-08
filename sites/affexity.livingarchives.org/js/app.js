@@ -34,6 +34,7 @@ userLocation.add(argonVideoObject);
 
 // <video> element used to play videos
 var videoElement = document.createElement('video');
+videoElement.setAttribute('playsinline', '');
 // Disable fullscreen videos
 enableInlineVideo(videoElement);
 
