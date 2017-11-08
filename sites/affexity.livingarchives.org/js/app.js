@@ -84,7 +84,7 @@ function imageTrackingFn(v) {
 
         x = true;
 
-        var videoPose = app.context.getEntityPose(v.entity, 'ar.origin');
+        var videoPose = app.context.getEntityPose(v.entity);
 
 
         // KNOWN
@@ -132,7 +132,7 @@ function setupTrackables(trackables) {
 
                 scene.add(e.object);
 
-                var trackingFn = imageTrackingFn(v);
+                var trackingFn = imageTrackingFn(e);
 
                 app.context.updateEvent.addEventListener(trackingFn);
             });
