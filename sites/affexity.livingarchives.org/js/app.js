@@ -137,6 +137,8 @@ function setupVuforia(available) {
         .init({ encryptedLicenseData: LICENSE }) // License from the global scope
         .then(function(api) {
 
+            console.log('LICENSE VALID!')
+
             // Create the dataset from our URL
             api.objectTracker
                 .createDataSetFromURL(DATASET_URL)
