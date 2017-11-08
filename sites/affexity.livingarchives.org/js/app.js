@@ -96,7 +96,8 @@ function imageTrackingFn(v) {
             videoElement.load();
 
             // TODO might have to fix 'touchstart' within the Argon source?
-            document.addEventListener('touchstart', handleTouchStart, false);
+            // document.addEventListener('touchstart', handleTouchStart, false);
+            document.addEventListener('click', handleTouchStart, false);
         // LOST
         } else if (videoPose.poseStatus & Argon.PoseStatus.LOST) {
             argonVideoObject.position.z = -0.5;
@@ -104,7 +105,8 @@ function imageTrackingFn(v) {
             videoElement.pause();
 
             // TODO might have to fix 'touchstart' within the Argon source?
-            document.removeEventListener('touchstart', handleTouchStart, false);
+            // document.removeEventListener('touchstart', handleTouchStart, false);
+            document.removeEventListener('click', handleTouchStart, false);
         }
     }
 }

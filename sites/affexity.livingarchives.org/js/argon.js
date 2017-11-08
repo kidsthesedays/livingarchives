@@ -24624,7 +24624,7 @@ $__System.register('1', ['2', '3', '3b', '4', '9', '10', 'a', '1f', '32', '41', 
             if (e.type === 'wheel' || isIOS && e.type === 'touchmove' && e.touches.length === 2) e.preventDefault();
 
             // SEBBE
-            // if (e.type === 'click') return;
+            if (e.type === 'click') return;
 
             // contain our events within the view element
             e.stopPropagation();
