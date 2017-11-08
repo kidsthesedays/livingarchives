@@ -24650,7 +24650,8 @@ $__System.register('1', ['2', '3', '3b', '4', '9', '10', 'a', '1f', '32', '41', 
                     }
                 }
                 // prevent undesired synthetic click
-                if (e.type === 'touchstart') e.preventDefault();
+                // if (e.type === 'touchstart') e.preventDefault();
+                //
                 var boundingRect = viewService.element.getBoundingClientRect();
                 var touches = cloneTouches(e.touches, boundingRect);
                 var changedTouches = cloneTouches(e.changedTouches, boundingRect);
