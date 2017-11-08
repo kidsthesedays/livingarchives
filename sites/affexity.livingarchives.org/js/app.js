@@ -84,7 +84,7 @@ function imageTrackingFn(v) {
 
         x = true;
 
-        var videoPose = app.context.getEntityPose(v.entity);
+        var videoPose = app.context.getEntityPose(v.entity, 'ar.origin');
 
 
         // KNOWN
@@ -115,7 +115,7 @@ function imageTrackingFn(v) {
 }
 
 function setupTrackables(trackables) {
-    console.log('WILL SETUP TRACKABLES: ', VIDEOS.length, trackables.length);
+    console.log('WILL SETUP TRACKABLES: ', VIDEOS.length);
 
     // Videos from the global scope
     VIDEOS.map(function(v) {
