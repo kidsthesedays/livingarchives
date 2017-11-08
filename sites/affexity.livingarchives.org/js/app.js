@@ -43,23 +43,63 @@ var videoCanvas = document.createElement('canvas');
 videoCanvas.width = 640;
 videoCanvas.height = 360;
 
-var videoCanvasContext = videoCanvas.getContext('2d');
-videoCanvasContext.fillStyle = '#000000';
-videoCanvasContext.fillRect(0, 0, videoCanvas.width, videoCanvas.height);
+// 
+// var videoCanvasContext = videoCanvas.getContext('2d');
+// videoCanvasContext.fillStyle = '#000000';
+// videoCanvasContext.fillRect(0, 0, videoCanvas.width, videoCanvas.height);
+
+
 
 var videoTexture = new THREE.Texture(videoCanvas);
 videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 
+var shaderMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+        texture: {
+            type: 't',
+            value: videoTexture
+        }
+    },
+    vertexShader: [
+        'varying vec2 vUv;',
+        'varying float texU;',
+        'void main()',
+        '{',
+        'vUv = uv;',
+        'vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );',
+        'gl_Position = projectionMatrix * mvPosition;',
+        '}'
+    ].join('\n'),
+
+    fragmentShader: [
+        'uniform sampler2D texture;',
+        'uniform vec3 color;',
+        'varying vec2 vUv;',
+        'void main()',
+        '{',
+        'vec2 texcoord = vec2(0.49, 0.0);',
+        'vec2 halfTex = vec2(0.5, 1.0);',
+        'vec3 tColor = texture2D( texture, ( vUv * halfTex ) ).rgb;',
+        'vec3 aColor = texture2D( texture, ( (vUv * halfTex ) + texcoord ) ).rgb;',
+        'float a = aColor.g;',
+        'gl_FragColor = vec4(tColor, a);',
+        '}'
+    ].join('\n')
+});
+
 var videoGeometry = new THREE.PlaneGeometry(500, 500);
+
 var videoMaterial = new THREE.MeshBasicMaterial({
+    shader: shaderMaterial,
     map: videoTexture,
-    overdraw: true,
+    // overdraw: true,
     // transparent: true,
     // opacity: 0.5
 });
 
 var videoScreen = new THREE.Mesh(videoGeometry, videoMaterial);
+
 argonVideoObject.add(videoScreen);
 
 function handleTouchStart(e) {
