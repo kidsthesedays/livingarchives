@@ -75,13 +75,17 @@ function handleTouchStart(e) {
     }
 }
 
+var x = false;
+
 function imageTrackingFn(v) {
     return function() {
 
-        console.log(v.key);
-        return false;
+        if (x) { return false; }
+
+        x = true;
 
         var videoPose = app.context.getEntityPose(v.entity);
+
 
         // KNOWN
         if (videoPose.poseStatus & Argon.PoseStatus.KNOWN) {
