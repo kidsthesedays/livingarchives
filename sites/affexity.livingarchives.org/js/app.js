@@ -107,6 +107,8 @@ function imageTrackingFn(v) {
 }
 
 function setupTrackables(trackables) {
+    console.log('WILL SETUP TRACKABLES: ', VIDEOS.length);
+
     // Videos from the global scope
     VIDEOS.map(function(v) {
         app.context
@@ -120,7 +122,10 @@ function setupTrackables(trackables) {
 
                 scene.add(e.object);
 
+                console.log('ADDING TRACKING FUNC')
+
                 var trackingFn = imageTrackingFn(v);
+
                 app.context.updateEvent.addEventListener(trackingFn);
             });
     });
