@@ -66,6 +66,8 @@ function handleTouchStart(e) {
         return
     }
 
+    console.log('TOUCHED!');
+
     e.preventDefault();
 
     if (videoElement.paused) {
