@@ -118,7 +118,7 @@ function setupTrackables(trackables) {
             .subscribe(trackables[v.key].id)
             .then(function(entity) {
 
-                console.log('????');
+                console.log('????', trackables[v.key].id);
                 return false;
 
                 var e = Object.assign({}, v, {
