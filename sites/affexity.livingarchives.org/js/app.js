@@ -123,12 +123,10 @@ function setupTrackables(trackables) {
             .subscribe(trackables[v.key].id)
             .then(function(entity) {
 
-                console.log('????', trackables[v.key].id);
-                 
-                var tmpEntity = app.context.subscribeToEntityById(trackables[v.key].id);
+                console.log('????', trackables[v.key].id, entity);
 
                 var e = Object.assign({}, v, {
-                    entity: tmpEntity,
+                    entity: entity,
                     object: new THREE.Object3D()
                 });
 
