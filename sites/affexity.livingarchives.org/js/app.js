@@ -39,8 +39,8 @@ enableInlineVideo(videoElement);
 
 // The canvas in which we render the video
 var videoCanvas = document.createElement('canvas');
-// videoCanvas.width = 640;
-// videoCanvas.height = 360;
+videoCanvas.width = 640;
+videoCanvas.height = 360;
 
 var videoCanvasContext = videoCanvas.getContext('2d');
 videoCanvasContext.fillStyle = '#000000';
@@ -54,15 +54,15 @@ var videoGeometry = new THREE.PlaneGeometry(500, 500);
 var videoMaterial = new THREE.MeshBasicMaterial({
     map: videoTexture,
     overdraw: true,
-    transparent: true,
-    opacity: 0.5
+    // transparent: true,
+    // opacity: 0.5
 });
 
 var videoScreen = new THREE.Mesh(videoGeometry, videoMaterial);
 argonVideoObject.add(videoScreen);
 
 function handleTouchStart(e) {
-    if (e.touches.length !== 1) {
+    if (e.touches === undefined || e.touches.length !== 1) {
         return
     }
 
