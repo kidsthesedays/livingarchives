@@ -107,7 +107,7 @@ function imageTrackingFn(v) {
 }
 
 function setupTrackables(trackables) {
-    console.log('WILL SETUP TRACKABLES: ', VIDEOS.length);
+    setTimeout(() => console.log('WILL SETUP TRACKABLES: ', VIDEOS.length, trackables.length), 3000);
 
     // Videos from the global scope
     VIDEOS.map(function(v) {
@@ -122,7 +122,7 @@ function setupTrackables(trackables) {
 
                 scene.add(e.object);
 
-                console.log('ADDING TRACKING FUNC')
+                setTimeout(() => console.log('ADDING TRACKING FUNC'), 4000);
 
                 var trackingFn = imageTrackingFn(v);
 
