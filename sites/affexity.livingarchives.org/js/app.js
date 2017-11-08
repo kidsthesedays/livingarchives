@@ -118,6 +118,9 @@ function setupTrackables(trackables) {
             .subscribe(trackables[v.key].id)
             .then(function(entity) {
 
+                console.log('????');
+                return false;
+
                 var e = Object.assign({}, v, {
                     entity: entity,
                     object: new THREE.Object3D()
