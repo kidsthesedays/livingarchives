@@ -48,7 +48,7 @@ videoCanvas.height = 360;
 // videoCanvasContext.fillStyle = '#000000';
 // videoCanvasContext.fillRect(0, 0, videoCanvas.width, videoCanvas.height);
 
-var videoTexture = new THREE.VideoTexture(videoCanvas);
+var videoTexture = new THREE.VideoTexture(videoElement);
 videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 
@@ -93,15 +93,16 @@ var shaderMaterial = new THREE.ShaderMaterial({
 
 var videoGeometry = new THREE.PlaneGeometry(500, 500);
 
-var videoMaterial = new THREE.MeshBasicMaterial({
-    shader: shaderMaterial,
-    map: videoTexture,
-    // overdraw: true,
-    // transparent: true,
-    // opacity: 0.5
-});
+// var videoMaterial = new THREE.MeshBasicMaterial({
+//     shader: shaderMaterial,
+//     map: videoTexture,
+//     // overdraw: true,
+//     // transparent: true,
+//     // opacity: 0.5
+// });
 
-var videoScreen = new THREE.Mesh(videoGeometry, videoMaterial);
+// var videoScreen = new THREE.Mesh(videoGeometry, videoMaterial);
+var videoScreen = new THREE.Mesh(videoGeometry, shaderMaterial);
 
 argonVideoObject.add(videoScreen);
 
@@ -235,13 +236,13 @@ function renderFunc() {
         var height = subview.viewport.height;
 
         if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
-            videoCanvasContext.drawImage(
-                videoElement,
-                0,
-                0,
-                videoCanvas.width,
-                videoCanvas.height
-            );
+            // videoCanvasContext.drawImage(
+            //     videoElement,
+            //     0,
+            //     0,
+            //     videoCanvas.width,
+            //     videoCanvas.height
+            // );
 
             if (videoTexture) {
                 videoTexture.needsUpdate = true;
