@@ -30,7 +30,7 @@ enableInlineVideo(Video.elem);
 // Initialize Argon, the Scene, the Camera and the WebGL Renderer
 const App = Argon.init();
 const Scene = new THREE.Scene();
-const Camera = new THREE.Perspective.Camera();
+const Camera = new THREE.PerspectiveCamera();
 const Renderer = new THREE.WebGLRenderer({
     alpha: true,
     logarithmicDepthBuffer: true,
