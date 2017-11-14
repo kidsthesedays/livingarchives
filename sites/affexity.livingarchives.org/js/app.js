@@ -99,8 +99,10 @@ videoObject.add(videoMesh);
 
 const loadVideo = (v, src) => {
     if (DEBUG) console.log('Trying to load video');
+
     if (v.src === '' || v.src !== src) {
         if (DEBUG) console.log('Loading src:', src);
+
         v.src = src;
         v.elem.src = `/videos/${src}`;
         v.elem.loop = true;
@@ -136,9 +138,9 @@ const setupImageTracking = v => () => {
 
     // FOUND
     if (vp.poseStatus & Argon.PoseStatus.FOUND) {
+        loadVideo(Video, v.src);
         v.object.add(videoObject);
         videoObject.position.z = 0;
-        loadVideo(Video, v.src);
 
         document.addEventListener('touchstart', handleTouchStart, false);
         // document.addEventListener('click', handleTouchStart, false);
