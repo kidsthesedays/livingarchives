@@ -128,6 +128,8 @@ const setupImageTracking = v => () => {
     // Video Pose (vp) of a Video (v)
     const vp = App.context.getEntityPose(v.entity);
 
+    if (DEBUG) console.log('Tracking', v.key);
+
     // KNOWN
     if (vp.poseStatus & Argon.PoseStatus.KNOWN) {
         v.object.position.copy(vp.position);
@@ -166,10 +168,8 @@ const setupTrackables = trackables => {
             });
             // Add our object to the Scene
             Scene.add(e.object);
-
-            const eventListener = setupImageTracking(e)
             // Start image tracking
-            App.context.updateEventListener(eventListener);
+            App.context.updateEventListener(setupImageTracking(e));
         })
     })
 };
