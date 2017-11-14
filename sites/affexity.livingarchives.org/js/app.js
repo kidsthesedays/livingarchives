@@ -166,8 +166,10 @@ const setupTrackables = trackables => {
             });
             // Add our object to the Scene
             Scene.add(e.object);
+
+            const eventListener = setupImageTracking(e)
             // Start image tracking
-            App.context.updateEventListener(setupImageTracking(e));
+            App.context.updateEventListener(eventListener);
         })
     })
 };
@@ -184,6 +186,7 @@ const setupVuforia = available => {
         if (DEBUG) console.log('LICENSE is valid');
         // Create the dataset from our URL
         api.objectTracker.createDataSetFromURL(DATASET_URL).then(ds => {
+            if (DEBUG) console.log('Dataset created from URL');
             // Load and activate our dataset
             api.objectTracker.loadDataSet(ds).then(setupTrackables);
             api.objectTracker.activateDataSet(ds);
