@@ -97,7 +97,7 @@ videoObject.add(videoMesh);
 // FUNCTIONS
 // =========
 
-const loadVideo = (v, src, cb) => {
+const loadVideo = (v, src) => {
     if (v.src === '' || v.src !== src) {
         if (DEBUG) console.log('Loading src:', src);
         
@@ -105,9 +105,11 @@ const loadVideo = (v, src, cb) => {
         v.elem.src = `/videos/${src}`;
         v.elem.loop = true;
         v.elem.load();
-        cb()
         // Autoplay
         window.setTimeout(() => v.elem.play(), 300);
+    } else if (v.src === src) {
+        // If its the same video, continue playing
+        v.elem.play();
     }
 };
 
@@ -137,10 +139,9 @@ const setupImageTracking = v => () => {
 
     // FOUND
     if (vp.poseStatus & Argon.PoseStatus.FOUND) {
-        loadVideo(Video, v.src, () => {
-            v.object.add(videoObject);
-            videoObject.position.z = 0;
-        });
+        loadVideo(Video, v.src)
+        v.object.add(videoObject);
+        videoObject.position.z = 0;
 
         document.addEventListener('touchstart', handleTouchStart, false);
         // document.addEventListener('click', handleTouchStart, false);
