@@ -139,6 +139,8 @@ const setupImageTracking = v => () => {
 
     // FOUND
     if (vp.poseStatus & Argon.PoseStatus.FOUND) {
+        if (DEBUG) console.log('FOUND video', v.src);
+
         loadVideo(Video, v.src)
         v.object.add(videoObject);
         videoObject.position.z = 0;
