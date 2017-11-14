@@ -1,5 +1,7 @@
 "use strict";
 
+const DEBUG = true;
+
 var VIDEOS = [
     {
         key: 'delicatepassage2',
@@ -21,8 +23,8 @@ let animationIsPending = false;
 
 let Video = {
     src: '', 
-    elem: document.createElement('video'),
-}
+    elem: document.createElement('video')
+};
 
 Video.elem.setAttribute('playsinline', '');
 enableInlineVideo(Video.elem);
@@ -151,6 +153,8 @@ const setupImageTracking = v => () => {
 
 // Makes all of our videos trackable by id
 const setupTrackables = trackables => {
+    if (DEBUG) console.log('Setting up trackables');
+
     VIDEOS.map(v => {
         App.context.subscribe(trackables[v.key].id).then(entity => {
             // Immutable copy of our video object
@@ -172,6 +176,7 @@ const setupVuforia = available => {
 
     // The license comes from the global namespace (another file imports it)
     App.vuforia.init({ encryptedLicenseData: LICENSE }).then(api => {
+        if (DEBUG) console.log('LICENSE is valid');
         // Create the dataset from our URL
         api.objectTracker.createDataSetFromURL(DATASET_URL).then(ds => {
             // Load and activate our dataset
