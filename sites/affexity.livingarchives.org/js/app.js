@@ -46,7 +46,7 @@ Scene.add(Camera);
 Scene.add(userLoc);
 Renderer.setPixelRatio(window.devicePixelRatio);
 
-App.view.setLayers([{ source: renderer.domElement }]);
+App.view.setLayers([{ source: Renderer.domElement }]);
 
 videoObject.position.z = -0.5;
 videoObject.scale.set(0.001, 0.001, 0.001);
