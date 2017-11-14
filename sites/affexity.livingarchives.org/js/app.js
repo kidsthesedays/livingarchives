@@ -6,13 +6,13 @@ var VIDEOS = [
     {
         key: 'delicatepassage2',
         src: 'del-pass-red-wall-no-music.3gp',
-        object: new THREE.Object3D(),
+        object: null,
         entity: null
     },
     {
         key: 'Corpus2',
         src: 'gangnam.mp4',
-        object: new THREE.Object3D(),
+        object: null,
         entity: null
     }
 ];
@@ -68,7 +68,6 @@ const shaderMaterial = new THREE.ShaderMaterial({
     },
     vertexShader: `
         varying vec2 vUv;
-        varying float texU;
         void main() {
             vUv = uv;
             vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
@@ -98,11 +97,9 @@ videoObject.add(videoMesh);
 // FUNCTIONS
 // =========
 
-// Toggles play and pause of the video
-const togglePlay = v => v.elem.paused ? v.elem.play() : v.elem.pause();
-
 const loadVideo = (v, src) => {
     if (v.src === '' || v.src !== src) {
+        if (DEBUG) console.log('Loading src:', src);
         v.src = src;
         v.elem.src = `/videos/${src}`;
         v.elem.loop = true;
@@ -117,7 +114,11 @@ const handleTouchStart = e => {
     e.preventDefault();
 
     if (e.touches !== undefined || e.touches.length === 1) {
-        togglePlay(Video)
+        if (Video.elem.paused) {
+            Video.elem.play();
+        } else {
+            Video.elem.pause();
+        }
     }
 };
 
@@ -158,11 +159,14 @@ const setupTrackables = trackables => {
     VIDEOS.map(v => {
         App.context.subscribe(trackables[v.key].id).then(entity => {
             // Immutable copy of our video object
-            const e = Object.assign({}, v, { entity: entity })
+            const e = Object.assign({}, v, {
+                entity: entity,
+                object: new THREE.Object3D()
+            });
             // Add our object to the Scene
             Scene.add(e.object);
             // Start image tracking
-            App.context.updateEventListener(setupImageTracking(e))
+            App.context.updateEventListener(setupImageTracking(e));
         })
     })
 };
