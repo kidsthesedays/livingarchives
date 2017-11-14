@@ -144,7 +144,7 @@ const setupImageTracking = v => () => {
         loadVideo(Video, v.src)
         v.object.add(videoObject);
 
-        if (Video.src === v.src) {
+        if (Video.src !== '' && Video.src !== v.src) {
             window.setTimeout(() => videoObject.position.z = 0, 300);
         } else {
             videoObject.position.z = 0;
