@@ -98,6 +98,7 @@ videoObject.add(videoMesh);
 // =========
 
 const loadVideo = (v, src) => {
+    if (DEBUG) console.log('Trying to load video');
     if (v.src === '' || v.src !== src) {
         if (DEBUG) console.log('Loading src:', src);
         v.src = src;
