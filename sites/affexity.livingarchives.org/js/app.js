@@ -143,7 +143,12 @@ const setupImageTracking = v => () => {
 
         loadVideo(Video, v.src)
         v.object.add(videoObject);
-        videoObject.position.z = 0;
+
+        if (Video.src === v.src) {
+            window.setTimeout(() => videoObject.position.z = 0, 300);
+        } else {
+            videoObject.position.z = 0;
+        }
 
         document.addEventListener('touchstart', handleTouchStart, false);
         // document.addEventListener('click', handleTouchStart, false);
