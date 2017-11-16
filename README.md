@@ -69,24 +69,19 @@ $ docker-compose up
 
 **Note 1:** to run the process as a daemon `$ docker-compose up -d`
 
-**Note 2:** for a local build use `$ docker-compose -f dev.docker-compose.yml up`
+**Note 2:** for a **local** build use `$ docker-compose -f dev.docker-compose.yml up`
 
 If everything worked you should now be able to visit `skybox.livingarchives.org` in your browser.
 
 ### Useful commands
 
-Static typechecker 
+Watch, compile or build the Finding Alberta project with these commands.
 
 ```
 $ cd node
-$ yarn run flow
-```
-
-Watch for file changes via webpack
-
-```
-$ cd node
-$ yarn run watch
+$ yarn run watch:alberta
+$ yarn run compile:alberta
+$ yarn run build:alberta
 ```
 
 #### Docker
@@ -147,3 +142,5 @@ $ docker-compose exec postgres restore <filename>
 ```
 
 ## Contributing
+
+TBD
