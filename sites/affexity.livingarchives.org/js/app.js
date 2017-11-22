@@ -5,7 +5,7 @@ const DATASET_URL = '/dataset/Affexity.xml';
 const VIDEOS = [
     {
         key: 'delicatepassage2',
-        src: 'del-pass-red-wall-no-music.3gp',
+        src: 'output.mp4',
         object: null,
         entity: null
     },
@@ -87,7 +87,7 @@ const shaderMaterial = new THREE.ShaderMaterial({
     `
 });
 
-// TODO does the dimensions need to be dynamic?
+// TODO do the dimensions need to be dynamic?
 const videoGeometry = new THREE.PlaneGeometry(500, 500);
 const videoMesh = new THREE.Mesh(videoGeometry, shaderMaterial);
 
