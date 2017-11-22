@@ -63,6 +63,8 @@ const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
     opacity: 0.5,
     side: THREE.DoubleSide,
+    depthTest: true,
+    depthWrite: false,
     uniforms: {
         texture: {
             type: 't',
@@ -147,15 +149,17 @@ const setupImageTracking = v => () => {
         if (DEBUG) console.log('FOUND video', v.src);
 
         loadVideo(Video, v.src)
+
         v.object.add(videoObject);
         videoObject.position.z = 0
 
         document.addEventListener('touchstart', handleTouchStart, false);
     // LOST
     } else if (vp.poseStatus & Argon.PoseStatus.LOST) {
+        Video.elem.pause();
+
         videoObject.position.z = -0.5;
         userLoc.add(videoObject);
-        Video.elem.pause();
 
         document.removeEventListener('touchstart', handleTouchStart, false);
     }
@@ -226,6 +230,7 @@ const renderFn = () => {
         const width = subview.viewport.width;
         const height = subview.viewport.height;
 
+        // Needed?
         // if (Video.elem.readyState === Video.elem.HAVE_ENOUGH_DATA) {
         //     if (videoTexture) {
         //         videoTexture.needsUpdate = true;
