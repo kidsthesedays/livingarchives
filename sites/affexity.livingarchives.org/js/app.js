@@ -37,8 +37,6 @@ const Renderer = new THREE.WebGLRenderer({
     antialias: Argon.suggestedWebGLContextAntialiasAttribute
 });
 
-Renderer.sortObjects = false;
-
 // Tracks the user location in 3D space
 const userLoc = new THREE.Object3D();
 // Wrapper object for our video
@@ -106,6 +104,8 @@ videoObject.renderOrder = 10;
 const loadVideo = (v, src) => {
     if (v.src === '' || v.src !== src) {
         if (DEBUG) console.log('Loading src:', src);
+
+        Renderer.clear();
         
         v.src = src;
         v.elem.src = `/videos/${src}`;
