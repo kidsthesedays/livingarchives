@@ -5,7 +5,7 @@ const DATASET_URL = '/dataset/Affexity.xml';
 const VIDEOS = [
     {
         key: 'delicatepassage2',
-        src: 'output.mp4',
+        src: 'gangnam.mp4',
         object: null,
         entity: null
     },
@@ -34,9 +34,10 @@ const Camera = new THREE.PerspectiveCamera();
 const Renderer = new THREE.WebGLRenderer({
     alpha: true,
     logarithmicDepthBuffer: true,
-    antialias: Argon.suggestedWebGLContextAntialiasAttribute,
-    sortObjects: false
+    antialias: Argon.suggestedWebGLContextAntialiasAttribute
 });
+
+Renderer.sortObjects = false;
 
 // Tracks the user location in 3D space
 const userLoc = new THREE.Object3D();
