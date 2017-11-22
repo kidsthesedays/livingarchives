@@ -87,6 +87,9 @@ const shaderMaterial = new THREE.ShaderMaterial({
     `
 });
 
+shaderMaterial.transparent = true;
+shaderMaterial.opacity = 0.6;
+
 // TODO do the dimensions need to be dynamic?
 const videoGeometry = new THREE.PlaneGeometry(500, 500);
 const videoMesh = new THREE.Mesh(videoGeometry, shaderMaterial);
