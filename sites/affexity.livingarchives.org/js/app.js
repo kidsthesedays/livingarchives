@@ -34,7 +34,8 @@ const Camera = new THREE.PerspectiveCamera();
 const Renderer = new THREE.WebGLRenderer({
     alpha: true,
     logarithmicDepthBuffer: true,
-    antialias: Argon.suggestedWebGLContextAntialiasAttribute
+    antialias: Argon.suggestedWebGLContextAntialiasAttribute,
+    sortObjects: false
 });
 
 // Tracks the user location in 3D space
@@ -61,7 +62,6 @@ const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
     opacity: 0.5,
     side: THREE.DoubleSide,
-    depthWrite: false,
     uniforms: {
         texture: {
             type: 't',
@@ -225,11 +225,11 @@ const renderFn = () => {
         const width = subview.viewport.width;
         const height = subview.viewport.height;
 
-        if (Video.elem.readyState === Video.elem.HAVE_ENOUGH_DATA) {
-            if (videoTexture) {
-                videoTexture.needsUpdate = true;
-            }
-        }
+        // if (Video.elem.readyState === Video.elem.HAVE_ENOUGH_DATA) {
+        //     if (videoTexture) {
+        //         videoTexture.needsUpdate = true;
+        //     }
+        // }
 
         Renderer.setViewport(x, y, width, height);
         Renderer.setScissor(x, y, width, height);
