@@ -5,7 +5,7 @@ const DATASET_URL = '/dataset/Affexity.xml';
 const VIDEOS = [
     {
         key: 'delicatepassage2',
-        src: 'gangnam.mp4',
+        src: 'del-pass-red-wall-no-music.3gp',
         object: null,
         entity: null
     },
