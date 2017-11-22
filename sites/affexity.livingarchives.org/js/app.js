@@ -63,8 +63,6 @@ const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
     opacity: 0.5,
     side: THREE.DoubleSide,
-    depthTest: true,
-    depthWrite: false,
     uniforms: {
         texture: {
             type: 't',
@@ -93,6 +91,9 @@ const shaderMaterial = new THREE.ShaderMaterial({
         }
     `
 });
+
+shaderMaterial.uniforms.transparent = true;
+shaderMaterial.uniforms.opacity = 0.5;
 
 
 // TODO do the dimensions need to be dynamic?
@@ -231,11 +232,11 @@ const renderFn = () => {
         const height = subview.viewport.height;
 
         // Needed?
-        // if (Video.elem.readyState === Video.elem.HAVE_ENOUGH_DATA) {
-        //     if (videoTexture) {
-        //         videoTexture.needsUpdate = true;
-        //     }
-        // }
+        if (Video.elem.readyState === Video.elem.HAVE_ENOUGH_DATA) {
+            if (videoTexture) {
+                videoTexture.needsUpdate = true;
+            }
+        }
 
         Renderer.setViewport(x, y, width, height);
         Renderer.setScissor(x, y, width, height);
