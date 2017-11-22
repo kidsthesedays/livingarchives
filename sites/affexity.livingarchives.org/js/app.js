@@ -61,6 +61,7 @@ videoTexture.magFilter = THREE.LinearFilter;
 
 const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
+    opacity: 0.5,
     side: THREE.DoubleSide,
     uniforms: {
         texture: {
@@ -97,8 +98,7 @@ const videoGeometry = new THREE.PlaneGeometry(500, 500);
 const videoMesh = new THREE.Mesh(videoGeometry, shaderMaterial);
 
 videoObject.add(videoMesh);
-
-shaderMaterial.opacity = 0.5;
+videoObject.renderOrder = 10;
 
 // FUNCTIONS
 // =========
