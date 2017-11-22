@@ -58,6 +58,7 @@ videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 
 const shaderMaterial = new THREE.ShaderMaterial({
+    side: THREE.DoubleSide,
     uniforms: {
         texture: {
             type: 't',
