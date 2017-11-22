@@ -153,10 +153,9 @@ const setupImageTracking = v => () => {
         document.addEventListener('touchstart', handleTouchStart, false);
     // LOST
     } else if (vp.poseStatus & Argon.PoseStatus.LOST) {
-        Video.elem.pause();
-
         videoObject.position.z = -0.5;
         userLoc.add(videoObject);
+        Video.elem.pause();
 
         document.removeEventListener('touchstart', handleTouchStart, false);
     }
