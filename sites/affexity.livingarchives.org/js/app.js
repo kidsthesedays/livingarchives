@@ -61,6 +61,7 @@ const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
     opacity: 0.5,
     side: THREE.DoubleSide,
+    depthWrite: false,
     uniforms: {
         texture: {
             type: 't',
