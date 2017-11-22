@@ -61,7 +61,6 @@ videoTexture.magFilter = THREE.LinearFilter;
 
 const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
-    opacity: 0.5,
     side: THREE.DoubleSide,
     uniforms: {
         texture: {
@@ -92,15 +91,14 @@ const shaderMaterial = new THREE.ShaderMaterial({
     `
 });
 
-shaderMaterial.uniforms.transparent = true;
-shaderMaterial.uniforms.opacity = 0.5;
-
 
 // TODO do the dimensions need to be dynamic?
 const videoGeometry = new THREE.PlaneGeometry(500, 500);
 const videoMesh = new THREE.Mesh(videoGeometry, shaderMaterial);
 
 videoObject.add(videoMesh);
+
+shaderMaterial.opacity = 0.5;
 
 // FUNCTIONS
 // =========
@@ -231,7 +229,6 @@ const renderFn = () => {
         const width = subview.viewport.width;
         const height = subview.viewport.height;
 
-        // Needed?
         if (Video.elem.readyState === Video.elem.HAVE_ENOUGH_DATA) {
             if (videoTexture) {
                 videoTexture.needsUpdate = true;
