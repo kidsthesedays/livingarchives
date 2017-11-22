@@ -109,7 +109,10 @@ const loadVideo = (v, src) => {
         v.elem.loop = true;
         v.elem.load();
         // Autoplay
-        window.setTimeout(() => v.elem.play(), 300);
+        window.setTimeout(() => {
+            v.elem.style.display = 'block';
+            v.elem.play()
+        }, 300);
     } else if (v.src === src) {
         // If its the same video, continue playing
         v.elem.play();
@@ -152,8 +155,12 @@ const setupImageTracking = v => () => {
         document.addEventListener('touchstart', handleTouchStart, false);
     // LOST
     } else if (vp.poseStatus & Argon.PoseStatus.LOST) {
+        if (DEBUG) console.log('LOST video', v.src);
+
         videoObject.position.z = -0.5;
         userLoc.add(videoObject);
+
+        Video.elem.style.display = 'none';
         Video.elem.pause();
 
         document.removeEventListener('touchstart', handleTouchStart, false);
