@@ -58,6 +58,8 @@ videoTexture.minFilter = THREE.LinearFilter;
 videoTexture.magFilter = THREE.LinearFilter;
 
 const shaderMaterial = new THREE.ShaderMaterial({
+    transparent: true,
+    opacity: 0.5,
     side: THREE.DoubleSide,
     uniforms: {
         texture: {
@@ -88,8 +90,6 @@ const shaderMaterial = new THREE.ShaderMaterial({
     `
 });
 
-shaderMaterial.transparent = true;
-shaderMaterial.opacity = 0.6;
 
 // TODO do the dimensions need to be dynamic?
 const videoGeometry = new THREE.PlaneGeometry(500, 500);
