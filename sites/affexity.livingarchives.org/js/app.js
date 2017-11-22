@@ -59,7 +59,6 @@ videoTexture.magFilter = THREE.LinearFilter;
 
 const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
-    opacity: 0.8,
     side: THREE.DoubleSide,
     uniforms: {
         texture: {
