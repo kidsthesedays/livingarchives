@@ -59,7 +59,7 @@ videoTexture.magFilter = THREE.LinearFilter;
 
 const shaderMaterial = new THREE.ShaderMaterial({
     transparent: true,
-    opacity: 0.5,
+    opacity: 0.8,
     side: THREE.DoubleSide,
     uniforms: {
         texture: {
@@ -96,7 +96,7 @@ const videoGeometry = new THREE.PlaneGeometry(500, 500);
 const videoMesh = new THREE.Mesh(videoGeometry, shaderMaterial);
 
 videoObject.add(videoMesh);
-videoObject.renderOrder = 10;
+// videoObject.renderOrder = 10;
 
 // FUNCTIONS
 // =========
@@ -105,8 +105,6 @@ const loadVideo = (v, src) => {
     if (v.src === '' || v.src !== src) {
         if (DEBUG) console.log('Loading src:', src);
 
-        Renderer.clear();
-        
         v.src = src;
         v.elem.src = `/videos/${src}`;
         v.elem.loop = true;
