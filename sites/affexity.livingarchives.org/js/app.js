@@ -11,7 +11,7 @@ const VIDEOS = [
     },
     {
         key: 'Corpus2',
-        src: 'gangnam.mp4',
+        src: 'riverbed.3gp',
         object: null,
         entity: null
     }
